@@ -1,0 +1,41 @@
+{
+  "id": "nasdaq-top-movers",
+  "name": "StockHive — Nasdaq 100 Top Movers Agent System",
+  "version": "1.0.0",
+  "kind": "agent-system",
+  "description": "An OpenClaw agent system — the runtime composition of an orchestrator, four ephemeral subagents, five skills, five MCP servers, and a daily scheduled task that together rank the Nasdaq 100 top 10 weekly gainers, decide bullish or bearish, and push the top 5 buy candidates to Telegram.",
+  "author": "Girish Eduru",
+  "platform": "OpenClaw / Claude Cowork",
+  "composition": {
+    "orchestrator": {
+      "name": "nasdaq-analyst-orchestrator",
+      "persistence": "persistent",
+      "spec": "agent-system/agents/nasdaq-analyst-orchestrator.md"
+    },
+    "subagents": [
+      { "name": "data-fetcher",        "persistence": "ephemeral", "spec": "agent-system/agents/data-fetcher.md" },
+      { "name": "technical-analyst",   "persistence": "ephemeral", "spec": "agent-system/agents/technical-analyst.md" },
+      { "name": "fundamental-analyst", "persistence": "ephemeral", "spec": "agent-system/agents/fundamental-analyst.md" },
+      { "name": "sentiment-analyst",   "persistence": "ephemeral", "spec": "agent-system/agents/sentiment-analyst.md" },
+      { "name": "telegram-publisher",  "persistence": "ephemeral", "spec": "agent-system/agents/telegram-publisher.md" }
+    ],
+    "skills": [
+      "agent-system/skills/stock-data-fetcher",
+      "agent-system/skills/technical-indicators",
+      "agent-system/skills/fundamental-snapshot",
+      "agent-system/skills/sentiment-analyzer",
+      "agent-system/skills/telegram-formatter"
+    ],
+    "scheduled_tasks": ["agent-system/scheduled-tasks/nasdaq-daily-schedule.json"],
+    "mcps": ["agent-system/mcps/mcp-config.json"],
+    "scripts": [
+      "agent-system/scripts/nasdaq-daily-run.sh",
+      "agent-system/scripts/pick_top10.py",
+      "agent-system/scripts/decision_engine.py"
+    ]
+  },
+  "requires": {
+    "mcps": ["yfinance-mcp", "alpha-vantage-mcp", "nasdaq-data-link-mcp", "news-api-mcp", "telegram-bot-mcp"],
+    "env": ["ALPHA_VANTAGE_API_KEY", "NASDAQ_DATA_LINK_API_KEY", "NEWS_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
+  }
+}

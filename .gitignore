@@ -1,5 +1,5 @@
-nasdaq-top-movers.plugin/config/.env
-nasdaq-top-movers.plugin/logs/
+agent-system/config/.env
+agent-system/logs/
 __pycache__/
 *.pyc
 .DS_Store
