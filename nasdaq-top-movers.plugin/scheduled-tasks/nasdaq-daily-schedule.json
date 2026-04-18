@@ -1,0 +1,12 @@
+{
+  "task_id": "nasdaq-daily-top5-buys",
+  "schedule": "0 17 * * 1-5",
+  "timezone": "America/New_York",
+  "agent": "nasdaq-analyst-orchestrator",
+  "entrypoint": "scripts/nasdaq-daily-run.sh",
+  "subagent_mode": "ephemeral",
+  "prompt": "Pick the top 10 Nasdaq 100 gainers over the last 4 weeks, run technical + fundamental + sentiment analysis via ephemeral subagents in parallel, decide BULLISH or BEARISH, then push the top 5 buy candidates to Telegram.",
+  "max_runtime_min": 20,
+  "retry": { "attempts": 2, "backoff_sec": 120 },
+  "notify_on_failure": true
+}

@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "yfinance-mcp": {
+      "command": "npx",
+      "args": ["-y", "@openclaw/yfinance-mcp"],
+      "description": "Yahoo Finance OHLCV + fundamentals (.info, .financials)."
+    },
+    "alpha-vantage-mcp": {
+      "command": "npx",
+      "args": ["-y", "@openclaw/alpha-vantage-mcp"],
+      "env": { "ALPHA_VANTAGE_API_KEY": "${ALPHA_VANTAGE_API_KEY}" },
+      "description": "RSI, MACD, SMA technical indicators."
+    },
+    "nasdaq-data-link-mcp": {
+      "command": "npx",
+      "args": ["-y", "@openclaw/nasdaq-data-link-mcp"],
+      "env": { "NASDAQ_DATA_LINK_API_KEY": "${NASDAQ_DATA_LINK_API_KEY}" },
+      "description": "Nasdaq Data Link historical EOD prices."
+    },
+    "news-api-mcp": {
+      "command": "npx",
+      "args": ["-y", "@openclaw/news-api-mcp"],
+      "env": { "NEWS_API_KEY": "${NEWS_API_KEY}" },
+      "description": "Recent headlines per ticker for sentiment scoring."
+    },
+    "telegram-bot-mcp": {
+      "command": "npx",
+      "args": ["-y", "@openclaw/telegram-bot-mcp"],
+      "env": {
+        "TELEGRAM_BOT_TOKEN": "${TELEGRAM_BOT_TOKEN}",
+        "TELEGRAM_CHAT_ID": "${TELEGRAM_CHAT_ID}"
+      },
+      "description": "Publishes markdown alerts to a Telegram channel."
+    }
+  }
+}

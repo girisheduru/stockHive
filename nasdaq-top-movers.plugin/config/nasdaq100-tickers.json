@@ -1,0 +1,17 @@
+{
+  "index": "NDX",
+  "last_updated": "2026-04-18",
+  "tickers": [
+    "AAPL","MSFT","AMZN","NVDA","GOOGL","GOOG","META","TSLA","AVGO","COST",
+    "NFLX","ADBE","AMD","PEP","CSCO","TMUS","CMCSA","INTC","QCOM","TXN",
+    "INTU","AMGN","HON","AMAT","BKNG","ISRG","VRTX","ADI","PANW","REGN",
+    "LRCX","ADP","MU","GILD","MDLZ","SBUX","KLAC","SNPS","CDNS","CSX",
+    "MRVL","ASML","PYPL","MELI","ORLY","CRWD","CEG","FTNT","NXPI","ABNB",
+    "CHTR","WDAY","PCAR","MAR","MNST","ADSK","ROP","CTAS","DXCM","KHC",
+    "AEP","PAYX","FAST","ODFL","LULU","IDXX","BIIB","EXC","MCHP","KDP",
+    "ROST","GEHC","CPRT","XEL","BKR","EA","CSGP","VRSK","CTSH","TTWO",
+    "ON","FANG","CDW","DLTR","ANSS","WBD","TEAM","ZS","DDOG","SIRI",
+    "GFS","WBA","ILMN","ENPH","MDB","SMCI","ARM","MRNA","DASH","LIN",
+    "TTD","PDD"
+  ]
+}
