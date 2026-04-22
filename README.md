@@ -2,7 +2,7 @@
 
 > **OpenClaw-native agent system — Nasdaq 100 Top 5 Weekly Buys, delivered daily to Telegram.**
 >
-> Hackathon submission · Platform: **Claude Cowork + OpenClaw**
+> Platform: **Claude Cowork + OpenClaw**
 
 StockHive is an **agent system** — the runtime composition of an orchestrator,
 four ephemeral subagents, five skills, a scheduled task, and five MCP
@@ -42,7 +42,7 @@ connections — that every trading day at **17:00 ET (post-close)**:
 
 ```
 stockHive/
-├── README.md                          ← you are here (hackathon run guide)
+├── README.md                          ← you are here (run guide)
 ├── agent-system.json                  ← agent system composition manifest
 └── agent-system/                      ← the runtime composition itself
     ├── agents/                        ← orchestrator + 5 subagent specs
@@ -55,11 +55,10 @@ stockHive/
 
 ---
 
-## 🏁 Running it in OpenClaw Chat — hackathon demo sequence
+## 🏁 Running it in OpenClaw Chat
 
-Walk the judges (or yourself) through StockHive in **OpenClaw Chat** by pasting
-these commands **in this order**. Each one is a real message you type in the
-OpenClaw chat UI.
+Walk through StockHive in **OpenClaw Chat** by pasting these commands **in
+this order**. Each one is a real message you type in the OpenClaw chat UI.
 
 ### Prerequisites
 - Claude Cowork with OpenClaw enabled.
@@ -166,7 +165,7 @@ OpenClaw  |  Daily 17:00 ET
 
 From then on OpenClaw fires the agent system every weekday at **17:00 America/New_York**.
 
-Pause during the demo with:
+Pause with:
 
 ```
 /schedule disable nasdaq-daily-top5-buys
@@ -174,7 +173,7 @@ Pause during the demo with:
 
 ---
 
-## 🎤 Hackathon talking points
+## Design notes
 
 - **Agent system, not a plugin.** StockHive is the *runtime composition* — orchestrator + subagents + skills + scheduled task — registered directly with OpenClaw. One manifest ([`agent-system.json`](./agent-system.json)) wires every piece.
 - **Ephemeral subagents, by design.** Each analyst spins up for one run with its own context, does its job, and is torn down on reply — cheap, isolated, and audit-friendly.
@@ -199,4 +198,4 @@ Pause during the demo with:
 
 ## License
 
-MIT © 2026 Girish Eduru. Submitted as an OpenClaw-native hackathon project.
+MIT © 2026 Girish Eduru.

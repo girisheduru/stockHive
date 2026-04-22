@@ -34,4 +34,4 @@ cron (17:00 ET) ─▶ orchestrator ─▶ 3× ephemeral subagents (parallel)
 | `mcps/mcp-config.json` | MCP server connection spec |
 | `config/` | Nasdaq-100 tickers + `.env.example` |
 
-See the top-level [README](../README.md) for the hackathon run sequence.
+See the top-level [README](../README.md) for the run sequence.
