@@ -1,6 +1,6 @@
 {
   "run_date": "2026-04-22",
-  "mode": "live",
+  "mode": "dry-run",
   "market_view": "BEARISH",
   "top5": [],
   "excluded": [
@@ -34,7 +34,7 @@
     },
     {
       "ticker": "GFS",
-      "reason": "RSI 90 overbought"
+      "reason": "RSI 91 overbought"
     },
     {
       "ticker": "SIRI",
@@ -47,7 +47,7 @@
   ],
   "top10_count": 10,
   "diagnostic_count": 2,
-  "telegram_message_id": "47",
-  "chars_sent": 618,
+  "telegram_message_id": "dry-run-not-sent",
+  "chars_sent": 613,
   "chat_id": "7152521432"
 }

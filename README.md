@@ -131,11 +131,11 @@ Each spawns, runs, replies with strict JSON, and tears down — a great live dem
 /task run nasdaq-daily-top5-buys
 ```
 
-This is exactly what the scheduler fires at 17:00 ET. Watch the orchestrator:
-- select the top 10 (stage 1 log line)
-- dispatch 3 ephemeral subagents **in parallel** (stages 2–3)
-- pipe the merged JSON through `decision_engine.py` (stage 4)
-- hand off to `telegram-publisher` which posts to your channel (stage 5)
+In this workspace, the scheduled path now uses the Yahoo-based live runner via:
+- `agent-system/scripts/nasdaq-daily-run.sh`
+- `openclawMVP/scripts/run_live_option_b.py`
+
+It loads `agent-system/config/.env`, fetches live market/news data, runs the current decision engine, and publishes to Telegram unless `STOCKHIVE_PUBLISH_MODE=dry-run` is set.
 
 ### 6 · Inspect the Telegram output
 

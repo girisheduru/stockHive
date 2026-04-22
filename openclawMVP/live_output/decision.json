@@ -32,7 +32,7 @@
     },
     {
       "ticker": "GFS",
-      "reason": "RSI 90 overbought"
+      "reason": "RSI 91 overbought"
     },
     {
       "ticker": "SIRI",
@@ -45,5 +45,5 @@
   ],
   "breadth_buy_count": 0,
   "rsi_avg": 90,
-  "sent_avg": 0.29
+  "sent_avg": 0.14
 }

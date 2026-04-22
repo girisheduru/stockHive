@@ -3,153 +3,153 @@
   "top10": [
     {
       "ticker": "MRVL",
-      "return_4w": 0.6797856566392502,
-      "last_close": 155.14500427246094
+      "return_4w": 0.6807058759389086,
+      "last_close": 155.22999572753906
     },
     {
       "ticker": "INTC",
-      "return_4w": 0.49285064629506414,
-      "last_close": 65.7750015258789
+      "return_4w": 0.4944393819428723,
+      "last_close": 65.84500122070312
     },
     {
       "ticker": "AMD",
-      "return_4w": 0.4394142027626158,
-      "last_close": 295.61248779296875
+      "return_4w": 0.4379169289422018,
+      "last_close": 295.30499267578125
     },
     {
       "ticker": "ARM",
-      "return_4w": 0.4079726942762245,
-      "last_close": 190.02000427246094
+      "return_4w": 0.4097946813354243,
+      "last_close": 190.26589965820312
     },
     {
       "ticker": "ON",
-      "return_4w": 0.4067211979495604,
-      "last_close": 87.69499969482422
+      "return_4w": 0.4076836226920515,
+      "last_close": 87.75499725341797
     },
     {
       "ticker": "SMCI",
-      "return_4w": 0.3151147643888137,
-      "last_close": 29.235000610351562
+      "return_4w": 0.32253712208455787,
+      "last_close": 29.399999618530273
     },
     {
       "ticker": "AVGO",
-      "return_4w": 0.31254509346217785,
-      "last_close": 417.7699890136719
+      "return_4w": 0.315592632482135,
+      "last_close": 418.739990234375
     },
     {
       "ticker": "GFS",
-      "return_4w": 0.2768011446740437,
-      "last_close": 58.834999084472656
+      "return_4w": 0.2787542729078025,
+      "last_close": 58.92499923706055
     },
     {
       "ticker": "SIRI",
-      "return_4w": 0.23971371004889508,
-      "last_close": 27.719999313354492
+      "return_4w": 0.2423971345414344,
+      "last_close": 27.780000686645508
     },
     {
       "ticker": "MCHP",
-      "return_4w": 0.23845805547498888,
-      "last_close": 81.27999877929688
+      "return_4w": 0.23861045737425823,
+      "last_close": 81.29000091552734
     }
   ],
   "technical": [
     {
       "ticker": "MRVL",
       "rsi": 97,
-      "macd_hist": 3.17,
+      "macd_hist": 3.174,
       "sma20": 120.03,
       "sma50": 98.39,
-      "close": 155.16,
+      "close": 155.23,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "INTC",
       "rsi": 83,
-      "macd_hist": 0.798,
+      "macd_hist": 0.801,
       "sma20": 56.68,
-      "sma50": 49.96,
-      "close": 65.81,
+      "sma50": 49.97,
+      "close": 65.86,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "AMD",
       "rsi": 96,
-      "macd_hist": 6.157,
-      "sma20": 239.01,
-      "sma50": 216.9,
-      "close": 295.69,
+      "macd_hist": 6.132,
+      "sma20": 238.99,
+      "sma50": 216.89,
+      "close": 295.3,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "ARM",
       "rsi": 78,
-      "macd_hist": 2.726,
-      "sma20": 156.82,
+      "macd_hist": 2.741,
+      "sma20": 156.84,
       "sma50": 137.76,
-      "close": 190.02,
+      "close": 190.27,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "ON",
       "rsi": 100,
-      "macd_hist": 2.37,
-      "sma20": 69.78,
-      "sma50": 66.54,
-      "close": 87.66,
+      "macd_hist": 2.376,
+      "sma20": 69.79,
+      "sma50": 66.55,
+      "close": 87.75,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "SMCI",
       "rsi": 83,
-      "macd_hist": 0.854,
-      "sma20": 24.91,
+      "macd_hist": 0.864,
+      "sma20": 24.92,
       "sma50": 28.28,
-      "close": 29.24,
+      "close": 29.4,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "AVGO",
       "rsi": 94,
-      "macd_hist": 7.125,
-      "sma20": 353.37,
-      "sma50": 338.08,
-      "close": 418.0,
+      "macd_hist": 7.193,
+      "sma20": 353.42,
+      "sma50": 338.1,
+      "close": 419.07,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "GFS",
-      "rsi": 90,
-      "macd_hist": 1.451,
+      "rsi": 91,
+      "macd_hist": 1.456,
       "sma20": 48.44,
       "sma50": 46.96,
-      "close": 58.83,
+      "close": 58.92,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "SIRI",
       "rsi": 77,
-      "macd_hist": 0.359,
-      "sma20": 24.13,
+      "macd_hist": 0.363,
+      "sma20": 24.14,
       "sma50": 22.76,
-      "close": 27.72,
+      "close": 27.78,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     },
     {
       "ticker": "MCHP",
       "rsi": 100,
-      "macd_hist": 1.51,
+      "macd_hist": 1.511,
       "sma20": 70.8,
       "sma50": 70.8,
-      "close": 81.28,
+      "close": 81.29,
       "signal": "HOLD",
       "note": "above SMA50, MACD positive"
     }
@@ -157,8 +157,8 @@
   "fundamental": [
     {
       "ticker": "MRVL",
-      "pe": 50.54,
-      "market_cap": 135685308416.0,
+      "pe": 50.56,
+      "market_cap": 135742152704.0,
       "sector": "Technology",
       "earnings_health": "strong",
       "note": "earnings growth +106%, revenue growth +22%"
@@ -166,63 +166,63 @@
     {
       "ticker": "INTC",
       "pe": null,
-      "market_cap": 330407608320.0,
+      "market_cap": 330708844544.0,
       "sector": "Technology",
       "earnings_health": "weak",
       "note": "revenue growth -4%"
     },
     {
       "ticker": "AMD",
-      "pe": 112.86,
-      "market_cap": 482096185344.0,
+      "pe": 112.68,
+      "market_cap": 481346355200.0,
       "sector": "Technology",
       "earnings_health": "strong",
       "note": "earnings growth +217%, revenue growth +34%"
     },
     {
       "ticker": "ARM",
-      "pe": 253.36,
-      "market_cap": 201800974336.0,
+      "pe": 253.69,
+      "market_cap": 202062118912.0,
       "sector": "Technology",
       "earnings_health": "mixed",
       "note": "earnings growth -12%, revenue growth +26%"
     },
     {
       "ticker": "ON",
-      "pe": 302.28,
-      "market_cap": 34539843584.0,
+      "pe": 302.6,
+      "market_cap": 34577272832.0,
       "sector": "Technology",
       "earnings_health": "weak",
       "note": "earnings growth -49%, revenue growth -11%"
     },
     {
       "ticker": "SMCI",
-      "pe": 21.34,
-      "market_cap": 17558091776.0,
+      "pe": 21.46,
+      "market_cap": 17654167552.0,
       "sector": "Technology",
       "earnings_health": "strong",
       "note": "earnings growth +19%, revenue growth +123%"
     },
     {
       "ticker": "AVGO",
-      "pe": 81.15,
-      "market_cap": 1981520412672.0,
+      "pe": 81.36,
+      "market_cap": 1986593685504.0,
       "sector": "Technology",
       "earnings_health": "strong",
       "note": "earnings growth +32%, revenue growth +30%"
     },
     {
       "ticker": "GFS",
-      "pe": 37.0,
-      "market_cap": 32304676864.0,
+      "pe": 37.06,
+      "market_cap": 32354093056.0,
       "sector": "Technology",
       "earnings_health": "weak",
       "note": "revenue growth +0%"
     },
     {
       "ticker": "SIRI",
-      "pe": 12.43,
-      "market_cap": 9329175552.0,
+      "pe": 12.45,
+      "market_cap": 9346036736.0,
       "sector": "Communication Services",
       "earnings_health": "mixed",
       "note": "earnings growth -70%, revenue growth +0%"
@@ -230,7 +230,7 @@
     {
       "ticker": "MCHP",
       "pe": null,
-      "market_cap": 43979485184.0,
+      "market_cap": 43988905984.0,
       "sector": "Technology",
       "earnings_health": "mixed",
       "note": "revenue growth +16%"
@@ -263,7 +263,7 @@
     },
     {
       "ticker": "ON",
-      "score": 0.5,
+      "score": -1.0,
       "top_theme": "AI demand in focus",
       "n_headlines": 10
     },
