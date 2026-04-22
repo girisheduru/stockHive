@@ -9,10 +9,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-MOCKS = ROOT / "mocks"
-OUTPUT = ROOT / "output"
-SCRIPTS = ROOT / "scripts"
+MVP_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = MVP_ROOT.parent
+MOCKS = MVP_ROOT / "mocks"
+OUTPUT = MVP_ROOT / "output"
+SCRIPTS = REPO_ROOT / "agent-system" / "scripts"
 
 
 def log(stage: str, message: str) -> None:

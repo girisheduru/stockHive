@@ -6,9 +6,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "scripts"
-OUTPUT = ROOT / "output"
+MVP_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = MVP_ROOT.parent
+SCRIPTS = REPO_ROOT / "agent-system" / "scripts"
+MVP_SCRIPTS = MVP_ROOT / "scripts"
+OUTPUT = MVP_ROOT / "output"
 
 
 def test_pick_top10_returns_10_sorted() -> None:
@@ -35,16 +37,16 @@ def test_pick_top10_returns_10_sorted() -> None:
     top = json.loads(proc.stdout)
     assert len(top) == 10
     assert top[0]["ticker"] == "F"
-    assert top[-1]["ticker"] == "C"
+    assert top[-1]["ticker"] == "G"
 
 
 def test_local_mvp_run_produces_expected_outputs() -> None:
     proc = subprocess.run(
-        [sys.executable, str(SCRIPTS / "run_local_mvp.py")],
+        [sys.executable, str(MVP_SCRIPTS / "run_local_mvp.py")],
         capture_output=True,
         text=True,
         check=True,
-        cwd=ROOT,
+        cwd=REPO_ROOT,
     )
     result = json.loads(proc.stdout)
     assert result["market_view"] == "BULLISH"

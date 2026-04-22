@@ -175,16 +175,16 @@ Pause with:
 
 ## Local MVP mode
 
-For this workspace, a local runnable MVP is included so the agent system can be built and tested without external API keys or Telegram.
+For this workspace, the local runnable MVP is isolated under `openclawMVP/` so it stays separate from the main OpenClaw agent-system definition.
 
 ### Run the local MVP
 
 ```bash
 cd stockHive
-python3 agent-system/scripts/run_local_mvp.py
+python3 openclawMVP/scripts/run_local_mvp.py
 ```
 
-This produces deterministic artifacts under `agent-system/output/`:
+This produces deterministic artifacts under `openclawMVP/output/`:
 - `top10.json`
 - `technical.json`
 - `fundamental.json`
@@ -198,13 +198,13 @@ This produces deterministic artifacts under `agent-system/output/`:
 
 ```bash
 cd stockHive
-python3 agent-system/tests/run_tests.py
+python3 openclawMVP/tests/run_tests.py
 ```
 
 If `pytest` is available in your environment, you can also run:
 
 ```bash
-python3 -m pytest agent-system/tests/test_agent_system.py
+python3 -m pytest openclawMVP/tests/test_agent_system.py
 ```
 
 The local MVP preserves the same pipeline shape as the intended OpenClaw setup:
