@@ -1,0 +1,12 @@
+[
+  {"ticker":"AVGO","rsi":66,"macd_hist":1.2,"sma20":1820,"sma50":1705,"close":1842.10,"signal":"BUY","note":"above SMA50, MACD positive"},
+  {"ticker":"AMD","rsi":64,"macd_hist":0.9,"sma20":168,"sma50":154,"close":174.23,"signal":"BUY","note":"above SMA50, momentum intact"},
+  {"ticker":"NVDA","rsi":68,"macd_hist":1.1,"sma20":950,"sma50":901,"close":981.44,"signal":"BUY","note":"trend strong, not overbought"},
+  {"ticker":"META","rsi":63,"macd_hist":0.7,"sma20":500,"sma50":474,"close":512.87,"signal":"BUY","note":"steady breakout continuation"},
+  {"ticker":"AMZN","rsi":61,"macd_hist":0.5,"sma20":184,"sma50":176,"close":189.66,"signal":"BUY","note":"above SMA50, positive MACD"},
+  {"ticker":"MSFT","rsi":59,"macd_hist":0.4,"sma20":420,"sma50":406,"close":428.19,"signal":"BUY","note":"trend positive"},
+  {"ticker":"PANW","rsi":72,"macd_hist":0.8,"sma20":315,"sma50":298,"close":321.57,"signal":"BUY","note":"strong but overbought"},
+  {"ticker":"CRWD","rsi":69,"macd_hist":0.6,"sma20":386,"sma50":360,"close":392.04,"signal":"BUY","note":"above key moving averages"},
+  {"ticker":"MU","rsi":58,"macd_hist":0.3,"sma20":124,"sma50":118,"close":128.40,"signal":"BUY","note":"positive trend"},
+  {"ticker":"ASML","rsi":55,"macd_hist":0.2,"sma20":962,"sma50":948,"close":975.02,"signal":"BUY","note":"constructive setup"}
+]

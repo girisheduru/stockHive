@@ -1,0 +1,12 @@
+[
+  {"ticker":"AVGO","score":0.55,"top_theme":"AI silicon demand accelerating","n_headlines":10},
+  {"ticker":"AMD","score":0.48,"top_theme":"Chip momentum broadening","n_headlines":10},
+  {"ticker":"NVDA","score":0.44,"top_theme":"Sustained AI infrastructure demand","n_headlines":10},
+  {"ticker":"META","score":0.31,"top_theme":"Advertising and AI tailwinds","n_headlines":10},
+  {"ticker":"AMZN","score":0.28,"top_theme":"AWS strength offsets retail noise","n_headlines":10},
+  {"ticker":"MSFT","score":0.36,"top_theme":"Enterprise AI demand stable","n_headlines":10},
+  {"ticker":"PANW","score":0.22,"top_theme":"Cybersecurity spending remains firm","n_headlines":10},
+  {"ticker":"CRWD","score":0.41,"top_theme":"Platform consolidation benefits growth","n_headlines":10},
+  {"ticker":"MU","score":0.19,"top_theme":"Memory pricing recovery continues","n_headlines":10},
+  {"ticker":"ASML","score":0.33,"top_theme":"Semicap demand outlook constructive","n_headlines":10}
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "ticker": "AVGO",
+    "pe": 42,
+    "market_cap": 820000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "EPS beat 8%, revenue +12% YoY"
+  },
+  {
+    "ticker": "AMD",
+    "pe": 54,
+    "market_cap": 281000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "Data center growth and EPS beat"
+  },
+  {
+    "ticker": "NVDA",
+    "pe": 61,
+    "market_cap": 2410000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "AI demand remains elevated"
+  },
+  {
+    "ticker": "META",
+    "pe": 29,
+    "market_cap": 1300000000000,
+    "sector": "Communication Services",
+    "earnings_health": "strong",
+    "note": "Margins improved, ad growth healthy"
+  },
+  {
+    "ticker": "AMZN",
+    "pe": 45,
+    "market_cap": 1970000000000,
+    "sector": "Consumer Cyclical",
+    "earnings_health": "strong",
+    "note": "AWS and retail profitability improved"
+  },
+  {
+    "ticker": "MSFT",
+    "pe": 38,
+    "market_cap": 3180000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "Cloud growth resilient"
+  },
+  {
+    "ticker": "PANW",
+    "pe": 81,
+    "market_cap": 104000000000,
+    "sector": "Technology",
+    "earnings_health": "mixed",
+    "note": "High multiple despite solid demand"
+  },
+  {
+    "ticker": "CRWD",
+    "pe": 76,
+    "market_cap": 96000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "Security platform expansion continues"
+  },
+  {
+    "ticker": "MU",
+    "pe": 27,
+    "market_cap": 142000000000,
+    "sector": "Technology",
+    "earnings_health": "mixed",
+    "note": "Memory cycle improving"
+  },
+  {
+    "ticker": "ASML",
+    "pe": 35,
+    "market_cap": 382000000000,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "Backlog supports forward demand"
+  }
+]

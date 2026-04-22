@@ -1,0 +1,52 @@
+[
+  {
+    "ticker": "AVGO",
+    "return_4w": 0.181,
+    "last_close": 1842.1
+  },
+  {
+    "ticker": "AMD",
+    "return_4w": 0.164,
+    "last_close": 174.23
+  },
+  {
+    "ticker": "NVDA",
+    "return_4w": 0.159,
+    "last_close": 981.44
+  },
+  {
+    "ticker": "META",
+    "return_4w": 0.141,
+    "last_close": 512.87
+  },
+  {
+    "ticker": "AMZN",
+    "return_4w": 0.133,
+    "last_close": 189.66
+  },
+  {
+    "ticker": "MSFT",
+    "return_4w": 0.126,
+    "last_close": 428.19
+  },
+  {
+    "ticker": "PANW",
+    "return_4w": 0.119,
+    "last_close": 321.57
+  },
+  {
+    "ticker": "CRWD",
+    "return_4w": 0.111,
+    "last_close": 392.04
+  },
+  {
+    "ticker": "MU",
+    "return_4w": 0.106,
+    "last_close": 128.4
+  },
+  {
+    "ticker": "ASML",
+    "return_4w": 0.101,
+    "last_close": 975.02
+  }
+]

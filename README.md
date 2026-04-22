@@ -173,6 +173,46 @@ Pause with:
 
 ---
 
+## Local MVP mode
+
+For this workspace, a local runnable MVP is included so the agent system can be built and tested without external API keys or Telegram.
+
+### Run the local MVP
+
+```bash
+cd stockHive
+python3 agent-system/scripts/run_local_mvp.py
+```
+
+This produces deterministic artifacts under `agent-system/output/`:
+- `top10.json`
+- `technical.json`
+- `fundamental.json`
+- `sentiment.json`
+- `merged.json`
+- `decision.json`
+- `telegram_message.md`
+- `orchestrator_result.json`
+
+### Run tests
+
+```bash
+cd stockHive
+python3 agent-system/tests/run_tests.py
+```
+
+If `pytest` is available in your environment, you can also run:
+
+```bash
+python3 -m pytest agent-system/tests/test_agent_system.py
+```
+
+The local MVP preserves the same pipeline shape as the intended OpenClaw setup:
+- top-10 selection
+- parallel analyst stages
+- deterministic decision engine
+- formatted publish output
+
 ## Design notes
 
 - **Agent system, not a plugin.** StockHive is the *runtime composition* — orchestrator + subagents + skills + scheduled task — registered directly with OpenClaw. One manifest ([`agent-system.json`](./agent-system.json)) wires every piece.
