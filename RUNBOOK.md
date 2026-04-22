@@ -8,7 +8,10 @@ skip ahead — each step assumes the previous one succeeded.
 
 ## Prerequisites
 
-Before step 1, have these ready:
+You can collect these in advance, or let the orchestrator walk you through
+them interactively in **Step 3** — whichever you prefer.
+
+Before step 1, have (or be ready to obtain) these:
 
 | Item | How to get it |
 |---|---|
@@ -57,22 +60,64 @@ You should see the orchestrator plus 5 subagents, 5 skills, and 1 scheduled task
 
 ---
 
-## Step 3 — Configure secrets
+## Step 3 — Configure secrets (interactive)
+
+StockHive needs five secrets before it can run. Kick off the interactive
+prompt — OpenClaw Chat will ask you for each value one at a time,
+validate it, and write it into `agent-system/config/.env`.
 
 ```
 /bash cp agent-system/config/.env.example agent-system/config/.env
+```
+
+Then paste this **one** message into the chat:
+
+```
+Read agent-system/config/.env.example and for every blank key, ask me
+for the value one at a time. For each key:
+  1. Show the key name and a one-line description of what it is / where
+     to obtain it (use the table in RUNBOOK.md "Prerequisites" as the
+     reference).
+  2. Wait for my reply.
+  3. Validate it (non-empty; TELEGRAM_CHAT_ID must start with "-100";
+     TELEGRAM_BOT_TOKEN must match "<digits>:<alphanum>"; API keys must
+     be at least 16 chars).
+  4. Write the key=value into agent-system/config/.env, preserving any
+     comments and the existing key order. Never echo previously entered
+     secrets back to me.
+  5. Move on to the next blank key.
+When all keys are filled, run:
+    /bash grep -c '=.\+' agent-system/config/.env
+and confirm the count matches the number of required keys.
+```
+
+The orchestrator will prompt you in order for:
+
+| Key | What it is |
+|---|---|
+| `ALPHA_VANTAGE_API_KEY` | Alpha Vantage RSI/MACD data — https://www.alphavantage.co/support/#api-key |
+| `NASDAQ_DATA_LINK_API_KEY` | Nasdaq Data Link EOD fallback — https://data.nasdaq.com/account/api |
+| `NEWS_API_KEY` | NewsAPI headlines for sentiment — https://newsapi.org/register |
+| `TELEGRAM_BOT_TOKEN` | From `@BotFather` → `/newbot` |
+| `TELEGRAM_CHAT_ID` | Your channel's `-100…` chat id; the bot must be a channel admin |
+
+Ground rules for you while answering:
+
+- Paste the raw value exactly (no quotes, no leading/trailing spaces).
+- If you don't have a key yet, reply `skip` — that key will stay blank and
+  StockHive will run in degraded mode (the subagent that needs it will
+  return `confidence:"low"` and the orchestrator will exclude the ticker).
+- To abort at any point, reply `stop` and no further writes are made.
+
+### Alternative — fill the file manually
+
+If you prefer not to go interactive, just open the file and fill all five
+values by hand:
+
+```
 /bash $EDITOR agent-system/config/.env
+/bash grep -c '=.\+' agent-system/config/.env   # sanity-check: 5+ matches
 ```
-
-Fill in values for every key in `.env`. Save and close.
-
-Sanity-check:
-
-```
-/bash grep -c '=.\+' agent-system/config/.env
-```
-
-The count should equal the number of required keys (at least 5).
 
 ---
 
