@@ -1,0 +1,49 @@
+{
+  "market_view": "BEARISH",
+  "top5": [],
+  "excluded": [
+    {
+      "ticker": "MRVL",
+      "reason": "RSI 97 overbought"
+    },
+    {
+      "ticker": "INTC",
+      "reason": "RSI 83 overbought"
+    },
+    {
+      "ticker": "AMD",
+      "reason": "RSI 96 overbought"
+    },
+    {
+      "ticker": "ARM",
+      "reason": "RSI 78 overbought"
+    },
+    {
+      "ticker": "ON",
+      "reason": "RSI 100 overbought"
+    },
+    {
+      "ticker": "SMCI",
+      "reason": "RSI 83 overbought"
+    },
+    {
+      "ticker": "AVGO",
+      "reason": "RSI 94 overbought"
+    },
+    {
+      "ticker": "GFS",
+      "reason": "RSI 90 overbought"
+    },
+    {
+      "ticker": "SIRI",
+      "reason": "RSI 77 overbought"
+    },
+    {
+      "ticker": "MCHP",
+      "reason": "RSI 100 overbought"
+    }
+  ],
+  "breadth_buy_count": 0,
+  "rsi_avg": 90,
+  "sent_avg": 0.29
+}

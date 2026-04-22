@@ -1,0 +1,53 @@
+{
+  "run_date": "2026-04-22",
+  "mode": "live",
+  "market_view": "BEARISH",
+  "top5": [],
+  "excluded": [
+    {
+      "ticker": "MRVL",
+      "reason": "RSI 97 overbought"
+    },
+    {
+      "ticker": "INTC",
+      "reason": "RSI 83 overbought"
+    },
+    {
+      "ticker": "AMD",
+      "reason": "RSI 96 overbought"
+    },
+    {
+      "ticker": "ARM",
+      "reason": "RSI 78 overbought"
+    },
+    {
+      "ticker": "ON",
+      "reason": "RSI 100 overbought"
+    },
+    {
+      "ticker": "SMCI",
+      "reason": "RSI 83 overbought"
+    },
+    {
+      "ticker": "AVGO",
+      "reason": "RSI 94 overbought"
+    },
+    {
+      "ticker": "GFS",
+      "reason": "RSI 90 overbought"
+    },
+    {
+      "ticker": "SIRI",
+      "reason": "RSI 77 overbought"
+    },
+    {
+      "ticker": "MCHP",
+      "reason": "RSI 100 overbought"
+    }
+  ],
+  "top10_count": 10,
+  "diagnostic_count": 2,
+  "telegram_message_id": "47",
+  "chars_sent": 618,
+  "chat_id": "7152521432"
+}

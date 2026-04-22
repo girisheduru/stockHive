@@ -1,0 +1,82 @@
+[
+  {
+    "ticker": "MRVL",
+    "pe": 50.54,
+    "market_cap": 135685308416.0,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +106%, revenue growth +22%"
+  },
+  {
+    "ticker": "INTC",
+    "pe": null,
+    "market_cap": 330407608320.0,
+    "sector": "Technology",
+    "earnings_health": "weak",
+    "note": "revenue growth -4%"
+  },
+  {
+    "ticker": "AMD",
+    "pe": 112.86,
+    "market_cap": 482096185344.0,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +217%, revenue growth +34%"
+  },
+  {
+    "ticker": "ARM",
+    "pe": 253.36,
+    "market_cap": 201800974336.0,
+    "sector": "Technology",
+    "earnings_health": "mixed",
+    "note": "earnings growth -12%, revenue growth +26%"
+  },
+  {
+    "ticker": "ON",
+    "pe": 302.28,
+    "market_cap": 34539843584.0,
+    "sector": "Technology",
+    "earnings_health": "weak",
+    "note": "earnings growth -49%, revenue growth -11%"
+  },
+  {
+    "ticker": "SMCI",
+    "pe": 21.34,
+    "market_cap": 17558091776.0,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +19%, revenue growth +123%"
+  },
+  {
+    "ticker": "AVGO",
+    "pe": 81.15,
+    "market_cap": 1981520412672.0,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +32%, revenue growth +30%"
+  },
+  {
+    "ticker": "GFS",
+    "pe": 37.0,
+    "market_cap": 32304676864.0,
+    "sector": "Technology",
+    "earnings_health": "weak",
+    "note": "revenue growth +0%"
+  },
+  {
+    "ticker": "SIRI",
+    "pe": 12.43,
+    "market_cap": 9329175552.0,
+    "sector": "Communication Services",
+    "earnings_health": "mixed",
+    "note": "earnings growth -70%, revenue growth +0%"
+  },
+  {
+    "ticker": "MCHP",
+    "pe": null,
+    "market_cap": 43979485184.0,
+    "sector": "Technology",
+    "earnings_health": "mixed",
+    "note": "revenue growth +16%"
+  }
+]

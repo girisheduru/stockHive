@@ -1,0 +1,102 @@
+[
+  {
+    "ticker": "MRVL",
+    "rsi": 97,
+    "macd_hist": 3.17,
+    "sma20": 120.03,
+    "sma50": 98.39,
+    "close": 155.16,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "INTC",
+    "rsi": 83,
+    "macd_hist": 0.798,
+    "sma20": 56.68,
+    "sma50": 49.96,
+    "close": 65.81,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "AMD",
+    "rsi": 96,
+    "macd_hist": 6.157,
+    "sma20": 239.01,
+    "sma50": 216.9,
+    "close": 295.69,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "ARM",
+    "rsi": 78,
+    "macd_hist": 2.726,
+    "sma20": 156.82,
+    "sma50": 137.76,
+    "close": 190.02,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "ON",
+    "rsi": 100,
+    "macd_hist": 2.37,
+    "sma20": 69.78,
+    "sma50": 66.54,
+    "close": 87.66,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "SMCI",
+    "rsi": 83,
+    "macd_hist": 0.854,
+    "sma20": 24.91,
+    "sma50": 28.28,
+    "close": 29.24,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "AVGO",
+    "rsi": 94,
+    "macd_hist": 7.125,
+    "sma20": 353.37,
+    "sma50": 338.08,
+    "close": 418.0,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "GFS",
+    "rsi": 90,
+    "macd_hist": 1.451,
+    "sma20": 48.44,
+    "sma50": 46.96,
+    "close": 58.83,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "SIRI",
+    "rsi": 77,
+    "macd_hist": 0.359,
+    "sma20": 24.13,
+    "sma50": 22.76,
+    "close": 27.72,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  },
+  {
+    "ticker": "MCHP",
+    "rsi": 100,
+    "macd_hist": 1.51,
+    "sma20": 70.8,
+    "sma50": 70.8,
+    "close": 81.28,
+    "signal": "HOLD",
+    "note": "above SMA50, MACD positive"
+  }
+]
