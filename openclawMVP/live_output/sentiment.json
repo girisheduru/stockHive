@@ -3,60 +3,60 @@
     "ticker": "MRVL",
     "score": 1.0,
     "top_theme": "AI demand in focus",
-    "n_headlines": 9
-  },
-  {
-    "ticker": "INTC",
-    "score": -0.2,
-    "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "AMD",
+    "ticker": "INTC",
     "score": 0.5,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "ARM",
-    "score": -0.33,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 9
-  },
-  {
-    "ticker": "ON",
-    "score": -1.0,
+    "ticker": "AMD",
+    "score": 0.14,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "SMCI",
-    "score": -0.6,
+    "ticker": "ARM",
+    "score": 0.83,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 10
+  },
+  {
+    "ticker": "ON",
+    "score": 0.56,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
     "ticker": "AVGO",
+    "score": 0.0,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 10
+  },
+  {
+    "ticker": "SMCI",
     "score": 1.0,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
     "ticker": "GFS",
-    "score": 1.0,
+    "score": 0.71,
     "top_theme": "AI demand in focus",
-    "n_headlines": 9
-  },
-  {
-    "ticker": "SIRI",
-    "score": -1.0,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 9
+    "n_headlines": 10
   },
   {
     "ticker": "MCHP",
-    "score": 1.0,
+    "score": 0.82,
     "top_theme": "AI demand in focus",
-    "n_headlines": 1
+    "n_headlines": 10
+  },
+  {
+    "ticker": "SIRI",
+    "score": 0.45,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 10
   }
 ]

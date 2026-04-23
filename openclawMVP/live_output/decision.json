@@ -8,42 +8,42 @@
     },
     {
       "ticker": "INTC",
-      "reason": "RSI 83 overbought"
+      "reason": "RSI 81 overbought"
     },
     {
       "ticker": "AMD",
-      "reason": "RSI 96 overbought"
+      "reason": "RSI 97 overbought"
     },
     {
       "ticker": "ARM",
-      "reason": "RSI 78 overbought"
+      "reason": "RSI 80 overbought"
     },
     {
       "ticker": "ON",
       "reason": "RSI 100 overbought"
     },
     {
-      "ticker": "SMCI",
-      "reason": "RSI 83 overbought"
-    },
-    {
       "ticker": "AVGO",
       "reason": "RSI 94 overbought"
     },
     {
-      "ticker": "GFS",
-      "reason": "RSI 91 overbought"
+      "ticker": "SMCI",
+      "reason": "RSI 83 overbought"
     },
     {
-      "ticker": "SIRI",
-      "reason": "RSI 77 overbought"
+      "ticker": "GFS",
+      "reason": "RSI 93 overbought"
     },
     {
       "ticker": "MCHP",
       "reason": "RSI 100 overbought"
+    },
+    {
+      "ticker": "SIRI",
+      "reason": "RSI 78 overbought"
     }
   ],
   "breadth_buy_count": 0,
   "rsi_avg": 90,
-  "sent_avg": 0.14
+  "sent_avg": 0.6
 }

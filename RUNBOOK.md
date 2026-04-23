@@ -42,7 +42,7 @@ Expected: `stockHive/` with `agent-system.json` at the root and an `agent-system
 
 OpenClaw reads the composition manifest and registers, in one step:
 
-- **Orchestrator** — `nasdaq-analyst-orchestrator` (persistent)
+- **Orchestrator** — `stockhive-orchestrator` (persistent)
 - **Ephemeral subagents** — `data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`
 - **Skills** — `stock-data-fetcher`, `technical-indicators`, `fundamental-snapshot`, `sentiment-analyzer`, `telegram-formatter`
 - **Scheduled task** — `nasdaq-daily-top5-buys`

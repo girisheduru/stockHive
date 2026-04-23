@@ -1,12 +1,1 @@
-[
-  {
-    "ticker": "ANSS",
-    "stage": "prices",
-    "reason": "yahoo_error:RuntimeError"
-  },
-  {
-    "ticker": "WBA",
-    "stage": "prices",
-    "reason": "yahoo_error:RuntimeError"
-  }
-]
+[]

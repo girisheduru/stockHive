@@ -1,8 +1,8 @@
 ** Nasdaq 100 — Daily Top 5 Buys **
-Date: 2026-04-22  |  Dry run
+Date: 2026-04-23  |  Live publish
 
 Market view:  [ BEARISH ]
-Breadth 0/10 up, RSI avg 90, sentiment +0.14
+Breadth 0/10 up, RSI avg 90, sentiment +0.60
 
 Top 5 Buy Candidates
 --------------------
@@ -13,15 +13,15 @@ Summary: RSI=10
 Excluded
 --------
 - MRVL: RSI 97 overbought
-- INTC: RSI 83 overbought
-- AMD: RSI 96 overbought
-- ARM: RSI 78 overbought
+- INTC: RSI 81 overbought
+- AMD: RSI 97 overbought
+- ARM: RSI 80 overbought
 - ON: RSI 100 overbought
-- SMCI: RSI 83 overbought
 - AVGO: RSI 94 overbought
-- GFS: RSI 91 overbought
-- SIRI: RSI 77 overbought
+- SMCI: RSI 83 overbought
+- GFS: RSI 93 overbought
 - MCHP: RSI 100 overbought
+- SIRI: RSI 78 overbought
 
 --
 StockHive  |  Option B live runner

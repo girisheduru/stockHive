@@ -1,8 +1,8 @@
 [
   {
     "ticker": "MRVL",
-    "pe": 50.56,
-    "market_cap": 135742152704.0,
+    "pe": 51.24,
+    "market_cap": 137569779712.0,
     "sector": "Technology",
     "earnings_health": "strong",
     "note": "earnings growth +106%, revenue growth +22%"
@@ -10,73 +10,73 @@
   {
     "ticker": "INTC",
     "pe": null,
-    "market_cap": 330708844544.0,
+    "market_cap": 327721320448.0,
     "sector": "Technology",
     "earnings_health": "weak",
     "note": "revenue growth -4%"
   },
   {
     "ticker": "AMD",
-    "pe": 112.68,
-    "market_cap": 481346355200.0,
+    "pe": 116.27,
+    "market_cap": 494764457984.0,
     "sector": "Technology",
     "earnings_health": "strong",
     "note": "earnings growth +217%, revenue growth +34%"
   },
   {
     "ticker": "ARM",
-    "pe": 253.69,
-    "market_cap": 202062118912.0,
+    "pe": 262.09,
+    "market_cap": 208757063680.0,
     "sector": "Technology",
     "earnings_health": "mixed",
     "note": "earnings growth -12%, revenue growth +26%"
   },
   {
     "ticker": "ON",
-    "pe": 302.6,
-    "market_cap": 34577272832.0,
+    "pe": 306.86,
+    "market_cap": 35063885824.0,
     "sector": "Technology",
     "earnings_health": "weak",
     "note": "earnings growth -49%, revenue growth -11%"
   },
   {
-    "ticker": "SMCI",
-    "pe": 21.46,
-    "market_cap": 17654167552.0,
-    "sector": "Technology",
-    "earnings_health": "strong",
-    "note": "earnings growth +19%, revenue growth +123%"
-  },
-  {
     "ticker": "AVGO",
-    "pe": 81.36,
-    "market_cap": 1986593685504.0,
+    "pe": 82.71,
+    "market_cap": 2003899252736.0,
     "sector": "Technology",
     "earnings_health": "strong",
     "note": "earnings growth +32%, revenue growth +30%"
   },
   {
+    "ticker": "SMCI",
+    "pe": 21.3,
+    "market_cap": 17522063360.0,
+    "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +19%, revenue growth +123%"
+  },
+  {
     "ticker": "GFS",
-    "pe": 37.06,
-    "market_cap": 32354093056.0,
+    "pe": 37.98,
+    "market_cap": 33158483968.0,
     "sector": "Technology",
     "earnings_health": "weak",
     "note": "revenue growth +0%"
   },
   {
-    "ticker": "SIRI",
-    "pe": 12.45,
-    "market_cap": 9346036736.0,
-    "sector": "Communication Services",
-    "earnings_health": "mixed",
-    "note": "earnings growth -70%, revenue growth +0%"
-  },
-  {
     "ticker": "MCHP",
     "pe": null,
-    "market_cap": 43988905984.0,
+    "market_cap": 44632858624.0,
     "sector": "Technology",
     "earnings_health": "mixed",
     "note": "revenue growth +16%"
+  },
+  {
+    "ticker": "SIRI",
+    "pe": 12.58,
+    "market_cap": 9443602432.0,
+    "sector": "Communication Services",
+    "earnings_health": "mixed",
+    "note": "earnings growth -70%, revenue growth +0%"
   }
 ]

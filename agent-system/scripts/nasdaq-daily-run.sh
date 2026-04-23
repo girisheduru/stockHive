@@ -14,7 +14,8 @@ elif [[ -f "agent-system/config/.env.example" ]]; then
   echo "[warn] No agent-system/config/.env found; copy .env.example and fill in secrets." >&2
 fi
 
-RUN_DATE="$(TZ=America/New_York date +%Y-%m-%d)"
+RUN_TZ="${TIMEZONE:-Europe/London}"
+RUN_DATE="$(TZ="$RUN_TZ" date +%Y-%m-%d)"
 LOG_DIR="${SYSTEM_DIR}/logs"
 mkdir -p "$LOG_DIR"
 LOG_FILE="${LOG_DIR}/run-${RUN_DATE}.log"

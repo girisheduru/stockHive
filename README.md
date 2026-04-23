@@ -26,7 +26,7 @@ connections — that every trading day at **17:00 ET (post-close)**:
 | Stage | Actor | Persistence | Skill | MCPs |
 |------:|-------|-------------|-------|------|
 | 1. Cron | `nasdaq-daily-schedule.json` | — | — | — |
-| 2. Orchestrate | `nasdaq-analyst-orchestrator` | **persistent** | — | all |
+| 2. Orchestrate | `stockhive-orchestrator` | **persistent** | — | all |
 | 3a. Fetch & rank | `data-fetcher` | ephemeral | `stock-data-fetcher` | yfinance, nasdaq-data-link |
 | 3b. Technicals | `technical-analyst` | ephemeral | `technical-indicators` | alpha-vantage, yfinance |
 | 3c. Fundamentals | `fundamental-analyst` | ephemeral | `fundamental-snapshot` | yfinance |
@@ -78,7 +78,7 @@ this order**. Each one is a real message you type in the OpenClaw chat UI.
 ```
 
 OpenClaw reads the composition manifest and registers, in one step:
-- the **orchestrator** (`nasdaq-analyst-orchestrator`, persistent)
+- the **orchestrator** (`stockhive-orchestrator`, persistent)
 - the **5 ephemeral subagents** (`data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`)
 - the **5 skills** under `agent-system/skills/`
 - the **scheduled task** `nasdaq-daily-top5-buys`

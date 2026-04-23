@@ -1,5 +1,5 @@
 ---
-name: nasdaq-analyst-orchestrator
+name: stockhive-orchestrator
 type: orchestrator
 persistence: persistent
 description: Main StockHive agent. Selects the top-10 4-week gainers in the Nasdaq 100, dispatches ephemeral subagents in parallel, aggregates their outputs, decides BULLISH / BEARISH, and ships the top 5 buy candidates to Telegram.

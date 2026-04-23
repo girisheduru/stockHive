@@ -8,9 +8,9 @@
   "platform": "OpenClaw / Claude Cowork",
   "composition": {
     "orchestrator": {
-      "name": "nasdaq-analyst-orchestrator",
+      "name": "stockhive-orchestrator",
       "persistence": "persistent",
-      "spec": "agent-system/agents/nasdaq-analyst-orchestrator.md"
+      "spec": "agent-system/agents/stockhive-orchestrator.md"
     },
     "subagents": [
       { "name": "data-fetcher",        "persistence": "ephemeral", "spec": "agent-system/agents/data-fetcher.md" },

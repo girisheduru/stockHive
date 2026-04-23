@@ -63,7 +63,10 @@ def load_tickers() -> list[str]:
 
 
 def fetch_history(ticker: str, period: str = "3mo") -> pd.DataFrame:
-    hist = yf.Ticker(ticker).history(period=period, auto_adjust=False)
+    try:
+        hist = yf.Ticker(ticker).history(period=period, auto_adjust=False)
+    except Exception as exc:
+        raise RuntimeError(f"yahoo fetch failed for {ticker}: {type(exc).__name__}") from exc
     if hist is None or hist.empty:
         raise RuntimeError(f"no history for {ticker}")
     return hist
@@ -107,9 +110,12 @@ def fetch_top10() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
             ret = (last_close / prev) - 1
             rows.append({"ticker": ticker, "return_4w": ret, "last_close": last_close})
         except Exception as exc:
-            diagnostics.append({"ticker": ticker, "stage": "prices", "reason": f"yahoo_error:{type(exc).__name__}"})
+            reason = str(exc).strip() or type(exc).__name__
+            diagnostics.append({"ticker": ticker, "stage": "prices", "reason": reason})
+            log("[WARN]", f"Skipping {ticker}: {reason}")
             continue
     rows.sort(key=lambda r: r["return_4w"], reverse=True)
+    log("[INFO]", f"Top10 ranking complete. usable={len(rows)} skipped={len(diagnostics)}")
     return rows[:10], diagnostics
 
 
