@@ -1,0 +1,28 @@
+{
+  "run_type": "scheduled_or_manual",
+  "run_date": "YYYY-MM-DD",
+  "selection": {
+    "universe_file": "agent-system/config/nasdaq100-tickers.json",
+    "selection_mode": "deterministic_daily_sample",
+    "target_count": 10,
+    "must_return_exactly": true
+  },
+  "analysis": {
+    "parallel_agents": [
+      "technical-analyst",
+      "fundamental-analyst",
+      "sentiment-analyst"
+    ]
+  },
+  "decision": {
+    "engine": "agent-system/scripts/decision_engine.py"
+  },
+  "publish": {
+    "agent": "telegram-publisher",
+    "enabled": true
+  },
+  "fallback": {
+    "allowed": true,
+    "runner": "fallback/scripts/run_live_option_b.py"
+  }
+}

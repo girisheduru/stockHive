@@ -1,6 +1,6 @@
 ---
 name: telegram-formatter
-description: Render the orchestrator's decision JSON into the canonical StockHive markdown alert for Telegram.
+description: Render the final decision JSON into the canonical StockHive Telegram markdown alert and publish it.
 triggers:
   - "format telegram alert"
   - "stockhive markdown message"
@@ -12,39 +12,34 @@ mcps:
 # Skill: telegram-formatter
 
 ## When to use
-You have the final decision JSON (`market_view`, `top5`, `excluded`) and need to deliver it to the Telegram channel.
+Use this skill when the final decision payload is ready for publication.
 
-## Template
-Render exactly this shape (Markdown, Telegram-safe):
+## Input contract
+JSON object containing at least:
+- `run_date`
+- `market_view`
+- `top5`
+- `excluded`
+- `breadth_buy_count`
+- `rsi_avg`
+- `sent_avg`
 
+## Required behavior
+1. Render the canonical StockHive Telegram markdown message.
+2. Publish it to Telegram.
+3. Return send metadata only.
+
+## Output contract
+Return JSON only:
+```json
+{
+  "telegram_message_id":"123",
+  "chars_sent":1024
+}
 ```
-** Nasdaq 100 — Daily Top 5 Buys **
-Date: {{DD Mon YYYY}}  |  Close + 1h
-
-Market view:  [ {{market_view}} ]
-Breadth {{buy_count}}/10 up, RSI avg {{rsi_avg}}, sentiment {{sent_avg_signed}}
-
-Top 5 Buy Candidates
---------------------
-{{#each top5}}
-{{idx}}. {{ticker}}  {{return_4w_pct}}  RSI {{rsi}}  PE {{pe}}
-   Tech: {{tech_note}}. Fund: {{fund_note}}.
-{{/each}}
-
-{{#if excluded}}
-Excluded: {{#each excluded}}{{ticker}} ({{reason}}){{#unless @last}}, {{/unless}}{{/each}}.
-{{/if}}
---
-OpenClaw  |  Daily 17:00 ET
-```
-
-## Steps
-1. Compute aggregates: `buy_count`, `rsi_avg` (int), `sent_avg_signed` (e.g. `+0.42`).
-2. Substitute into the template.
-3. Keep total length < 3500 characters (Telegram caption-safe buffer).
-4. Call `telegram-bot-mcp.sendMessage(chat_id, text, parse_mode="Markdown")`.
-5. Return the message id.
 
 ## Guardrails
-- Never embed raw JSON — only the rendered markdown.
-- Escape `_`, `*`, `[` in ticker notes (unlikely but defensive).
+- Do not return raw JSON from the decision payload.
+- Do not emit prose outside JSON.
+- Preserve the meaning of the decision payload.
+- Fail clearly if publish fails.

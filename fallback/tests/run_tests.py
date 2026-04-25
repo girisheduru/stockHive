@@ -6,11 +6,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-MVP_ROOT = Path(__file__).resolve().parents[1]
-REPO_ROOT = MVP_ROOT.parent
+FALLBACK_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = FALLBACK_ROOT.parent
 SCRIPTS = REPO_ROOT / "agent-system" / "scripts"
-MVP_SCRIPTS = MVP_ROOT / "scripts"
-OUTPUT = MVP_ROOT / "output"
+FALLBACK_SCRIPTS = FALLBACK_ROOT / "scripts"
+OUTPUT = REPO_ROOT / "openclawMVP" / "output"
 
 
 def assert_true(condition: bool, message: str) -> None:
@@ -45,9 +45,9 @@ def test_pick_top10_returns_10_sorted() -> None:
     assert_true(top[-1]["ticker"] == "G", "10th-ranked retained ticker should be last")
 
 
-def test_local_mvp_run_produces_expected_outputs() -> None:
+def test_fallback_local_run_produces_expected_outputs() -> None:
     proc = subprocess.run(
-        [sys.executable, str(MVP_SCRIPTS / "run_local_mvp.py")],
+        [sys.executable, str(FALLBACK_SCRIPTS / "run_local_mvp.py")],
         capture_output=True,
         text=True,
         check=True,
@@ -67,7 +67,7 @@ def test_local_mvp_run_produces_expected_outputs() -> None:
 def main() -> int:
     tests = [
         ("pick_top10 sorting", test_pick_top10_returns_10_sorted),
-        ("local MVP end-to-end", test_local_mvp_run_produces_expected_outputs),
+        ("fallback local MVP end-to-end", test_fallback_local_run_produces_expected_outputs),
     ]
     failures: list[str] = []
     for name, fn in tests:

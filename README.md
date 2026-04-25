@@ -8,8 +8,8 @@ StockHive is an **agent system** — the runtime composition of an orchestrator,
 four ephemeral subagents, five skills, a scheduled task, and five MCP
 connections — that every trading day at **17:00 ET (post-close)**:
 
-1. Ranks the **top 10 Nasdaq-100 gainers** over a rolling 4-week window.
-2. Spawns **ephemeral subagents in parallel** — technical, fundamental, sentiment — plus a data fetcher up front.
+1. Selects a **deterministic daily sample of 10 usable Nasdaq-100 tickers**.
+2. Spawns **ephemeral specialist subagents in parallel** — technical, fundamental, sentiment — plus a data fetcher up front.
 3. Aggregates their reports, runs `decision_engine.py`, and labels the market **BULLISH** or **BEARISH**.
 4. Posts the **Top 5 Buy Candidates** — with rationale and exclusions — to a Telegram channel.
 
@@ -44,13 +44,16 @@ connections — that every trading day at **17:00 ET (post-close)**:
 stockHive/
 ├── README.md                          ← you are here (run guide)
 ├── agent-system.json                  ← agent system composition manifest
-└── agent-system/                      ← the runtime composition itself
-    ├── agents/                        ← orchestrator + 5 subagent specs
-    ├── skills/                        ← 5 reusable SKILL.md capabilities
-    ├── scheduled-tasks/               ← daily cron spec
-    ├── scripts/                       ← runner + pick_top10 + decision_engine
-    ├── mcps/                          ← MCP server connection config
-    └── config/                        ← Nasdaq-100 tickers + .env.example
+├── agent-system/                      ← primary orchestrator runtime definition
+│   ├── agents/                        ← orchestrator + 5 subagent specs
+│   ├── skills/                        ← 5 reusable SKILL.md capabilities
+│   ├── scheduled-tasks/               ← daily cron spec
+│   ├── runtime/                       ← runtime template + runtime contract docs
+│   ├── scripts/                       ← primary launcher + deterministic support scripts
+│   ├── mcps/                          ← MCP server connection config
+│   └── config/                        ← Nasdaq-100 tickers + .env.example
+├── fallback/                          ← direct fallback runners + tests
+└── openclawMVP/                       ← retained data/mocks/output area
 ```
 
 ---
@@ -131,11 +134,24 @@ Each spawns, runs, replies with strict JSON, and tears down — a great live dem
 /task run nasdaq-daily-top5-buys
 ```
 
-In this workspace, the scheduled path now uses the Yahoo-based live runner via:
-- `agent-system/scripts/nasdaq-daily-run.sh`
-- `openclawMVP/scripts/run_live_option_b.py`
+Primary runtime design in this workspace:
+- `stockhive-orchestrator`
+- `data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`
+- repo skills under `agent-system/skills/`
+- runtime template: `agent-system/runtime/orchestrator-run-input.json`
+- runtime contract doc: `agent-system/runtime/ORCHESTRATOR_RUNTIME.md`
+- primary launcher: `agent-system/scripts/nasdaq-orchestrator-runtime.sh`
+- scheduled entrypoint now targets the primary launcher
+- deterministic `agent-system/scripts/decision_engine.py`
 
-It loads `agent-system/config/.env`, fetches live market/news data, runs the current decision engine, and publishes to Telegram unless `STOCKHIVE_PUBLISH_MODE=dry-run` is set.
+Current fallback implementation retained in parallel:
+- `fallback/scripts/nasdaq-daily-run.sh`
+- `fallback/scripts/run_live_option_b.py`
+- compatibility wrapper (deprecated): `agent-system/scripts/nasdaq-daily-run.sh`
+
+The scheduled task now points at the primary orchestrator launcher first, not the fallback runner.
+
+The fallback path still loads `agent-system/config/.env`, fetches live market/news data, runs the decision engine, and publishes to Telegram unless `STOCKHIVE_PUBLISH_MODE=dry-run` is set.
 
 ### 6 · Inspect the Telegram output
 
@@ -173,15 +189,15 @@ Pause with:
 
 ---
 
-## Local MVP mode
+## Local MVP / retained artifact area
 
-For this workspace, the local runnable MVP is isolated under `openclawMVP/` so it stays separate from the main OpenClaw agent-system definition.
+For this workspace, the direct fallback implementations now live under `fallback/` for clearer separation from the main agent-system definition. The `openclawMVP/` directory is now primarily a retained data/mocks/output area. Only the agent-system fallback shell shim remains as a deprecated compatibility wrapper.
 
 ### Run the local MVP
 
 ```bash
 cd stockHive
-python3 openclawMVP/scripts/run_local_mvp.py
+python3 fallback/scripts/run_local_mvp.py
 ```
 
 This produces deterministic artifacts under `openclawMVP/output/`:
@@ -198,13 +214,13 @@ This produces deterministic artifacts under `openclawMVP/output/`:
 
 ```bash
 cd stockHive
-python3 openclawMVP/tests/run_tests.py
+python3 fallback/tests/run_tests.py
 ```
 
 If `pytest` is available in your environment, you can also run:
 
 ```bash
-python3 -m pytest openclawMVP/tests/test_agent_system.py
+python3 -m pytest fallback/tests/test_agent_system.py
 ```
 
 The local MVP preserves the same pipeline shape as the intended OpenClaw setup:

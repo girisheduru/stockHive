@@ -1,62 +1,62 @@
 [
   {
-    "ticker": "MRVL",
-    "score": 1.0,
+    "ticker": "CTAS",
+    "score": 0.33,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "INTC",
-    "score": 0.5,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 10
-  },
-  {
-    "ticker": "AMD",
-    "score": 0.14,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 10
-  },
-  {
-    "ticker": "ARM",
-    "score": 0.83,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 10
-  },
-  {
-    "ticker": "ON",
-    "score": 0.56,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 10
-  },
-  {
-    "ticker": "AVGO",
+    "ticker": "FAST",
     "score": 0.0,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "SMCI",
+    "ticker": "COST",
     "score": 1.0,
     "top_theme": "AI demand in focus",
-    "n_headlines": 10
+    "n_headlines": 9
   },
   {
-    "ticker": "GFS",
-    "score": 0.71,
+    "ticker": "MNST",
+    "score": 0.0,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 2
+  },
+  {
+    "ticker": "BKR",
+    "score": 1.0,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 6
+  },
+  {
+    "ticker": "PAYX",
+    "score": 0.0,
+    "top_theme": "mixed news flow",
+    "n_headlines": 0
+  },
+  {
+    "ticker": "GILD",
+    "score": 1.0,
+    "top_theme": "AI demand in focus",
+    "n_headlines": 2
+  },
+  {
+    "ticker": "PEP",
+    "score": -0.33,
     "top_theme": "AI demand in focus",
     "n_headlines": 10
   },
   {
-    "ticker": "MCHP",
-    "score": 0.82,
+    "ticker": "EXC",
+    "score": -1.0,
     "top_theme": "AI demand in focus",
-    "n_headlines": 10
+    "n_headlines": 7
   },
   {
-    "ticker": "SIRI",
-    "score": 0.45,
-    "top_theme": "AI demand in focus",
-    "n_headlines": 10
+    "ticker": "IDXX",
+    "score": 0.0,
+    "top_theme": "mixed news flow",
+    "n_headlines": 0
   }
 ]

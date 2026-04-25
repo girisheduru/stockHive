@@ -9,10 +9,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-MVP_ROOT = Path(__file__).resolve().parents[1]
-REPO_ROOT = MVP_ROOT.parent
-MOCKS = MVP_ROOT / "mocks"
-OUTPUT = MVP_ROOT / "output"
+FALLBACK_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = FALLBACK_ROOT.parent
+MOCKS = REPO_ROOT / "openclawMVP" / "mocks"
+OUTPUT = REPO_ROOT / "openclawMVP" / "output"
 SCRIPTS = REPO_ROOT / "agent-system" / "scripts"
 
 
@@ -44,16 +44,6 @@ def run_decision_engine(payload: dict[str, Any]) -> dict[str, Any]:
         check=True,
     )
     return json.loads(proc.stdout)
-
-
-def build_merged_payload(run_date: str, top10: list[dict[str, Any]]) -> dict[str, Any]:
-    return {
-        "date": run_date,
-        "top10": top10,
-        "technical": read_json(MOCKS / "mock_technical.json"),
-        "fundamental": read_json(MOCKS / "mock_fundamental.json"),
-        "sentiment": read_json(MOCKS / "mock_sentiment.json"),
-    }
 
 
 def main() -> int:
@@ -93,6 +83,7 @@ def main() -> int:
     (OUTPUT / "decision.json").write_text(json.dumps(decision, indent=2) + "\n")
 
     log("[STAGE 5/6]", "Formatting local publish message.")
+    sys.path.insert(0, str(REPO_ROOT / "openclawMVP" / "scripts"))
     from telegram_formatter import format_message
 
     message = format_message(run_date, decision)

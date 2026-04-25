@@ -1,82 +1,82 @@
 [
   {
-    "ticker": "MRVL",
-    "pe": 51.24,
-    "market_cap": 137569779712.0,
-    "sector": "Technology",
+    "ticker": "CTAS",
+    "pe": 37.19,
+    "market_cap": 70375317504.0,
+    "sector": "Industrials",
     "earnings_health": "strong",
-    "note": "earnings growth +106%, revenue growth +22%"
+    "note": "earnings growth +10%, revenue growth +9%"
   },
   {
-    "ticker": "INTC",
-    "pe": null,
-    "market_cap": 327721320448.0,
+    "ticker": "FAST",
+    "pe": 39.55,
+    "market_cap": 51305684992.0,
+    "sector": "Industrials",
+    "earnings_health": "strong",
+    "note": "earnings growth +14%, revenue growth +12%"
+  },
+  {
+    "ticker": "COST",
+    "pe": 52.64,
+    "market_cap": 448599293952.0,
+    "sector": "Consumer Defensive",
+    "earnings_health": "strong",
+    "note": "earnings growth +46%, revenue growth +22%"
+  },
+  {
+    "ticker": "MNST",
+    "pe": 40.32,
+    "market_cap": 76501590016.0,
+    "sector": "Consumer Defensive",
+    "earnings_health": "strong",
+    "note": "earnings growth +67%, revenue growth +18%"
+  },
+  {
+    "ticker": "BKR",
+    "pe": 22.03,
+    "market_cap": 68371755008.0,
+    "sector": "Energy",
+    "earnings_health": "strong",
+    "note": "earnings growth +132%, revenue growth +2%"
+  },
+  {
+    "ticker": "PAYX",
+    "pe": 19.83,
+    "market_cap": 32181686272.0,
     "sector": "Technology",
+    "earnings_health": "strong",
+    "note": "earnings growth +9%, revenue growth +20%"
+  },
+  {
+    "ticker": "GILD",
+    "pe": 19.23,
+    "market_cap": 161852948480.0,
+    "sector": "Healthcare",
+    "earnings_health": "strong",
+    "note": "earnings growth +23%, revenue growth +5%"
+  },
+  {
+    "ticker": "PEP",
+    "pe": 24.4,
+    "market_cap": 212477296640.0,
+    "sector": "Consumer Defensive",
+    "earnings_health": "strong",
+    "note": "earnings growth +28%, revenue growth +8%"
+  },
+  {
+    "ticker": "EXC",
+    "pe": 17.19,
+    "market_cap": 48007372800.0,
+    "sector": "Utilities",
     "earnings_health": "weak",
-    "note": "revenue growth -4%"
+    "note": "earnings growth -9%, revenue growth -1%"
   },
   {
-    "ticker": "AMD",
-    "pe": 116.27,
-    "market_cap": 494764457984.0,
-    "sector": "Technology",
+    "ticker": "IDXX",
+    "pe": 43.3,
+    "market_cap": 45061627904.0,
+    "sector": "Healthcare",
     "earnings_health": "strong",
-    "note": "earnings growth +217%, revenue growth +34%"
-  },
-  {
-    "ticker": "ARM",
-    "pe": 262.09,
-    "market_cap": 208757063680.0,
-    "sector": "Technology",
-    "earnings_health": "mixed",
-    "note": "earnings growth -12%, revenue growth +26%"
-  },
-  {
-    "ticker": "ON",
-    "pe": 306.86,
-    "market_cap": 35063885824.0,
-    "sector": "Technology",
-    "earnings_health": "weak",
-    "note": "earnings growth -49%, revenue growth -11%"
-  },
-  {
-    "ticker": "AVGO",
-    "pe": 82.71,
-    "market_cap": 2003899252736.0,
-    "sector": "Technology",
-    "earnings_health": "strong",
-    "note": "earnings growth +32%, revenue growth +30%"
-  },
-  {
-    "ticker": "SMCI",
-    "pe": 21.3,
-    "market_cap": 17522063360.0,
-    "sector": "Technology",
-    "earnings_health": "strong",
-    "note": "earnings growth +19%, revenue growth +123%"
-  },
-  {
-    "ticker": "GFS",
-    "pe": 37.98,
-    "market_cap": 33158483968.0,
-    "sector": "Technology",
-    "earnings_health": "weak",
-    "note": "revenue growth +0%"
-  },
-  {
-    "ticker": "MCHP",
-    "pe": null,
-    "market_cap": 44632858624.0,
-    "sector": "Technology",
-    "earnings_health": "mixed",
-    "note": "revenue growth +16%"
-  },
-  {
-    "ticker": "SIRI",
-    "pe": 12.58,
-    "market_cap": 9443602432.0,
-    "sector": "Communication Services",
-    "earnings_health": "mixed",
-    "note": "earnings growth -70%, revenue growth +0%"
+    "note": "earnings growth +18%, revenue growth +14%"
   }
 ]

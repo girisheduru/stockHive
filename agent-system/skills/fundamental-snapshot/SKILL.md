@@ -1,6 +1,6 @@
 ---
 name: fundamental-snapshot
-description: Pull P/E, market cap, sector, and the most recent earnings beat/miss for a ticker and classify earnings health.
+description: Pull P/E, market cap, sector, and a recent earnings-health snapshot for each ticker.
 triggers:
   - "fundamentals for ticker"
   - "PE market cap sector"
@@ -12,23 +12,41 @@ mcps:
 # Skill: fundamental-snapshot
 
 ## When to use
-A ticker has passed technical screening and needs a quick fundamentals check.
+Use this skill when the orchestrator sends a ticker list for fundamental analysis.
 
-## Steps
-1. `yfinance-mcp.info(symbol)` → `trailingPE`, `marketCap`, `sector`, `industry`, `dividendYield`.
-2. `yfinance-mcp.earnings(symbol)` → most recent quarter `actual` vs `estimate`.
-3. `yfinance-mcp.financials(symbol)` → last-quarter revenue YoY delta.
-4. Classify earnings health:
-   - `strong` — EPS beat > 5% AND revenue YoY > 0
-   - `mixed` — only one of the above
-   - `weak` — both negative or data missing
-5. Emit a one-line `note`.
-
-## Output shape
+## Input contract
 ```json
-{"ticker":"AVGO","pe":42,"market_cap":820000000000,"sector":"Technology","earnings_health":"strong","note":"EPS beat 8%, revenue +12% YoY"}
+[
+  {"ticker":"AAPL"},
+  {"ticker":"MSFT"}
+]
 ```
 
+## Required behavior
+For each ticker:
+1. Fetch or derive `pe`, `market_cap`, and `sector`.
+2. Inspect recent earnings and revenue trend data when available.
+3. Classify `earnings_health` as `strong`, `mixed`, or `weak`.
+4. Add a short `note` explaining the classification.
+
+## Output contract
+Return JSON only:
+```json
+[
+  {
+    "ticker":"AAPL",
+    "pe":31.5,
+    "market_cap":3000000000000,
+    "sector":"Technology",
+    "earnings_health":"strong",
+    "note":"EPS beat 8%, revenue +12% YoY"
+  }
+]
+```
+One row per input ticker.
+
 ## Guardrails
-- Flag `stretched:true` when `pe > 80`.
-- Never fabricate a sector; if missing, set `"sector":"Unknown"`.
+- Never fabricate sector or earnings metrics.
+- If a field is missing, use a safe fallback and explain in `note`.
+- Do not emit prose outside JSON.
+- `earnings_health` must be exactly `strong`, `mixed`, or `weak`.

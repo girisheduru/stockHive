@@ -1,0 +1,9 @@
+{
+  "run_date": "2026-04-25",
+  "generated_at": "2026-04-25T10:13:00+0100",
+  "mode": "primary_orchestrator_runtime",
+  "status": "prepared",
+  "message": "Primary runtime payload prepared; execute through orchestrator session/tooling.",
+  "runtime_payload": "/data/.openclaw/workspace/stockHive/agent-system/runtime/generated/orchestrator-run-2026-04-25.json",
+  "manifest_file": "/data/.openclaw/workspace/stockHive/agent-system/runtime/generated/orchestrator-manifest-2026-04-25.json"
+}

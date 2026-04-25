@@ -29,9 +29,12 @@
     "scheduled_tasks": ["agent-system/scheduled-tasks/nasdaq-daily-schedule.json"],
     "mcps": ["agent-system/mcps/mcp-config.json"],
     "scripts": [
-      "agent-system/scripts/nasdaq-daily-run.sh",
+      "agent-system/scripts/nasdaq-orchestrator-runtime.sh",
       "agent-system/scripts/pick_top10.py",
-      "agent-system/scripts/decision_engine.py"
+      "agent-system/scripts/decision_engine.py",
+      "fallback/scripts/nasdaq-daily-run.sh",
+      "fallback/scripts/run_live_option_b.py",
+      "fallback/scripts/run_local_mvp.py"
     ]
   },
   "requires": {

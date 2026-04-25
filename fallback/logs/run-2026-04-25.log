@@ -1,4 +1,14 @@
+[stockhive-fallback] run=2026-04-25 repo=/data/.openclaw/workspace/stockHive
+[STAGE 1/6] Fetching live market data for a deterministic 10-ticker Nasdaq-100 fallback sample.
+[INFO] Deterministic Nasdaq-100 sample complete. seed=2026-04-25 requested=10 usable=10 skipped=0
+[STAGE 2/6] Running fallback analyst stages in parallel.
+[STAGE 3/6] Aggregating fallback outputs.
+[STAGE 4/6] Running decision engine.
+[STAGE 5/6] Formatting message (live).
+[STAGE 6/6] Publishing or recording dry run result.
 {
+  "run_date": "2026-04-25",
+  "mode": "live",
   "market_view": "BEARISH",
   "top5": [
     {
@@ -53,7 +63,12 @@
       "reason": "RSI 73 overbought"
     }
   ],
-  "breadth_buy_count": 2,
-  "rsi_avg": 49,
-  "sent_avg": 0.2
+  "top10_count": 10,
+  "diagnostic_count": 0,
+  "sentiment_source": "newsapi",
+  "telegram_message_id": "9",
+  "chars_sent": 949,
+  "chat_id": "-1003976067791",
+  "message_thread_id": 3
 }
+[stockhive-fallback] done run=2026-04-25

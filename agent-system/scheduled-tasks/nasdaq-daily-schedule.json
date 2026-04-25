@@ -3,9 +3,9 @@
   "schedule": "0 17 * * 1-5",
   "timezone": "Europe/London",
   "agent": "stockhive-orchestrator",
-  "entrypoint": "scripts/nasdaq-daily-run.sh",
+  "entrypoint": "scripts/nasdaq-orchestrator-runtime.sh",
   "subagent_mode": "ephemeral",
-  "prompt": "Pick the top 10 Nasdaq 100 gainers over the last 4 weeks, run technical + fundamental + sentiment analysis via ephemeral subagents in parallel, decide BULLISH or BEARISH, then push the top 5 buy candidates to Telegram.",
+  "prompt": "Run the StockHive agent system through the orchestrator and repo skills. First obtain a deterministic daily sample of exactly 10 usable Nasdaq-100 tickers through the data-fetcher agent. Then run technical, fundamental, and sentiment analysis through their specialist agents in parallel. Aggregate the structured outputs, run the deterministic decision engine, and publish through the telegram-publisher agent. Keep the existing shell/Python live runner available as fallback infrastructure, but treat the orchestrator plus skills as the primary runtime design.",
   "max_runtime_min": 20,
   "retry": { "attempts": 2, "backoff_sec": 120 },
   "notify_on_failure": true

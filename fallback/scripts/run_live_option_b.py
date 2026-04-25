@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import random
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -15,11 +16,11 @@ import pandas as pd
 import requests
 import yfinance as yf
 
-MVP_ROOT = Path(__file__).resolve().parents[1]
-REPO_ROOT = MVP_ROOT.parent
+FALLBACK_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = FALLBACK_ROOT.parent
 AGENT_SYSTEM = REPO_ROOT / "agent-system"
 CONFIG_ENV = AGENT_SYSTEM / "config" / ".env"
-LIVE_OUTPUT = MVP_ROOT / "live_output"
+LIVE_OUTPUT = REPO_ROOT / "openclawMVP" / "live_output"
 CORE_SCRIPTS = AGENT_SYSTEM / "scripts"
 
 
@@ -96,9 +97,17 @@ def compute_macd_hist(series: pd.Series) -> float | None:
 
 def fetch_top10() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
     tickers = load_tickers()
+    target_size = min(10, len(tickers))
+    seed = datetime.now().strftime("%Y-%m-%d")
+    rng = random.Random(seed)
+    remaining = tickers.copy()
+    rng.shuffle(remaining)
+
     rows: list[dict[str, Any]] = []
     diagnostics: list[dict[str, str]] = []
-    for ticker in tickers:
+
+    while remaining and len(rows) < target_size:
+        ticker = remaining.pop(0)
         try:
             hist = fetch_history(ticker, period="3mo")
             closes = hist["Close"].dropna()
@@ -114,9 +123,17 @@ def fetch_top10() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
             diagnostics.append({"ticker": ticker, "stage": "prices", "reason": reason})
             log("[WARN]", f"Skipping {ticker}: {reason}")
             continue
-    rows.sort(key=lambda r: r["return_4w"], reverse=True)
-    log("[INFO]", f"Top10 ranking complete. usable={len(rows)} skipped={len(diagnostics)}")
-    return rows[:10], diagnostics
+
+    if len(rows) < target_size:
+        raise RuntimeError(
+            f"unable to build {target_size} usable tickers from Nasdaq-100 universe; usable={len(rows)} skipped={len(diagnostics)}"
+        )
+
+    log(
+        "[INFO]",
+        f"Deterministic Nasdaq-100 sample complete. seed={seed} requested={target_size} usable={len(rows)} skipped={len(diagnostics)}",
+    )
+    return rows, diagnostics
 
 
 def analyze_technical(top10: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -206,10 +223,31 @@ def news_api_sentiment_score(text: str) -> tuple[float, str]:
     return round(score, 2), theme
 
 
-def analyze_sentiment(top10: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def yfinance_news_sentiment_for_ticker(ticker: str) -> dict[str, Any]:
+    try:
+        news_items = yf.Ticker(ticker).news or []
+    except Exception as exc:
+        log("[WARN]", f"yfinance news fallback failed for {ticker}: {type(exc).__name__}")
+        news_items = []
+    joined = " ".join(
+        filter(
+            None,
+            [
+                f"{item.get('title', '')} {item.get('summary', '')}"
+                for item in news_items[:10]
+                if isinstance(item, dict)
+            ],
+        )
+    )
+    score, theme = news_api_sentiment_score(joined)
+    return {"ticker": ticker, "score": score, "top_theme": theme, "n_headlines": min(len(news_items), 10)}
+
+
+def analyze_sentiment(top10: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], str]:
     api_key = require_env("NEWS_API_KEY")
     out: list[dict[str, Any]] = []
     since = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    source = "newsapi"
     for row in top10:
         ticker = row["ticker"]
         params = {
@@ -221,12 +259,18 @@ def analyze_sentiment(top10: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "apiKey": api_key,
         }
         r = requests.get("https://newsapi.org/v2/everything", params=params, timeout=30)
+        if r.status_code == 429:
+            log("[WARN]", f"NewsAPI rate limited on {ticker}; switching to yfinance news fallback for all remaining sentiment.")
+            source = "yfinance_news_fallback"
+            remaining = [ticker] + [rest["ticker"] for rest in top10[len(out) + 1 :]]
+            out.extend(yfinance_news_sentiment_for_ticker(symbol) for symbol in remaining)
+            return out, source
         r.raise_for_status()
         articles = r.json().get("articles", [])
         joined = " ".join(filter(None, [f"{a.get('title','')} {a.get('description','')}" for a in articles]))
         score, theme = news_api_sentiment_score(joined)
         out.append({"ticker": ticker, "score": score, "top_theme": theme, "n_headlines": len(articles)})
-    return out
+    return out, source
 
 
 def run_decision_engine(payload: dict[str, Any]) -> dict[str, Any]:
@@ -272,32 +316,49 @@ def format_message(run_date: str, decision: dict[str, Any], mode: str) -> str:
         lines.extend(["", "Excluded", "--------"])
         for row in excluded:
             lines.append(f"- {row['ticker']}: {row['reason']}")
-    lines.extend(["", "--", "StockHive  |  Option B live runner"])
+    lines.extend(["", "--", "StockHive  |  Fallback live runner"])
     return "\n".join(lines)
 
 
 def maybe_publish(message: str, mode: str) -> dict[str, Any]:
     bot_token = require_env("TELEGRAM_BOT_TOKEN")
-    chat_id = require_env("TELEGRAM_CHAT_ID")
+    raw_chat_id = require_env("TELEGRAM_CHAT_ID").strip()
+    thread_id = os.environ.get("TELEGRAM_MESSAGE_THREAD_ID", "").strip()
+
+    chat_id = raw_chat_id
+    if raw_chat_id.isdigit() and not raw_chat_id.startswith("-100"):
+        chat_id = f"-100{raw_chat_id}"
+
+    payload: dict[str, Any] = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown",
+        "disable_web_page_preview": True,
+    }
+    if thread_id:
+        payload["message_thread_id"] = int(thread_id)
+
     if mode == "dry-run":
-        return {"telegram_message_id": "dry-run-not-sent", "chars_sent": len(message), "chat_id": chat_id}
+        result = {"telegram_message_id": "dry-run-not-sent", "chars_sent": len(message), "chat_id": chat_id}
+        if thread_id:
+            result["message_thread_id"] = int(thread_id)
+        return result
+
     r = requests.post(
         f"https://api.telegram.org/bot{bot_token}/sendMessage",
-        json={
-            "chat_id": chat_id,
-            "text": message,
-            "parse_mode": "Markdown",
-            "disable_web_page_preview": True,
-        },
+        json=payload,
         timeout=30,
     )
     r.raise_for_status()
     body = r.json()
-    return {
+    result = {
         "telegram_message_id": str(body.get("result", {}).get("message_id")),
         "chars_sent": len(message),
         "chat_id": chat_id,
     }
+    if thread_id:
+        result["message_thread_id"] = int(thread_id)
+    return result
 
 
 def main() -> int:
@@ -306,25 +367,25 @@ def main() -> int:
     mode = os.environ.get("STOCKHIVE_PUBLISH_MODE", "dry-run")
     run_date = datetime.now().strftime("%Y-%m-%d")
 
-    log("[STAGE 1/6]", "Fetching live market data and ranking top 10.")
+    log("[STAGE 1/6]", "Fetching live market data for a deterministic 10-ticker Nasdaq-100 fallback sample.")
     top10, diagnostics = fetch_top10()
     (LIVE_OUTPUT / "top10.json").write_text(json.dumps(top10, indent=2) + "\n")
     (LIVE_OUTPUT / "diagnostics.json").write_text(json.dumps(diagnostics, indent=2) + "\n")
 
-    log("[STAGE 2/6]", "Running live analyst stages in parallel.")
+    log("[STAGE 2/6]", "Running fallback analyst stages in parallel.")
     with ThreadPoolExecutor(max_workers=3) as pool:
         tech_f = pool.submit(analyze_technical, top10)
         fund_f = pool.submit(analyze_fundamental, top10)
         sent_f = pool.submit(analyze_sentiment, top10)
         technical = tech_f.result()
         fundamental = fund_f.result()
-        sentiment = sent_f.result()
+        sentiment, sentiment_source = sent_f.result()
 
     (LIVE_OUTPUT / "technical.json").write_text(json.dumps(technical, indent=2) + "\n")
     (LIVE_OUTPUT / "fundamental.json").write_text(json.dumps(fundamental, indent=2) + "\n")
     (LIVE_OUTPUT / "sentiment.json").write_text(json.dumps(sentiment, indent=2) + "\n")
 
-    log("[STAGE 3/6]", "Aggregating live outputs.")
+    log("[STAGE 3/6]", "Aggregating fallback outputs.")
     merged = {
         "date": run_date,
         "top10": top10,
@@ -352,6 +413,7 @@ def main() -> int:
         "excluded": decision["excluded"],
         "top10_count": len(top10),
         "diagnostic_count": len(diagnostics),
+        "sentiment_source": sentiment_source,
         **publish,
     }
     (LIVE_OUTPUT / "orchestrator_result.json").write_text(json.dumps(result, indent=2) + "\n")
