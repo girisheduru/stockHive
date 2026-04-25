@@ -1,6 +1,6 @@
 # StockHive Compatibility Notes
 
-This file tracks compatibility wrappers retained during the runtime restructure.
+Compatibility wrappers and fallback runtime paths have been removed.
 
 ## Canonical paths
 ### Primary runtime
@@ -8,19 +8,16 @@ This file tracks compatibility wrappers retained during the runtime restructure.
 - `agent-system/runtime/orchestrator-run-input.json`
 - `agent-system/runtime/ORCHESTRATOR_RUNTIME.md`
 
-### Fallback runtime
-- `fallback/scripts/nasdaq-daily-run.sh`
-- `fallback/scripts/run_live_option_b.py`
-- `fallback/scripts/run_local_mvp.py`
-- `fallback/tests/run_tests.py`
-- `fallback/tests/test_agent_system.py`
+### Deterministic support
+- `agent-system/scripts/pick_top10.py`
+- `agent-system/scripts/decision_engine.py`
 
-## Deprecated compatibility wrappers
-These remain only to avoid abrupt breakage of older references.
-
-- `agent-system/scripts/nasdaq-daily-run.sh`
+## Retained artifact area
+- `openclawMVP/mocks/`
+- `openclawMVP/output/`
+- `openclawMVP/live_output/`
 
 ## Policy
-- Add new fallback implementations under `fallback/`.
-- Do not add new real runtime logic to deprecated wrapper paths.
-- Prefer canonical paths in docs, schedules, and future edits.
+- Keep runtime logic under `agent-system/`.
+- Keep retained mock/output artifacts under `openclawMVP/`.
+- Do not reintroduce fallback or deprecated wrapper paths unless explicitly needed.

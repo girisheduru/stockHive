@@ -28,7 +28,7 @@ cron (17:00 ET) ─▶ orchestrator ─▶ data-fetcher (stock-data-fetcher skil
 | `skills/` | 5 reusable SKILL.md capabilities |
 | `scheduled-tasks/nasdaq-daily-schedule.json` | Daily 17:00 ET cron targeting the primary orchestrator launcher |
 | `runtime/` | Primary orchestrator runtime template + runtime contract docs |
-| `scripts/` | Primary launcher (`nasdaq-orchestrator-runtime.sh`) + deterministic support scripts + deprecated fallback shell shim (`nasdaq-daily-run.sh`) |
+| `scripts/` | Primary launcher (`nasdaq-orchestrator-runtime.sh`) + deterministic support scripts |
 | `mcps/mcp-config.json` | MCP server connection spec |
 | `config/` | Nasdaq-100 tickers + `.env.example` |
 
@@ -36,12 +36,9 @@ cron (17:00 ET) ─▶ orchestrator ─▶ data-fetcher (stock-data-fetcher skil
 
 The intended primary runtime is the orchestrator plus specialist subagents plus repo skills.
 
-A shell/Python live runner remains in the repo as fallback infrastructure:
-- `../fallback/scripts/nasdaq-daily-run.sh`
-- `../fallback/scripts/run_live_option_b.py`
-- deprecated compatibility wrapper: `scripts/nasdaq-daily-run.sh`
+The repo now uses a single primary runtime path.
 
-The scheduled task now targets `scripts/nasdaq-orchestrator-runtime.sh` as the primary entrypoint.
+The scheduled task targets `scripts/nasdaq-orchestrator-runtime.sh` as the primary entrypoint.
 
 Primary runtime template/docs:
 - `runtime/orchestrator-run-input.json`

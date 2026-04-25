@@ -52,7 +52,6 @@ stockHive/
 │   ├── scripts/                       ← primary launcher + deterministic support scripts
 │   ├── mcps/                          ← MCP server connection config
 │   └── config/                        ← Nasdaq-100 tickers + .env.example
-├── fallback/                          ← direct fallback runners + tests
 └── openclawMVP/                       ← retained data/mocks/output area
 ```
 
@@ -144,14 +143,7 @@ Primary runtime design in this workspace:
 - scheduled entrypoint now targets the primary launcher
 - deterministic `agent-system/scripts/decision_engine.py`
 
-Current fallback implementation retained in parallel:
-- `fallback/scripts/nasdaq-daily-run.sh`
-- `fallback/scripts/run_live_option_b.py`
-- compatibility wrapper (deprecated): `agent-system/scripts/nasdaq-daily-run.sh`
-
-The scheduled task now points at the primary orchestrator launcher first, not the fallback runner.
-
-The fallback path still loads `agent-system/config/.env`, fetches live market/news data, runs the decision engine, and publishes to Telegram unless `STOCKHIVE_PUBLISH_MODE=dry-run` is set.
+The scheduled task points at the primary orchestrator launcher.
 
 ### 6 · Inspect the Telegram output
 
@@ -189,18 +181,18 @@ Pause with:
 
 ---
 
-## Local MVP / retained artifact area
+## Retained artifact area
 
-For this workspace, the direct fallback implementations now live under `fallback/` for clearer separation from the main agent-system definition. The `openclawMVP/` directory is now primarily a retained data/mocks/output area. Only the agent-system fallback shell shim remains as a deprecated compatibility wrapper.
+The `openclawMVP/` directory is retained only for mock and output artifacts.
 
-### Run the local MVP
+It contains:
+- `openclawMVP/mocks/`
+- `openclawMVP/output/`
+- `openclawMVP/live_output/`
 
-```bash
-cd stockHive
-python3 fallback/scripts/run_local_mvp.py
-```
+These are retained data/artifact directories, not active runtime entrypoints.
 
-This produces deterministic artifacts under `openclawMVP/output/`:
+Artifacts include:
 - `top10.json`
 - `technical.json`
 - `fundamental.json`
@@ -210,20 +202,7 @@ This produces deterministic artifacts under `openclawMVP/output/`:
 - `telegram_message.md`
 - `orchestrator_result.json`
 
-### Run tests
-
-```bash
-cd stockHive
-python3 fallback/tests/run_tests.py
-```
-
-If `pytest` is available in your environment, you can also run:
-
-```bash
-python3 -m pytest fallback/tests/test_agent_system.py
-```
-
-The local MVP preserves the same pipeline shape as the intended OpenClaw setup:
+These retained artifacts preserve the same pipeline shape as the intended OpenClaw setup:
 - top-10 selection
 - parallel analyst stages
 - deterministic decision engine

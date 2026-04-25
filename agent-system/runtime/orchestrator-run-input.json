@@ -20,9 +20,5 @@
   "publish": {
     "agent": "telegram-publisher",
     "enabled": true
-  },
-  "fallback": {
-    "allowed": true,
-    "runner": "fallback/scripts/run_live_option_b.py"
   }
 }

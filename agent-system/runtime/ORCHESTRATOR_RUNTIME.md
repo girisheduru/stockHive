@@ -10,7 +10,7 @@ Make the agent-native path explicit and reviewable:
 - deterministic decision engine
 - publisher agent
 
-Fallback implementations remain separate under `fallback/`.
+The runtime is centered on a single orchestrator-driven execution path.
 
 ## Runtime input template
 Use `orchestrator-run-input.json` as the canonical input shape for an orchestrator-driven run.
@@ -86,8 +86,6 @@ Output:
 }
 ```
 
-## Fallback policy
-If the primary orchestrator-driven path is unavailable, the repo may still use:
-- `fallback/scripts/run_live_option_b.py`
-
-That fallback is compatibility infrastructure, not the primary design.
+## Runtime policy
+The repo uses a single primary orchestrator-driven runtime path.
+Fallback runtime paths have been removed.
