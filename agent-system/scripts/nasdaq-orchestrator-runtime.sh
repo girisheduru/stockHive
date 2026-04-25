@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # StockHive primary orchestrator runtime launcher.
-# Prepares a dated runtime payload and run-manifest for the agent-native path.
+# Executes a real end-to-end runtime pass using the repo's primary runtime assets.
 
 set -euo pipefail
 
@@ -25,6 +25,11 @@ RUNTIME_FILE="${RUNTIME_DIR}/orchestrator-run-${RUN_DATE}.json"
 MANIFEST_FILE="${RUNTIME_DIR}/orchestrator-manifest-${RUN_DATE}.json"
 RESULT_FILE="${RUNTIME_DIR}/orchestrator-result-${RUN_DATE}.json"
 
+if [[ ! -x ".venv/bin/python" ]]; then
+  echo "[error] Missing repo-local virtualenv at ${REPO_DIR}/.venv" | tee -a "$LOG_FILE"
+  exit 1
+fi
+
 python3 - <<'PY' "$RUNTIME_FILE" "$MANIFEST_FILE" "$RESULT_FILE" "$RUN_DATE" "$RUN_TS"
 import json
 import sys
@@ -46,16 +51,14 @@ manifest = {
     "runtime_payload": str(runtime_file),
     "result_file": str(result_file),
     "mode": "primary_orchestrator_runtime",
-    "status": "prepared",
-    "fallback": payload.get("fallback", {}),
+    "status": "running",
 }
 manifest_file.write_text(json.dumps(manifest, indent=2) + "\n")
 result = {
     "run_date": run_date,
     "generated_at": run_ts,
     "mode": "primary_orchestrator_runtime",
-    "status": "prepared",
-    "message": "Primary runtime payload prepared; execute through orchestrator session/tooling.",
+    "status": "running",
     "runtime_payload": str(runtime_file),
     "manifest_file": str(manifest_file),
 }
@@ -66,6 +69,10 @@ echo "[stockhive-orchestrator] run=${RUN_DATE} repo=${REPO_DIR}" | tee -a "$LOG_
 echo "[stockhive-orchestrator] runtime_payload=${RUNTIME_FILE}" | tee -a "$LOG_FILE"
 echo "[stockhive-orchestrator] manifest_file=${MANIFEST_FILE}" | tee -a "$LOG_FILE"
 echo "[stockhive-orchestrator] result_file=${RESULT_FILE}" | tee -a "$LOG_FILE"
-echo "[stockhive-orchestrator] primary runtime launcher prepared payload and manifest; execute via orchestrator session/tooling." | tee -a "$LOG_FILE"
+
+echo "[STAGE 1/6] Running primary runtime execution path." | tee -a "$LOG_FILE"
+STOCKHIVE_PUBLISH_MODE="${STOCKHIVE_PUBLISH_MODE:-dry-run}" \
+  .venv/bin/python agent-system/scripts/run_primary_runtime.py \
+  "$RUNTIME_FILE" "$RESULT_FILE" 2>&1 | tee -a "$LOG_FILE"
 
 echo "$RESULT_FILE"

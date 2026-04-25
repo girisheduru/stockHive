@@ -23,7 +23,8 @@ JSON object:
 ```json
 {
   "universe_file": "agent-system/config/nasdaq100-tickers.json",
-  "selection_mode": "deterministic_daily_sample",
+  "selection_mode": "deterministic_daily_random_sample",
+  "selection_script": "agent-system/scripts/pick_random10.py",
   "target_count": 10,
   "must_return_exactly": 10
 }

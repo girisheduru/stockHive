@@ -145,7 +145,7 @@ These calls exercise spawn-run-teardown for each analyst in isolation. Each retu
 
 **5a — Data fetcher**
 ```
-/agent run data-fetcher --input "Use config/nasdaq100-tickers.json and return the top 10 by 4-week return."
+/agent run data-fetcher --input '{"universe_file":"agent-system/config/nasdaq100-tickers.json","selection_mode":"deterministic_daily_random_sample","target_count":10,"must_return_exactly":true}'
 ```
 
 **5b — Technical analyst**
@@ -177,7 +177,7 @@ This is exactly what the scheduler fires daily at 17:00 ET.
 
 What you'll see in the log stream:
 
-1. `[STAGE 1/6]` orchestrator selects the top 10 gainers.
+1. `[STAGE 1/6]` orchestrator selects a deterministic daily random 10-ticker sample.
 2. `[STAGE 2/6]` three ephemeral subagents dispatched **in parallel**.
 3. `[STAGE 3/6]` aggregated report.
 4. `[STAGE 4/6]` `decision_engine.py` returns `market_view` + `top5`.

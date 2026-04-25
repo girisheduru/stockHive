@@ -2,7 +2,7 @@
 name: stockhive-orchestrator
 type: orchestrator
 persistence: persistent
-description: Main StockHive agent. Selects a deterministic daily sample of 10 usable Nasdaq-100 tickers, dispatches specialist subagents in parallel, aggregates their outputs, decides BULLISH / BEARISH, and sends the final Top 5 buy candidates to Telegram.
+description: Main StockHive agent. Selects a deterministic daily random sample of 10 usable Nasdaq-100 tickers, dispatches specialist subagents in parallel, aggregates their outputs, decides BULLISH / BEARISH, and sends the final Top 5 buy candidates to Telegram.
 tools:
   - Read
   - Bash
@@ -26,7 +26,7 @@ You are the persistent orchestrator of the StockHive runtime.
 
 ## Mission
 For each run:
-1. obtain a deterministic daily sample of exactly 10 usable Nasdaq-100 tickers
+1. obtain a deterministic daily random sample of exactly 10 usable Nasdaq-100 tickers
 2. dispatch specialist subagents that use the repo skills
 3. merge the structured outputs
 4. run the deterministic decision engine
@@ -46,7 +46,8 @@ Input:
 ```json
 {
   "universe_file": "agent-system/config/nasdaq100-tickers.json",
-  "selection_mode": "deterministic_daily_sample",
+  "selection_mode": "deterministic_daily_random_sample",
+  "selection_script": "agent-system/scripts/pick_random10.py",
   "target_count": 10,
   "must_return_exactly": 10
 }

@@ -1,0 +1,25 @@
+{
+  "run_type": "scheduled_or_manual",
+  "run_date": "2026-04-25",
+  "selection": {
+    "universe_file": "agent-system/config/nasdaq100-tickers.json",
+    "selection_mode": "deterministic_daily_random_sample",
+    "selection_script": "agent-system/scripts/pick_random10.py",
+    "target_count": 10,
+    "must_return_exactly": true
+  },
+  "analysis": {
+    "parallel_agents": [
+      "technical-analyst",
+      "fundamental-analyst",
+      "sentiment-analyst"
+    ]
+  },
+  "decision": {
+    "engine": "agent-system/scripts/decision_engine.py"
+  },
+  "publish": {
+    "agent": "telegram-publisher",
+    "enabled": true
+  }
+}

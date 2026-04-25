@@ -18,13 +18,13 @@ Use `orchestrator-run-input.json` as the canonical input shape for an orchestrat
 A dedicated launcher is available at:
 - `agent-system/scripts/nasdaq-orchestrator-runtime.sh`
 
-It materializes dated runtime artifacts under:
+It executes the primary runtime path and materializes dated runtime artifacts under:
 - `agent-system/runtime/generated/`
 
 Artifacts produced per run:
 - runtime payload JSON
 - manifest JSON
-- prepared result JSON
+- final result JSON
 
 ## Primary runtime flow
 1. `stockhive-orchestrator` reads the runtime input.
@@ -41,7 +41,8 @@ Input:
 ```json
 {
   "universe_file": "agent-system/config/nasdaq100-tickers.json",
-  "selection_mode": "deterministic_daily_sample",
+  "selection_mode": "deterministic_daily_random_sample",
+  "selection_script": "agent-system/scripts/pick_random10.py",
   "target_count": 10,
   "must_return_exactly": true
 }

@@ -8,7 +8,7 @@ StockHive is an **agent system** — the runtime composition of a persistent orc
 five ephemeral subagents, five skills, a scheduled task, and five MCP
 connections — that every trading day at **17:00 ET (post-close)**:
 
-1. Selects a **deterministic daily sample of 10 usable Nasdaq-100 tickers**.
+1. Selects a **deterministic daily random sample of 10 usable Nasdaq-100 tickers**.
 2. Spawns **ephemeral specialist subagents in parallel** — technical, fundamental, sentiment — plus a data fetcher up front.
 3. Aggregates their reports, runs `decision_engine.py`, and labels the market **BULLISH** or **BEARISH**.
 4. Posts the **Top 5 Buy Candidates** — with rationale and exclusions — to a Telegram channel.
@@ -118,7 +118,7 @@ Verify:
 ### 4 · Smoke-test each subagent (one-at-a-time — shows off ephemeral spawn/teardown)
 
 ```
-/agent run data-fetcher --input "Use config/nasdaq100-tickers.json and return the top 10 by 4-week return."
+/agent run data-fetcher --input '{"universe_file":"agent-system/config/nasdaq100-tickers.json","selection_mode":"deterministic_daily_random_sample","target_count":10,"must_return_exactly":true}'
 /agent run technical-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 /agent run fundamental-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 /agent run sentiment-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
