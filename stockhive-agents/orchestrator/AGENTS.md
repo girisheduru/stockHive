@@ -9,7 +9,7 @@ This agent represents the StockHive orchestrator in OpenClaw.
 - Report top 10, top 5, exclusions, and diagnostics clearly.
 
 ## Working rules
-- Treat `stockHive/skills/` as the workspace-visible skill set for this repo.
+- Treat `agent-system/skills/` as the canonical skill set for this repo.
 - Prefer the orchestrator + specialist agents + repo skills design over older direct-runner design notes.
 - Keep runtime logic under `agent-system/`.
 - When all candidates are excluded, state that explicitly and summarize the reasons.

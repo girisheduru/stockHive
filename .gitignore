@@ -1,6 +1,5 @@
 agent-system/config/.env
 agent-system/logs/
-openclawMVP/live_output/
 __pycache__/
 *.pyc
 .DS_Store

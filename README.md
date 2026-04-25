@@ -52,7 +52,6 @@ stockHive/
 │   ├── scripts/                       ← primary launcher + deterministic support scripts
 │   ├── mcps/                          ← MCP server connection config
 │   └── config/                        ← Nasdaq-100 tickers + .env.example
-└── openclawMVP/                       ← retained data/mocks/output area
 ```
 
 ---
@@ -181,32 +180,6 @@ Pause with:
 
 ---
 
-## Retained artifact area
-
-The `openclawMVP/` directory is retained only for mock and output artifacts.
-
-It contains:
-- `openclawMVP/mocks/`
-- `openclawMVP/output/`
-- `openclawMVP/live_output/`
-
-These are retained data/artifact directories, not active runtime entrypoints.
-
-Artifacts include:
-- `top10.json`
-- `technical.json`
-- `fundamental.json`
-- `sentiment.json`
-- `merged.json`
-- `decision.json`
-- `telegram_message.md`
-- `orchestrator_result.json`
-
-These retained artifacts preserve the same pipeline shape as the intended OpenClaw setup:
-- top-10 selection
-- parallel analyst stages
-- deterministic decision engine
-- formatted publish output
 
 ## Design notes
 
