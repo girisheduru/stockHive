@@ -1,7 +1,7 @@
 {
   "task_id": "nasdaq-daily-top5-buys",
   "schedule": "0 17 * * 1-5",
-  "timezone": "Europe/London",
+  "timezone": "America/New_York",
   "agent": "stockhive-orchestrator",
   "entrypoint": "scripts/nasdaq-orchestrator-runtime.sh",
   "subagent_mode": "ephemeral",

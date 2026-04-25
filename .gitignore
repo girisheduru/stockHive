@@ -1,5 +1,6 @@
 agent-system/config/.env
 agent-system/logs/
+agent-system/runtime/generated/
 __pycache__/
 *.pyc
 .DS_Store

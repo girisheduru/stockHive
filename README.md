@@ -1,40 +1,75 @@
-# StockHive 🐝📈
+# StockHive
 
-> **OpenClaw-native agent system — Nasdaq 100 Top 5 Weekly Buys, delivered daily to Telegram.**
+> **OpenClaw-native agent system — Nasdaq 100 Top 5 Buy Candidates, delivered daily to Telegram.**
 >
-> Platform: **Claude Cowork + OpenClaw**
+> Built for the **[Encode Club — April Agentic Mini-Hack](https://www.encodeclub.com/my-programmes/april-agentic-mini-hack)**.
+> Platform: **Claude Cowork + OpenClaw**.
 
-StockHive is an **agent system** — the runtime composition of a persistent orchestrator,
-five ephemeral subagents, five skills, a scheduled task, and five MCP
-connections — that every trading day at **17:00 ET (post-close)**:
+StockHive demonstrates what a production-grade agentic system looks like when built natively on OpenClaw: a persistent orchestrator that spawns, coordinates, and tears down ephemeral specialist subagents to produce a real financial output on a real schedule.
+
+Every trading day at **17:00 ET (post-close)** the system:
 
 1. Selects a **deterministic daily random sample of 10 usable Nasdaq-100 tickers**.
-2. Spawns **ephemeral specialist subagents in parallel** — technical, fundamental, sentiment — plus a data fetcher up front.
-3. Aggregates their reports, runs `decision_engine.py`, and labels the market **BULLISH** or **BEARISH**.
-4. Posts the **Top 5 Buy Candidates** — with rationale and exclusions — to a Telegram channel.
+2. Spawns **three ephemeral specialist subagents in parallel** — technical, fundamental, sentiment — after a sequential data-fetch stage.
+3. Aggregates their structured outputs and runs `decision_engine.py` to label the market **BULLISH** or **BEARISH**.
+4. Posts the **Top 5 Buy Candidates** — with rationale and any exclusions — to a Telegram channel.
 
-> An **agent system** is the runtime composition — orchestrator, subagents,
-> skills, scheduled tasks — that actually does the work end-to-end. StockHive
-> is not a distributable plugin package; it is a ready-to-register OpenClaw
-> agent system whose composition is described by [`agent-system.json`](./agent-system.json)
-> and whose artifacts live in [`agent-system/`](./agent-system).
+Everything is wired through a single composition manifest ([`agent-system.json`](./agent-system.json)) and registered with **one OpenClaw command**.
 
 ---
 
-## Architecture at a glance
+## What this demonstrates
 
-| Stage | Actor | Persistence | Skill | MCPs |
-|------:|-------|-------------|-------|------|
-| 1. Cron | `nasdaq-daily-schedule.json` | — | — | — |
-| 2. Orchestrate | `stockhive-orchestrator` | **persistent** | — | all |
-| 3a. Fetch & rank | `data-fetcher` | ephemeral | `stock-data-fetcher` | yfinance, nasdaq-data-link |
-| 3b. Technicals | `technical-analyst` | ephemeral | `technical-indicators` | alpha-vantage, yfinance |
-| 3c. Fundamentals | `fundamental-analyst` | ephemeral | `fundamental-snapshot` | yfinance |
-| 3d. Sentiment | `sentiment-analyst` | ephemeral | `sentiment-analyzer` | news-api |
-| 4. Decide | orchestrator → `decision_engine.py` | — | — | — |
-| 5. Publish | `telegram-publisher` | ephemeral | `telegram-formatter` | telegram-bot |
+| OpenClaw capability | How StockHive uses it |
+|---|---|
+| **Agent system registration** | `agent-system.json` declares orchestrator, subagents, skills, schedule, and MCPs — registered atomically with `/agents register` |
+| **Persistent orchestrator** | `stockhive-orchestrator` holds pipeline state across all six stages |
+| **Ephemeral subagents** | 5 subagents spawn on demand, run isolated, tear down on reply — zero state bleed |
+| **Parallel fan-out** | Technical, fundamental, and sentiment analysts dispatched in a single orchestrator turn |
+| **Skills** | 5 reusable skills callable independently or from any agent in the workspace |
+| **MCP connections** | 5 external data sources (Yahoo Finance, Alpha Vantage, Nasdaq Data Link, NewsAPI, Telegram) wired declaratively |
+| **Scheduled task** | Weekday 17:00 ET cron, manually triggerable any time with `/task run` |
 
-**5** ephemeral subagents · **5** skills · **5** MCP servers · **17:00 ET** cron.
+---
+
+## Architecture
+
+```
+                      ┌─────────────────────────────┐
+                      │    nasdaq-daily-schedule      │  cron: 17:00 ET weekdays
+                      └──────────────┬──────────────┘
+                                     │
+                      ┌──────────────▼──────────────┐
+                      │     stockhive-orchestrator    │  persistent
+                      └──┬───────────────────────┬──┘
+                         │                       │
+              ┌──────────▼─────────┐   parallel fan-out
+              │    data-fetcher     │   ┌───────────────────┐
+              │  (ephemeral)        │   │  technical-analyst │
+              │  stock-data-fetcher │   │  technical-        │
+              │  skill              │   │  indicators skill  │
+              └──────────┬─────────┘   ├───────────────────┤
+                         │             │ fundamental-analyst│
+                    10 tickers         │  fundamental-      │
+                         │             │  snapshot skill    │
+                         └────────────►├───────────────────┤
+                                       │  sentiment-analyst │
+                                       │  sentiment-        │
+                                       │  analyzer skill    │
+                                       └────────┬──────────┘
+                                                │
+                              ┌─────────────────▼──────────────┐
+                              │   decision_engine.py            │
+                              │   (plain Python, no LLM)        │
+                              │   → BULLISH / BEARISH + Top 5   │
+                              └─────────────────┬──────────────┘
+                                                │
+                              ┌─────────────────▼──────────────┐
+                              │      telegram-publisher          │
+                              │      (ephemeral)                 │
+                              │      telegram-formatter skill    │
+                              └────────────────────────────────┘
+```
 
 ---
 
@@ -42,50 +77,68 @@ connections — that every trading day at **17:00 ET (post-close)**:
 
 ```
 stockHive/
-├── README.md                          ← you are here (run guide)
-├── agent-system.json                  ← agent system composition manifest
-├── agent-system/                      ← primary orchestrator runtime definition
-│   ├── agents/                        ← orchestrator + 5 subagent specs
-│   ├── skills/                        ← 5 reusable SKILL.md capabilities
-│   ├── scheduled-tasks/               ← daily cron spec
-│   ├── runtime/                       ← runtime template + runtime contract docs
-│   ├── scripts/                       ← primary launcher + deterministic support scripts
-│   ├── mcps/                          ← MCP server connection config
-│   └── config/                        ← Nasdaq-100 tickers + .env.example
+├── agent-system.json                      ← OpenClaw composition manifest
+├── agent-system/
+│   ├── agents/                            ← orchestrator + 5 subagent specs
+│   │   ├── stockhive-orchestrator.md
+│   │   ├── data-fetcher.md
+│   │   ├── technical-analyst.md
+│   │   ├── fundamental-analyst.md
+│   │   ├── sentiment-analyst.md
+│   │   └── telegram-publisher.md
+│   ├── skills/                            ← 5 independently reusable skills
+│   │   ├── stock-data-fetcher/SKILL.md
+│   │   ├── technical-indicators/SKILL.md
+│   │   ├── fundamental-snapshot/SKILL.md
+│   │   ├── sentiment-analyzer/SKILL.md
+│   │   └── telegram-formatter/SKILL.md
+│   ├── scheduled-tasks/
+│   │   └── nasdaq-daily-schedule.json     ← weekday 17:00 ET cron spec
+│   ├── mcps/
+│   │   └── mcp-config.json                ← 5 MCP server declarations
+│   ├── scripts/
+│   │   ├── nasdaq-orchestrator-runtime.sh ← primary pipeline launcher
+│   │   ├── pick_random10.py               ← deterministic daily ticker selection
+│   │   ├── pick_top10.py                  ← return-ranked top-10 selector
+│   │   └── decision_engine.py             ← BULLISH/BEARISH scoring (no LLM)
+│   ├── runtime/
+│   │   ├── ORCHESTRATOR_RUNTIME.md        ← full runtime contract reference
+│   │   └── orchestrator-run-input.json    ← canonical input template
+│   └── config/
+│       ├── nasdaq100-tickers.json         ← 100-ticker universe
+│       └── .env.example                   ← required secrets template
+└── RUNBOOK.md                             ← step-by-step OpenClaw Chat walkthrough
 ```
 
 ---
 
-## 🏁 Running it in OpenClaw Chat
+## Running it in OpenClaw Chat
 
-Walk through StockHive in **OpenClaw Chat** by pasting these commands **in
-this order**. Each one is a real message you type in the OpenClaw chat UI.
+Paste these commands in order inside **OpenClaw Chat**. See [RUNBOOK.md](./RUNBOOK.md) for the full step-by-step walkthrough with expected outputs and troubleshooting.
 
 ### Prerequisites
-- Claude Cowork with OpenClaw enabled.
-- API keys: Alpha Vantage, Nasdaq Data Link, NewsAPI.
-- A Telegram bot token + channel chat id (create via `@BotFather`).
 
-### 0 · Clone the repo inside OpenClaw Chat
+| Secret | How to obtain |
+|--------|--------------|
+| `ALPHA_VANTAGE_API_KEY` | [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key) |
+| `NASDAQ_DATA_LINK_API_KEY` | [data.nasdaq.com/account/api](https://data.nasdaq.com/account/api) |
+| `NEWS_API_KEY` | [newsapi.org/register](https://newsapi.org/register) |
+| `TELEGRAM_BOT_TOKEN` | Chat `@BotFather` → `/newbot` |
+| `TELEGRAM_CHAT_ID` | Add the bot to your channel as admin; the id starts with `-100` |
+
+### Step 1 — Clone
 
 ```
 /bash git clone https://github.com/girisheduru/stockHive && cd stockHive
 ```
 
-### 1 · Register the agent system
+### Step 2 — Register the agent system
 
 ```
 /agents register ./agent-system.json
 ```
 
-OpenClaw reads the composition manifest and registers, in one step:
-- the **orchestrator** (`stockhive-orchestrator`, persistent)
-- the **5 ephemeral subagents** (`data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`)
-- the **5 skills** under `agent-system/skills/`
-- the **scheduled task** `nasdaq-daily-top5-buys`
-- the **MCP connections** under `agent-system/mcps/mcp-config.json`
-
-Verify:
+Registers in one step: persistent orchestrator, 5 ephemeral subagents, 5 skills, 1 scheduled task, MCP config. Verify:
 
 ```
 /agents list
@@ -93,113 +146,93 @@ Verify:
 /tasks list
 ```
 
-### 2 · Configure secrets
+### Step 3 — Configure secrets
 
 ```
-/bash cp agent-system/config/.env.example agent-system/config/.env && $EDITOR agent-system/config/.env
+/bash cp agent-system/config/.env.example agent-system/config/.env
 ```
 
-Fill in `ALPHA_VANTAGE_API_KEY`, `NASDAQ_DATA_LINK_API_KEY`, `NEWS_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
+Fill in the five keys from the prerequisites table above.
 
-### 3 · Connect the MCP servers
+### Step 4 — Connect MCP servers
 
 ```
 /mcp connect ./agent-system/mcps/mcp-config.json
 ```
 
-OpenClaw spawns the five MCP servers: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`.
+OpenClaw spawns all five MCP servers. Verify with `/mcp list` — all five should show `status: running`.
 
-Verify:
+### Step 5 — Smoke-test ephemeral subagents
 
-```
-/mcp list
-```
-
-### 4 · Smoke-test each subagent (one-at-a-time — shows off ephemeral spawn/teardown)
+Each command below spawns a subagent, executes it, gets strict JSON back, then tears it down. This is the ephemeral lifecycle live:
 
 ```
 /agent run data-fetcher --input '{"universe_file":"agent-system/config/nasdaq100-tickers.json","selection_mode":"deterministic_daily_random_sample","target_count":10,"must_return_exactly":true}'
+```
+```
 /agent run technical-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
+```
+```
 /agent run fundamental-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
+```
+```
 /agent run sentiment-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 ```
 
-Each spawns, runs, replies with strict JSON, and tears down — a great live demo of ephemeral-subagent lifecycle.
-
-### 5 · Full agent system on demand (manual trigger of the cron task)
+### Step 6 — Run the full pipeline on demand
 
 ```
 /task run nasdaq-daily-top5-buys
 ```
 
-Primary runtime design in this workspace:
-- `stockhive-orchestrator`
-- `data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`
-- repo skills under `agent-system/skills/`
-- runtime template: `agent-system/runtime/orchestrator-run-input.json`
-- runtime contract doc: `agent-system/runtime/ORCHESTRATOR_RUNTIME.md`
-- primary launcher: `agent-system/scripts/nasdaq-orchestrator-runtime.sh`
-- deterministic `agent-system/scripts/decision_engine.py`
+Same execution the scheduler fires daily. Watch the six stages stream through the log and the Telegram alert arrive in your channel.
 
-The scheduled task points at the primary orchestrator launcher.
-
-### 6 · Inspect the Telegram output
-
-Open your Telegram channel — you'll see the canonical StockHive alert:
-
-```
-** Nasdaq 100 — Daily Top 5 Buys **
-Date: 18 Apr 2026  |  Close + 1h
-
-Market view:  [ BULLISH ]
-Breadth 8/10 up, RSI avg 62, sentiment +0.42
-
-Top 5 Buy Candidates
---------------------
-1. AVGO  +18.1%  RSI 66  PE 42
-   Tech: MACD>0, above SMA50. Fund: strong.
-...
---
-OpenClaw  |  Daily 17:00 ET
-```
-
-### 7 · (Optional) Enable the recurring schedule
+### Step 7 — Enable the recurring schedule
 
 ```
 /schedule enable nasdaq-daily-top5-buys
 ```
 
-From then on OpenClaw fires the agent system every weekday at **17:00 America/New_York**.
+Fires every weekday at **17:00 America/New_York** from now on. Pause with `/schedule disable nasdaq-daily-top5-buys`.
 
-Pause with:
+---
+
+## Design decisions
+
+**Agent system, not a package.** StockHive is a runtime composition registered directly with OpenClaw — not an installable library or standalone app. One manifest wires every piece together.
+
+**Ephemeral subagents by design.** Each analyst spins up for exactly one run with its own isolated context, does its job, and is torn down on reply. No state bleed between runs. Cheap to scale horizontally.
+
+**Parallel fan-out at stage 3.** The orchestrator dispatches technical, fundamental, and sentiment analysts in a single turn — the serial bottleneck is only the upstream data-fetch stage, which must complete before the universe is known.
+
+**Deterministic decision layer.** `decision_engine.py` is plain Python — no LLM in the scoring path. The BULLISH/BEARISH call and Top 5 ranking are reproducible, auditable, and unit-testable independently of any model run.
+
+**Composable skills.** Each skill (`stock-data-fetcher`, `technical-indicators`, `fundamental-snapshot`, `sentiment-analyzer`, `telegram-formatter`) is independently triggerable from OpenClaw and reusable by any other agent system in the workspace.
+
+**One-command register, one-command run.** `/agents register` then `/task run` — no bespoke setup scripts, no hidden wiring.
+
+---
+
+## Teardown
 
 ```
 /schedule disable nasdaq-daily-top5-buys
+/mcp disconnect --all-from ./agent-system/mcps/mcp-config.json
+/agents unregister ./agent-system.json
 ```
 
 ---
 
+## Troubleshooting
 
-## Design notes
-
-- **Agent system, not a plugin.** StockHive is the *runtime composition* — orchestrator + subagents + skills + scheduled task — registered directly with OpenClaw. One manifest ([`agent-system.json`](./agent-system.json)) wires every piece.
-- **Ephemeral subagents, by design.** Each analyst spins up for one run with its own context, does its job, and is torn down on reply — cheap, isolated, and audit-friendly.
-- **Parallel fan-out.** The orchestrator dispatches technical / fundamental / sentiment in a single turn, so the whole fan-out round-trips in a few seconds of wall time.
-- **Composable skills.** Every skill (`stock-data-fetcher`, `technical-indicators`, …) is independently triggerable outside the pipeline — reusable across other OpenClaw agent systems.
-- **Deterministic decision layer.** `decision_engine.py` is plain Python — no LLM in the critical scoring path, so the BULLISH/BEARISH call is reproducible and unit-testable.
-- **One-command register, one-command run.** `/agents register` then `/task run` — nothing else.
-
----
-
-## Troubleshooting quick-ref
-
-| Symptom | Fix |
-|---|---|
-| `agent: not found` | Re-run `/agents register ./agent-system.json`. |
-| `mcp: server not found` | Re-run `/mcp connect ./agent-system/mcps/mcp-config.json`. |
-| Orchestrator stalls at stage 1 | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY`. |
-| No Telegram message | Verify `TELEGRAM_CHAT_ID` is a channel (`-100…` prefix) and the bot is an admin. |
-| Top 5 looks thin | Many tickers excluded for RSI>70 — that's the overbought guardrail firing. |
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| `agent: not found` | Manifest not registered in this session | Re-run step 2 |
+| `mcp: server not found` | MCP server didn't start | Re-run step 4; check `/mcp logs <server>` |
+| Orchestrator stalls at stage 1 | Missing market-data API key | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY` in `.env` |
+| No Telegram message | Bad chat id or bot not admin | `TELEGRAM_CHAT_ID` must be `-100…` and the bot must be a channel admin |
+| Top 5 looks thin or empty | Overbought/overvalued guardrails fired | Expected — tickers with RSI > 70 or PE > 80 are excluded by `decision_engine.py` |
+| `permission denied` on `.sh` | Script not executable | `/bash chmod +x agent-system/scripts/*.sh agent-system/scripts/*.py` |
 
 ---
 
