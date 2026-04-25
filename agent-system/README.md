@@ -1,8 +1,8 @@
 # StockHive — Agent System
 
 This directory **is** the runtime composition of the StockHive agent system:
-a persistent orchestrator plus the ephemeral subagents, skills, scheduled
-task, MCP wiring, and scripts that together do the work end-to-end.
+a persistent orchestrator plus five ephemeral subagents, shared skills, a scheduled
+task, MCP wiring, and deterministic support scripts that together do the work end-to-end.
 
 > An **agent system** is the runtime composition — orchestrator, subagents,
 > skills, scheduled tasks — that actually does the work end-to-end.

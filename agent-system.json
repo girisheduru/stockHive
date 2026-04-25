@@ -30,6 +30,7 @@
     "mcps": ["agent-system/mcps/mcp-config.json"],
     "scripts": [
       "agent-system/scripts/nasdaq-orchestrator-runtime.sh",
+      "agent-system/scripts/pick_random10.py",
       "agent-system/scripts/pick_top10.py",
       "agent-system/scripts/decision_engine.py"
     ]

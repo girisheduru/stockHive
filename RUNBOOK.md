@@ -271,4 +271,4 @@ To unregister the agent system and stop all MCP servers:
 | Orchestrator stalls at stage 1 | Missing market-data keys | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY` in `.env` |
 | No Telegram message | Bad chat id or bot perms | `TELEGRAM_CHAT_ID` must be the `-100…` channel id and the bot must be a channel admin |
 | Top 5 looks thin / empty | RSI>70 or PE>80 exclusions fired on many tickers | Expected — these are the overbought / stretched guardrails |
-| `permission denied` running `nasdaq-daily-run.sh` | File not executable | `/bash chmod +x agent-system/scripts/*.sh agent-system/scripts/*.py` |
+| `permission denied` running `nasdaq-orchestrator-runtime.sh` | File not executable | `/bash chmod +x agent-system/scripts/*.sh agent-system/scripts/*.py` |

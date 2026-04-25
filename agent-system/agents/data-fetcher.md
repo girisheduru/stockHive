@@ -2,7 +2,7 @@
 name: data-fetcher
 type: subagent
 persistence: ephemeral
-description: Selects a deterministic daily sample of exactly 10 usable Nasdaq-100 tickers and returns structured price data for the selected set.
+description: Selects a deterministic daily random sample of exactly 10 usable Nasdaq-100 tickers and returns structured price data for the selected set.
 skill: stock-data-fetcher
 tools:
   - Read
@@ -31,9 +31,9 @@ JSON object:
 
 ## Required behavior
 1. Load the ticker universe from the provided file.
-2. Use deterministic daily ordering/sample logic so the same day yields the same candidate order.
+2. Use `agent-system/scripts/pick_random10.py` to produce a deterministic daily random candidate order.
 3. Fetch sufficient recent daily close data to compute 4-week return.
-4. If a ticker is unusable, continue through the universe until you have exactly 10 usable tickers.
+4. If a ticker is unusable, continue through the randomized universe order until you have exactly 10 usable tickers.
 5. Do not return fewer than 10 unless the entire universe cannot satisfy the request.
 6. If the universe cannot produce 10 usable tickers, fail explicitly.
 

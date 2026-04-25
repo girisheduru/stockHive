@@ -4,8 +4,8 @@
 >
 > Platform: **Claude Cowork + OpenClaw**
 
-StockHive is an **agent system** — the runtime composition of an orchestrator,
-four ephemeral subagents, five skills, a scheduled task, and five MCP
+StockHive is an **agent system** — the runtime composition of a persistent orchestrator,
+five ephemeral subagents, five skills, a scheduled task, and five MCP
 connections — that every trading day at **17:00 ET (post-close)**:
 
 1. Selects a **deterministic daily sample of 10 usable Nasdaq-100 tickers**.
@@ -34,7 +34,7 @@ connections — that every trading day at **17:00 ET (post-close)**:
 | 4. Decide | orchestrator → `decision_engine.py` | — | — | — |
 | 5. Publish | `telegram-publisher` | ephemeral | `telegram-formatter` | telegram-bot |
 
-**4** ephemeral subagents · **5** skills · **5** MCP servers · **17:00 ET** cron.
+**5** ephemeral subagents · **5** skills · **5** MCP servers · **17:00 ET** cron.
 
 ---
 
@@ -139,7 +139,6 @@ Primary runtime design in this workspace:
 - runtime template: `agent-system/runtime/orchestrator-run-input.json`
 - runtime contract doc: `agent-system/runtime/ORCHESTRATOR_RUNTIME.md`
 - primary launcher: `agent-system/scripts/nasdaq-orchestrator-runtime.sh`
-- scheduled entrypoint now targets the primary launcher
 - deterministic `agent-system/scripts/decision_engine.py`
 
 The scheduled task points at the primary orchestrator launcher.
