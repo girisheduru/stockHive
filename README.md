@@ -14,6 +14,8 @@ Every trading day at **17:00 ET (post-close)** the system:
 3. Aggregates their structured outputs and runs `decision_engine.py` to label the market **BULLISH** or **BEARISH**.
 4. Posts the **Top 5 Buy Candidates** — with rationale and any exclusions — to a Telegram channel.
 
+The cleaned version of the repo is now genuinely OpenClaw-native in its runtime path: the scheduled task targets the orchestrator directly, specialist work stays with specialist subagents and skills, MCPs handle external integrations, and only deterministic helper scripts remain as code.
+
 Everything is wired through a single composition manifest ([`agent-system.json`](./agent-system.json)) and registered with **one OpenClaw command**.
 
 ---
@@ -97,9 +99,8 @@ stockHive/
 │   ├── mcps/
 │   │   └── mcp-config.json                ← 5 MCP server declarations
 │   ├── scripts/
-│   │   ├── nasdaq-orchestrator-runtime.sh ← primary pipeline launcher
 │   │   ├── pick_random10.py               ← deterministic daily ticker selection
-│   │   ├── pick_top10.py                  ← return-ranked top-10 selector
+│   │   ├── pick_top10.py                  ← return-ranked top-10 selector (retained)
 │   │   └── decision_engine.py             ← BULLISH/BEARISH scoring (no LLM)
 │   ├── runtime/
 │   │   ├── ORCHESTRATOR_RUNTIME.md        ← full runtime contract reference
@@ -185,7 +186,7 @@ Each command below spawns a subagent, executes it, gets strict JSON back, then t
 /task run nasdaq-daily-top5-buys
 ```
 
-Same execution the scheduler fires daily. Watch the six stages stream through the log and the Telegram alert arrive in your channel.
+Same execution the scheduler fires daily through the orchestrator-native path. Watch the staged orchestration flow and the Telegram alert arrive in your channel.
 
 ### Step 7 — Enable the recurring schedule
 
@@ -209,7 +210,7 @@ Fires every weekday at **17:00 America/New_York** from now on. Pause with `/sche
 
 **Composable skills.** Each skill (`stock-data-fetcher`, `technical-indicators`, `fundamental-snapshot`, `sentiment-analyzer`, `telegram-formatter`) is independently triggerable from OpenClaw and reusable by any other agent system in the workspace.
 
-**One-command register, one-command run.** `/agents register` then `/task run` — no bespoke setup scripts, no hidden wiring.
+**One-command register, one-command run.** `/agents register` then `/task run` — no shell launcher or monolithic Python runtime in the active execution path.
 
 ---
 
@@ -232,7 +233,7 @@ Fires every weekday at **17:00 America/New_York** from now on. Pause with `/sche
 | Orchestrator stalls at stage 1 | Missing market-data API key | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY` in `.env` |
 | No Telegram message | Bad chat id or bot not admin | `TELEGRAM_CHAT_ID` must be `-100…` and the bot must be a channel admin |
 | Top 5 looks thin or empty | Overbought/overvalued guardrails fired | Expected — tickers with RSI > 70 or PE > 80 are excluded by `decision_engine.py` |
-| `permission denied` on `.sh` | Script not executable | `/bash chmod +x agent-system/scripts/*.sh agent-system/scripts/*.py` |
+| `permission denied` on helper scripts | Script not executable | `/bash chmod +x agent-system/scripts/*.py` |
 
 ---
 

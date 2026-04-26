@@ -3,7 +3,7 @@
 This document defines the executable shape of the primary StockHive runtime.
 
 ## Purpose
-Make the agent-native path explicit and reviewable:
+Make the OpenClaw-native path explicit and reviewable:
 - orchestrator
 - specialist subagents
 - repo skills
@@ -15,20 +15,14 @@ The runtime is centered on a single orchestrator-driven execution path.
 ## Runtime input template
 Use `orchestrator-run-input.json` as the canonical input shape for an orchestrator-driven run.
 
-A dedicated launcher is available at:
-- `agent-system/scripts/nasdaq-orchestrator-runtime.sh`
+The scheduled task targets `stockhive-orchestrator` directly.
+There is no shell launcher in the normal runtime path.
 
-It executes the primary runtime path and materializes dated runtime artifacts under:
-- `agent-system/runtime/generated/`
-
-Artifacts produced per run:
-- runtime payload JSON
-- manifest JSON
-- final result JSON
+The orchestrator may still materialize dated run artifacts if desired, but those artifacts are not required for execution.
 
 ## Primary runtime flow
 1. `stockhive-orchestrator` reads the runtime input.
-2. `data-fetcher` returns exactly 10 usable tickers.
+2. `data-fetcher` returns exactly 10 usable tickers using `agent-system/scripts/pick_random10.py` as the deterministic selector.
 3. `technical-analyst`, `fundamental-analyst`, and `sentiment-analyst` run in parallel.
 4. The orchestrator merges outputs.
 5. `agent-system/scripts/decision_engine.py` produces `market_view`, `top5`, and `excluded`.
@@ -89,4 +83,8 @@ Output:
 
 ## Runtime policy
 The repo uses a single primary orchestrator-driven runtime path.
-Fallback runtime paths have been removed.
+The runtime does not rely on `nasdaq-orchestrator-runtime.sh` or `run_primary_runtime.py`.
+Deterministic support scripts retained in the repo:
+- `pick_random10.py`
+- `pick_top10.py`
+- `decision_engine.py`

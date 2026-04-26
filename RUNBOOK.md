@@ -165,7 +165,7 @@ This triggers the exact same execution path the daily scheduler fires at 17:00 E
 /task run nasdaq-daily-top5-buys
 ```
 
-Watch the six pipeline stages stream through the log:
+Watch the orchestrator-native pipeline stages stream through the run:
 
 | Stage | What you see |
 |-------|-------------|
@@ -220,11 +220,11 @@ Pause any time with:
 
 ---
 
-## Step 9 — Tail logs (optional)
+## Step 9 — Inspect runtime output (optional)
 
-```
-/bash tail -n 100 -f agent-system/logs/run-$(TZ=America/New_York date +%Y-%m-%d).log
-```
+The cleaned OpenClaw-native version does not require a shell-runtime log file to function.
+
+Use OpenClaw task and agent output directly to inspect runs.
 
 ---
 
@@ -265,5 +265,5 @@ To fully unregister the agent system and stop all MCP servers:
 | Orchestrator stalls at stage 1 | Missing market-data API key | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY` in `.env` |
 | No Telegram message | Bad chat id or bot not admin | `TELEGRAM_CHAT_ID` must be `-100…` and the bot must be a channel admin |
 | Top 5 looks thin or empty | Overbought/overvalued guardrails fired | Expected — tickers with RSI > 70 or PE > 80 are excluded by `decision_engine.py` |
-| `permission denied` on `.sh` | Script not executable | `/bash chmod +x agent-system/scripts/*.sh agent-system/scripts/*.py` |
+| `permission denied` on helper scripts | Script not executable | `/bash chmod +x agent-system/scripts/*.py` |
 | All candidates excluded | Broad market overbought | State this explicitly — it is the correct guardrail behaviour, not a bug |
