@@ -16,6 +16,8 @@ Every trading day at **17:00 ET (post-close)** the system:
 
 The cleaned version of the repo is now genuinely OpenClaw-native in its runtime path: the scheduled task targets the orchestrator directly, specialist work stays with specialist subagents and skills, MCPs handle external integrations, and only deterministic helper scripts remain as code.
 
+The orchestrator is also intended to behave as a persistent always-on agent session. Scheduled runs should bind back to that same `stockhive-orchestrator` session rather than creating a fresh orchestration context on each schedule fire.
+
 Everything is wired through a single composition manifest ([`agent-system.json`](./agent-system.json)) and registered with **one OpenClaw command**.
 
 ---
@@ -25,12 +27,12 @@ Everything is wired through a single composition manifest ([`agent-system.json`]
 | OpenClaw capability | How StockHive uses it |
 |---|---|
 | **Agent system registration** | `agent-system.json` declares orchestrator, subagents, skills, schedule, and MCPs — registered atomically with `/agents register` |
-| **Persistent orchestrator** | `stockhive-orchestrator` holds pipeline state across all six stages |
+| **Persistent orchestrator** | `stockhive-orchestrator` is a long-lived always-on coordinator; scheduled runs reuse the same session and it holds continuity across all six stages |
 | **Ephemeral subagents** | 5 subagents spawn on demand, run isolated, tear down on reply — zero state bleed |
 | **Parallel fan-out** | Technical, fundamental, and sentiment analysts dispatched in a single orchestrator turn |
 | **Skills** | 5 reusable skills callable independently or from any agent in the workspace |
 | **MCP connections** | 5 external data sources (Yahoo Finance, Alpha Vantage, Nasdaq Data Link, NewsAPI, Telegram) wired declaratively |
-| **Scheduled task** | Weekday 17:00 ET cron, manually triggerable any time with `/task run` |
+| **Scheduled task** | Weekday 17:00 ET cron, manually triggerable any time with `/task run`, reusing the same persistent orchestrator session |
 
 ---
 

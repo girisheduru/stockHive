@@ -3,8 +3,10 @@
   "schedule": "0 17 * * 1-5",
   "timezone": "Europe/London",
   "agent": "stockhive-orchestrator",
+  "agent_session": "persistent",
+  "session_key": "stockhive-orchestrator",
   "subagent_mode": "ephemeral",
-  "prompt": "Run the StockHive agent system through the orchestrator-native path. Read agent-system/runtime/orchestrator-run-input.json as the canonical runtime input. First obtain a deterministic daily random sample of exactly 10 usable Nasdaq-100 tickers through the data-fetcher agent using agent-system/scripts/pick_random10.py. Then run technical, fundamental, and sentiment analysis through their specialist agents in parallel. Aggregate the structured outputs, run agent-system/scripts/decision_engine.py, and publish through the telegram-publisher agent.",
+  "prompt": "Run the StockHive agent system through the orchestrator-native path in the existing persistent stockhive-orchestrator session. Read agent-system/runtime/orchestrator-run-input.json as the canonical runtime input. Continue using the same orchestrator session across scheduled runs so state, notes, and continuity stay with the long-lived orchestrator. First obtain a deterministic daily random sample of exactly 10 usable Nasdaq-100 tickers through the data-fetcher agent using agent-system/scripts/pick_random10.py. Then run technical, fundamental, and sentiment analysis through their specialist agents in parallel. Aggregate the structured outputs, run agent-system/scripts/decision_engine.py, and publish through the telegram-publisher agent.",
   "max_runtime_min": 20,
   "retry": { "attempts": 2, "backoff_sec": 120 },
   "notify_on_failure": true

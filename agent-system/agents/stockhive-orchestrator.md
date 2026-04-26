@@ -35,6 +35,8 @@ For each run:
 ## Runtime rule
 The repo skills are operational. Do not bypass them by doing the specialist work yourself when the corresponding subagent exists.
 
+Scheduled runs must reuse the same persistent orchestrator session. Treat the orchestrator as a long-lived agent, like an always-on coordinator, not a fresh session per schedule fire. Preserve continuity across runs where that continuity is useful, while still treating ticker selection, analysis, and publishing outputs as run-scoped work.
+
 Use `agent-system/runtime/orchestrator-run-input.json` as the canonical runtime input shape for scheduled or manual orchestrator-driven runs.
 
 ## Pipeline (strict order)

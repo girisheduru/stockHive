@@ -53,6 +53,8 @@ Verify everything registered correctly:
 
 You should see: 1 persistent orchestrator, 5 subagents, 5 skills, 1 scheduled task.
 
+The intended runtime model is that `stockhive-orchestrator` remains the same persistent agent session over time. Daily scheduled executions should return to that same orchestrator session instead of creating a new long-lived coordinator each day.
+
 ---
 
 ## Step 3 — Configure secrets
@@ -211,6 +213,8 @@ OpenClaw  |  Daily 17:00 ET
 ```
 
 From here on OpenClaw fires the pipeline every weekday at **17:00 America/New_York** (post-market close).
+
+Those scheduled runs are intended to reuse the same persistent `stockhive-orchestrator` session so the orchestrator behaves like an always-on coordinator.
 
 Pause any time with:
 

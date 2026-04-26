@@ -18,6 +18,8 @@ Use `orchestrator-run-input.json` as the canonical input shape for an orchestrat
 The scheduled task targets `stockhive-orchestrator` directly.
 There is no shell launcher in the normal runtime path.
 
+The scheduled task is intended to bind back to the same persistent `stockhive-orchestrator` session on every run. The orchestrator should be treated as a long-lived coordinator session, not a fresh orchestration context per scheduled execution.
+
 The orchestrator may still materialize dated run artifacts if desired, but those artifacts are not required for execution.
 
 ## Primary runtime flow
@@ -84,6 +86,7 @@ Output:
 ## Runtime policy
 The repo uses a single primary orchestrator-driven runtime path.
 The runtime does not rely on `nasdaq-orchestrator-runtime.sh` or `run_primary_runtime.py`.
+Scheduled executions should reuse the same persistent orchestrator session key when the host runtime supports explicit session binding.
 Deterministic support scripts retained in the repo:
 - `pick_random10.py`
 - `pick_top10.py`
