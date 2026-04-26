@@ -1,7 +1,7 @@
 {
   "task_id": "nasdaq-daily-top5-buys",
   "schedule": "0 17 * * 1-5",
-  "timezone": "America/New_York",
+  "timezone": "Europe/London",
   "agent": "stockhive-orchestrator",
   "subagent_mode": "ephemeral",
   "prompt": "Run the StockHive agent system through the orchestrator-native path. Read agent-system/runtime/orchestrator-run-input.json as the canonical runtime input. First obtain a deterministic daily random sample of exactly 10 usable Nasdaq-100 tickers through the data-fetcher agent using agent-system/scripts/pick_random10.py. Then run technical, fundamental, and sentiment analysis through their specialist agents in parallel. Aggregate the structured outputs, run agent-system/scripts/decision_engine.py, and publish through the telegram-publisher agent.",
