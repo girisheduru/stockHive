@@ -423,7 +423,7 @@ date
 The schedule should include:
 
 ```bash
---tz "America/New_York"
+--tz "Europe/London"
 ```
 
 or your preferred timezone.
