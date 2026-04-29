@@ -254,7 +254,7 @@ openclaw mcp --help
 
 This creates a weekday 5 PM run.
 
-Replace `America/New_York` with the user’s preferred time zone if needed.
+Replace `Europe/London` with the user’s preferred time zone if needed.
 
 ```bash
 openclaw cron add \
