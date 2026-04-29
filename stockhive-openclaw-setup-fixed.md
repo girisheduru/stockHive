@@ -29,7 +29,12 @@ NASDAQ_DATA_LINK_API_KEY
 NEWS_API_KEY
 TELEGRAM_BOT_TOKEN
 TELEGRAM_CHAT_ID
+TELEGRAM_MESSAGE_THREAD_ID   (optional; Telegram topics/thread id)
+MAX_SUBAGENT_RUNTIME_MIN     (optional; defaults to 5)
+TIMEZONE                     (for the schedule; example: Europe/London)
 ```
+
+If any of these are missing at runtime, **stop and ask the user for the missing values** before proceeding.
 
 ---
 
@@ -125,6 +130,37 @@ source agent-system/config/.env
 set +a
 ```
 
+### 4.1 If OpenClaw still says “missing env var …”
+
+If you see warnings like:
+
+```text
+missing env var "ALPHA_VANTAGE_API_KEY" ...
+```
+
+it means the Gateway runtime cannot see your shell environment.
+
+In OpenClaw `2026.4.21`, MCP server `env` values are plain strings, so SecretRefs may not be accepted there. The most compatible fix is:
+
+1) **Ask the user** for the missing values.
+
+2) Inline them into your OpenClaw MCP config (`~/.openclaw/openclaw.json`) under:
+
+```text
+mcp.servers.alpha-vantage-mcp.env.ALPHA_VANTAGE_API_KEY
+mcp.servers.nasdaq-data-link-mcp.env.NASDAQ_DATA_LINK_API_KEY
+mcp.servers.news-api-mcp.env.NEWS_API_KEY
+mcp.servers.telegram-bot-mcp.env.TELEGRAM_BOT_TOKEN
+mcp.servers.telegram-bot-mcp.env.TELEGRAM_CHAT_ID
+mcp.servers.telegram-bot-mcp.env.TELEGRAM_MESSAGE_THREAD_ID   (optional)
+```
+
+Then reload the runtime snapshot:
+
+```bash
+openclaw secrets reload
+```
+
 Optional check:
 
 ```bash
@@ -145,52 +181,77 @@ Run these commands from the repo root.
 
 ```bash
 openclaw agents add stockhive-orchestrator \
-  --identity agent-system/agents/stockhive-orchestrator.md \
   --workspace "$PWD" \
-  --tools file,shell,browser,python \
-  --description "Persistent StockHive orchestrator for Nasdaq-100 daily candidate selection"
+  --non-interactive
 ```
 
 ### 5.2 Register subagents
 
 ```bash
 openclaw agents add data-fetcher \
-  --identity agent-system/agents/data-fetcher.md \
   --workspace "$PWD" \
-  --tools file,shell,browser,python \
-  --description "Fetches Nasdaq-100 ticker, price, volume, and market data"
+  --non-interactive
 ```
 
 ```bash
 openclaw agents add technical-analyst \
-  --identity agent-system/agents/technical-analyst.md \
   --workspace "$PWD" \
-  --tools file,shell,python \
-  --description "Computes and summarizes technical indicators"
+  --non-interactive
 ```
 
 ```bash
 openclaw agents add fundamental-analyst \
-  --identity agent-system/agents/fundamental-analyst.md \
   --workspace "$PWD" \
-  --tools file,shell,browser,python \
-  --description "Analyzes company fundamentals and valuation signals"
+  --non-interactive
 ```
 
 ```bash
 openclaw agents add sentiment-analyst \
-  --identity agent-system/agents/sentiment-analyst.md \
   --workspace "$PWD" \
-  --tools file,shell,browser,python \
-  --description "Analyzes recent news and sentiment for candidate tickers"
+  --non-interactive
 ```
 
 ```bash
 openclaw agents add telegram-publisher \
-  --identity agent-system/agents/telegram-publisher.md \
   --workspace "$PWD" \
-  --tools file,shell,browser \
-  --description "Formats and publishes StockHive results to Telegram"
+  --non-interactive
+
+### 5.3 IMPORTANT (CLI compatibility): apply the Markdown agent instructions at runtime
+
+Some OpenClaw versions (including `2026.4.21`) do **not** support `openclaw agents add --identity ...`.
+
+In that case, keep the agent Markdown files in the repo and make the agent read them at the start of each run by prefacing your message like:
+
+```text
+Read and follow agent-system/agents/stockhive-orchestrator.md.
+```
+
+### 5.4 Allow the orchestrator to call its subagents
+
+If your orchestrator can’t spawn/call other agents, add a subagent allow-list to the orchestrator entry in your OpenClaw config.
+
+Run:
+
+```bash
+python3 - <<'PY'
+import json, os
+
+# Usually ~/.openclaw/openclaw.json, but OpenClaw may be configured elsewhere.
+p = os.environ.get('OPENCLAW_CONFIG_PATH') or os.path.expanduser('~/.openclaw/openclaw.json')
+
+cfg = json.load(open(p))
+for a in cfg.get('agents', {}).get('list', []):
+  if a.get('id') == 'stockhive-orchestrator':
+    a.setdefault('subagents', {})['allowAgents'] = [
+      'data-fetcher',
+      'technical-analyst',
+      'fundamental-analyst',
+      'sentiment-analyst',
+      'telegram-publisher',
+    ]
+json.dump(cfg, open(p, 'w'), indent=2)
+print('Updated subagents allow-list for stockhive-orchestrator in', p)
+PY
 ```
 
 Verify:
@@ -204,36 +265,91 @@ openclaw agents list --verbose
 
 ## 6. Install / Copy Skills from the Repo
 
-Create the OpenClaw skills directory:
+Create the skills directory in the *same workspace* as the StockHive agents.
+
+(In this guide, we created the StockHive agents with `--workspace "$PWD"`, so the skills should live under `$PWD/skills`.)
 
 ```bash
-mkdir -p ~/.openclaw/workspace/skills
+mkdir -p "$PWD/skills"
 ```
 
 Copy the repo skills:
 
 ```bash
-cp -R agent-system/skills/stock-data-fetcher ~/.openclaw/workspace/skills/
-cp -R agent-system/skills/technical-indicators ~/.openclaw/workspace/skills/
-cp -R agent-system/skills/fundamental-snapshot ~/.openclaw/workspace/skills/
-cp -R agent-system/skills/sentiment-analyzer ~/.openclaw/workspace/skills/
-cp -R agent-system/skills/telegram-formatter ~/.openclaw/workspace/skills/
+cp -R agent-system/skills/stock-data-fetcher "$PWD/skills/"
+cp -R agent-system/skills/technical-indicators "$PWD/skills/"
+cp -R agent-system/skills/fundamental-snapshot "$PWD/skills/"
+cp -R agent-system/skills/sentiment-analyzer "$PWD/skills/"
+cp -R agent-system/skills/telegram-formatter "$PWD/skills/"
 ```
 
 Verify:
 
 ```bash
-find ~/.openclaw/workspace/skills -name "SKILL.md"
+find "$PWD/skills" -name "SKILL.md"
+```
+
+### 6.1 Tag skills onto the StockHive agents (so the dashboard shows them)
+
+OpenClaw can show which skills are associated with each agent. Update the agent entries in your OpenClaw config:
+
+```bash
+python3 - <<'PY'
+import json, os
+
+p = os.environ.get('OPENCLAW_CONFIG_PATH') or os.path.expanduser('~/.openclaw/openclaw.json')
+cfg = json.load(open(p))
+
+skills_by_agent = {
+  'data-fetcher': ['stock-data-fetcher'],
+  'technical-analyst': ['technical-indicators'],
+  'fundamental-analyst': ['fundamental-snapshot'],
+  'sentiment-analyst': ['sentiment-analyzer'],
+  'telegram-publisher': ['telegram-formatter'],
+  # Optional but helpful for visibility:
+  'stockhive-orchestrator': [
+    'stock-data-fetcher',
+    'technical-indicators',
+    'fundamental-snapshot',
+    'sentiment-analyzer',
+    'telegram-formatter',
+  ],
+}
+
+for a in cfg.get('agents', {}).get('list', []):
+  aid = a.get('id')
+  if aid in skills_by_agent:
+    a['skills'] = skills_by_agent[aid]
+
+json.dump(cfg, open(p, 'w'), indent=2)
+print('Updated agent.skills for StockHive agents in', p)
+PY
+```
+
+Verify in CLI:
+
+```bash
+openclaw agents list --json
+openclaw skills info stock-data-fetcher
 ```
 
 ---
 
 ## 7. Register MCP Configuration
 
-Use the MCP config already in the repo:
+Use the MCP config already in the repo (`agent-system/mcps/mcp-config.json`).
+
+This file contains multiple MCP server definitions. Register each one:
 
 ```bash
-openclaw mcp set stockhive "$(cat agent-system/mcps/mcp-config.json)"
+python3 - <<'PY'
+import json, subprocess
+
+cfg = json.load(open('agent-system/mcps/mcp-config.json'))
+for name, server in cfg['mcpServers'].items():
+  subprocess.run(['openclaw', 'mcp', 'set', name, json.dumps(server)], check=True)
+print('MCP servers registered:', ', '.join(cfg['mcpServers'].keys()))
+PY
 ```
 
 Verify:
@@ -259,11 +375,14 @@ Replace `Europe/London` with the user’s preferred time zone if needed.
 ```bash
 openclaw cron add \
   --name "StockHive Nasdaq Daily Run" \
+  --agent "stockhive-orchestrator" \
   --cron "0 17 * * 1-5" \
   --tz "Europe/London" \
   --session isolated \
-  --message "Run the StockHive Nasdaq-100 top movers workflow using the StockHive repo in the current workspace. Use agent-system/runtime/ORCHESTRATOR_RUNTIME.md and agent-system/runtime/orchestrator-run-input.json. Select the candidate tickers, run technical, fundamental, and sentiment analysis, score deterministically, and publish the top 5 buy candidates to Telegram." \
-  --announce
+  --message "Read and follow agent-system/agents/stockhive-orchestrator.md. Then run the StockHive Nasdaq-100 top movers workflow using agent-system/runtime/ORCHESTRATOR_RUNTIME.md and agent-system/runtime/orchestrator-run-input.json. Publish the final top 5 to Telegram." \
+  --announce \
+  --channel telegram \
+  --to "$TELEGRAM_CHAT_ID"
 ```
 
 Schedule explanation:
@@ -310,8 +429,9 @@ Then add the corrected 5 PM job from Step 8.
 Run the orchestrator manually:
 
 ```bash
-openclaw run stockhive-orchestrator \
-  --message "Run the full StockHive workflow using agent-system/runtime/ORCHESTRATOR_RUNTIME.md and agent-system/runtime/orchestrator-run-input.json. Output the top 5 buy candidates."
+openclaw agent --agent stockhive-orchestrator \
+  --message "Read and follow agent-system/agents/stockhive-orchestrator.md. Then run the full StockHive workflow using agent-system/runtime/ORCHESTRATOR_RUNTIME.md and agent-system/runtime/orchestrator-run-input.json. Output the top 5 buy candidates and publish to Telegram." \
+  --json
 ```
 
 If `openclaw run` is not available in your version:

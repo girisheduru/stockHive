@@ -1,0 +1,301 @@
+{
+  "date": "2026-04-29",
+  "top10": [
+    {
+      "ticker": "REGN",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "PYPL",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "FAST",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "LULU",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "GILD",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "PANW",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "XEL",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "KDP",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "MRVL",
+      "return_4w": null,
+      "last_close": null
+    },
+    {
+      "ticker": "ODFL",
+      "return_4w": null,
+      "last_close": null
+    }
+  ],
+  "technical": [
+    {
+      "ticker": "REGN",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "PYPL",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "FAST",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "LULU",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "GILD",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "PANW",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "XEL",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "KDP",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "MRVL",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    },
+    {
+      "ticker": "ODFL",
+      "rsi": null,
+      "macd_hist": null,
+      "sma20": null,
+      "sma50": null,
+      "close": null,
+      "signal": "HOLD",
+      "note": ""
+    }
+  ],
+  "fundamental": [
+    {
+      "ticker": "REGN",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "PYPL",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "FAST",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "LULU",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "GILD",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "PANW",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "XEL",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "KDP",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "MRVL",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    },
+    {
+      "ticker": "ODFL",
+      "pe": null,
+      "market_cap": null,
+      "sector": null,
+      "earnings_health": "mixed",
+      "note": "pe:None sector:None"
+    }
+  ],
+  "sentiment": [
+    {
+      "ticker": "REGN",
+      "score": 0.4,
+      "top_theme": "and",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "PYPL",
+      "score": -0.4,
+      "top_theme": "to",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "FAST",
+      "score": 0.556,
+      "top_theme": "the",
+      "n_headlines": 9
+    },
+    {
+      "ticker": "LULU",
+      "score": 0.2,
+      "top_theme": "the",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "GILD",
+      "score": 0.0,
+      "top_theme": "to",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "PANW",
+      "score": -0.2,
+      "top_theme": "palo",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "XEL",
+      "score": 0.5,
+      "top_theme": "xcel",
+      "n_headlines": 2
+    },
+    {
+      "ticker": "KDP",
+      "score": 0.0,
+      "top_theme": "the",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "MRVL",
+      "score": 0.8,
+      "top_theme": "marvell",
+      "n_headlines": 10
+    },
+    {
+      "ticker": "ODFL",
+      "score": 0.0,
+      "top_theme": null,
+      "n_headlines": 0
+    }
+  ]
+}

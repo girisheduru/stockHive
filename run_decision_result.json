@@ -1,0 +1,54 @@
+{
+  "market_view": "BEARISH",
+  "top5": [
+    {
+      "ticker": "MRVL",
+      "return_4w": null,
+      "rsi": null,
+      "pe": null,
+      "sentiment": 0.8,
+      "composite": 0.3,
+      "rationale": "Fund: pe:None sector:None | News: marvell"
+    },
+    {
+      "ticker": "FAST",
+      "return_4w": null,
+      "rsi": null,
+      "pe": null,
+      "sentiment": 0.556,
+      "composite": 0.227,
+      "rationale": "Fund: pe:None sector:None | News: the"
+    },
+    {
+      "ticker": "XEL",
+      "return_4w": null,
+      "rsi": null,
+      "pe": null,
+      "sentiment": 0.5,
+      "composite": 0.21,
+      "rationale": "Fund: pe:None sector:None | News: xcel"
+    },
+    {
+      "ticker": "REGN",
+      "return_4w": null,
+      "rsi": null,
+      "pe": null,
+      "sentiment": 0.4,
+      "composite": 0.18,
+      "rationale": "Fund: pe:None sector:None | News: and"
+    },
+    {
+      "ticker": "LULU",
+      "return_4w": null,
+      "rsi": null,
+      "pe": null,
+      "sentiment": 0.2,
+      "composite": 0.12,
+      "rationale": "Fund: pe:None sector:None | News: the"
+    }
+  ],
+  "excluded": [],
+  "breadth_buy_count": 0,
+  "rsi_avg": 0,
+  "sent_avg": 0.19
+}

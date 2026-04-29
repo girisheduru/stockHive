@@ -1,273 +1,155 @@
-# StockHive — OpenClaw Chat Runbook
+# StockHive — Registration Runbook (reworked)
 
-Step-by-step walkthrough to bring up the StockHive agent system from a fresh clone. Paste each block into **OpenClaw Chat** in the order shown. Do not skip ahead — each step assumes the previous one succeeded.
+This runbook describes a clear, ordered sequence to register every component declared in this repository with OpenClaw and to validate the runtime. Run each step in sequence. When a command must be sent from the OpenClaw Web UI (slash commands), the runbook notes that explicitly.
 
----
-
-## Prerequisites
-
-Collect these before starting, or let the orchestrator walk you through them interactively in Step 3.
-
-| Item | How to obtain |
-|------|--------------|
-| Claude Cowork with OpenClaw enabled | OpenClaw onboarding |
-| `ALPHA_VANTAGE_API_KEY` | [alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key) |
-| `NASDAQ_DATA_LINK_API_KEY` | [data.nasdaq.com/account/api](https://data.nasdaq.com/account/api) |
-| `NEWS_API_KEY` | [newsapi.org/register](https://newsapi.org/register) |
-| `TELEGRAM_BOT_TOKEN` | Chat `@BotFather` → `/newbot` |
-| `TELEGRAM_CHAT_ID` | Add the bot to your channel as admin; resolve the `-100…` chat id |
+Important: the workspace root for these commands is /data/.openclaw/workspace. The agent composition manifest is at stockHive/agent-system.json.
 
 ---
 
-## Step 1 — Clone the repo
+## Quick checklist (before you start)
 
-```
-/bash git clone https://github.com/girisheduru/stockHive && cd stockHive
-```
+- Confirm the manifest exists: /data/.openclaw/workspace/stockHive/agent-system.json
+- Confirm secrets file is present and filled with real values: /data/.openclaw/workspace/stockHive/agent-system/config/.env
+  - Required: ALPHA_VANTAGE_API_KEY, NASDAQ_DATA_LINK_API_KEY, NEWS_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (must start with -100)
+- Have your Gateway URL and token ready (default HTTP UI: http://localhost:18789, WS: ws://127.0.0.1:18789). Keep OPENCLAW_GATEWAY_TOKEN handy.
 
-**Expected:** `stockHive/` directory with `agent-system.json` at the root and `agent-system/` alongside it. No other setup needed.
-
----
-
-## Step 2 — Register the agent system
-
-```
-/agents register ./agent-system.json
-```
-
-OpenClaw reads the composition manifest and registers everything in one step:
-
-- **Orchestrator** — `stockhive-orchestrator` (persistent)
-- **Ephemeral subagents** — `data-fetcher`, `technical-analyst`, `fundamental-analyst`, `sentiment-analyst`, `telegram-publisher`
-- **Skills** — `stock-data-fetcher`, `technical-indicators`, `fundamental-snapshot`, `sentiment-analyzer`, `telegram-formatter`
-- **Scheduled task** — `nasdaq-daily-top5-buys`
-- **MCP connection config** — `agent-system/mcps/mcp-config.json`
-
-Verify everything registered correctly:
-
-```
-/agents list
-/skills list
-/tasks list
-```
-
-You should see: 1 persistent orchestrator, 5 subagents, 5 skills, 1 scheduled task.
-
-The intended runtime model is that `stockhive-orchestrator` remains the same persistent agent session over time. Daily scheduled executions should return to that same orchestrator session instead of creating a new long-lived coordinator each day.
+If any of the above are missing, pause and provide them now.
 
 ---
 
-## Step 3 — Configure secrets
+## Step A — Load .env into the environment (optional but recommended)
 
-```
-/bash cp agent-system/config/.env.example agent-system/config/.env
-```
+If you plan to run registration from a container or the host shell, export the repo .env so MCPs and CLI see the keys.
 
-### Option A — Interactive (recommended for a live demo)
+Option: load into current shell (no container):
 
-Paste this message into OpenClaw Chat and the orchestrator will prompt you for each key one at a time, validate it, and write it into `.env`:
+set -a
+. /data/.openclaw/workspace/stockHive/agent-system/config/.env
+set +a
 
-```
-Read agent-system/config/.env.example and for every blank key, ask me
-for the value one at a time. For each key:
-  1. Show the key name and a one-line description of what it is and where
-     to obtain it (use the Prerequisites table in RUNBOOK.md as the reference).
-  2. Wait for my reply.
-  3. Validate it (non-empty; TELEGRAM_CHAT_ID must start with "-100";
-     TELEGRAM_BOT_TOKEN must match "<digits>:<alphanum>"; API keys must
-     be at least 16 characters).
-  4. Write the key=value into agent-system/config/.env, preserving any
-     comments and the existing key order. Never echo previously entered
-     secrets back to me.
-  5. Move on to the next blank key.
-When all keys are filled, run:
-    /bash grep -c '=.\+' agent-system/config/.env
-and confirm the count matches the number of required keys.
-```
-
-Reply rules while answering:
-- Paste the raw value exactly (no quotes, no leading/trailing spaces).
-- Reply `skip` if you don't have a key yet — that subagent will return `confidence:"low"` and its tickers will be excluded from the Top 5.
-- Reply `stop` to abort at any point without further writes.
-
-### Option B — Manual
-
-```
-/bash $EDITOR agent-system/config/.env
-/bash grep -c '=.\+' agent-system/config/.env
-```
-
-The count should be 5.
+Or pass the file into a container with --env-file (examples later).
 
 ---
 
-## Step 4 — Connect the MCP servers
+## Step B — Register MCP server definitions into OpenClaw config
 
-```
-/mcp connect ./agent-system/mcps/mcp-config.json
-```
+This step writes the declared MCP servers into OpenClaw's config so you can later `mcp serve` or `mcp connect` them. This is safe to run from the host shell.
 
-OpenClaw spawns: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`.
+Run (host shell):
+
+openclaw mcp set yfinance-mcp '$(cat stockHive/agent-system/mcps/mcp-config.json | jq .mcpServers.yfinance-mcp)'
+openclaw mcp set alpha-vantage-mcp '$(cat stockHive/agent-system/mcps/mcp-config.json | jq .mcpServers."alpha-vantage-mcp")'
+openclaw mcp set nasdaq-data-link-mcp '$(cat stockHive/agent-system/mcps/mcp-config.json | jq .mcpServers."nasdaq-data-link-mcp")'
+openclaw mcp set news-api-mcp '$(cat stockHive/agent-system/mcps/mcp-config.json | jq .mcpServers."news-api-mcp")'
+openclaw mcp set telegram-bot-mcp '$(cat stockHive/agent-system/mcps/mcp-config.json | jq .mcpServers."telegram-bot-mcp")'
+
+Notes:
+- These commands store the MCP server entries. They do not start the servers. Starting relies on `mcp serve` or OpenClaw's `mcp connect` helper later.
+- If jq is not available, use the equivalent JSON object from the file or run openclaw mcp set with an editor.
+
+---
+
+## Step C — Register the agent system manifest (use the Web UI)
+
+This step registers orchestrator, subagents, skills, scheduled tasks, and script references. It must be invoked from the OpenClaw Chat (Web UI) as a slash command so the Gateway performs the correct authenticated flow.
+
+How to run (recommended):
+
+1. Ensure your SSH tunnel (if remote) is open: ssh -L 18789:localhost:18789 user@vps
+2. Open the Gateway UI in a browser: http://localhost:18789
+3. Authenticate using your OPENCLAW_GATEWAY_TOKEN when prompted.
+4. In the OpenClaw Chat message box (not the shell), paste exactly:
+
+/agents register /data/.openclaw/workspace/stockHive/agent-system.json
+
+5. Send the message and copy the UI response. Paste it here for verification.
+
+Why the Web UI: programmatic JSON-RPC registration attempts must complete a Gateway challenge/response; the UI already handles that. If you must register programmatically, use register_manifest_ws.py from within a session that can satisfy the Gateway handshake (advanced).
+
+---
+
+## Step D — Verify registration
+
+After the manifest registers successfully, run these in the host shell and paste outputs:
+
+openclaw agents list --json
+openclaw skills list --json
+openclaw tasks list --json
+openclaw mcp list --json
+
+Expect to see the orchestrator (stockhive-orchestrator), the ephemeral subagents, the five skills, the scheduled task, and the five MCP entries.
+
+---
+
+## Step E — Start / connect MCP servers
+
+If the MCP definitions are present and your .env contains keys, start them:
+
+openclaw mcp serve --claude-channel-mode auto
+
+Or connect the configured MCPs (declarative):
+
+openclaw mcp connect ./stockHive/agent-system/mcps/mcp-config.json
 
 Verify:
 
-```
-/mcp list
-```
+openclaw mcp list
 
-All five should report `status: running`. If any are not running, check the relevant API key in `.env` and re-run the connect command.
+Each server should show status: running. If a server fails, check its env vars in /data/.openclaw/openclaw.json and agent-system/config/.env.
 
 ---
 
-## Step 5 — Smoke-test the ephemeral subagents
+## Step F — Smoke-test ephemeral subagents
 
-These calls exercise the full spawn → run → teardown lifecycle for each specialist in isolation. Each returns strict JSON and exits. This is the best part to demo live — you can see each subagent come up and disappear.
+Run these from the host shell (they spawn ephemeral subagents and return JSON):
 
-**5a — Data fetcher** (selects 10 tickers from the Nasdaq-100 universe)
+openclaw agent run data-fetcher --input '{"universe_file":"stockHive/agent-system/config/nasdaq100-tickers.json","selection_mode":"deterministic_daily_random_sample","target_count":10,"must_return_exactly":true}'
 
-```
-/agent run data-fetcher --input '{"universe_file":"agent-system/config/nasdaq100-tickers.json","selection_mode":"deterministic_daily_random_sample","target_count":10,"must_return_exactly":true}'
-```
+openclaw agent run technical-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 
-Expected: JSON array of exactly 10 objects, each with `ticker`, `return_4w`, `last_close`.
+openclaw agent run fundamental-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 
-**5b — Technical analyst**
+openclaw agent run sentiment-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
 
-```
-/agent run technical-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
-```
-
-Expected: JSON array with RSI, MACD histogram, SMA20/50, close, signal, note per ticker.
-
-**5c — Fundamental analyst**
-
-```
-/agent run fundamental-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
-```
-
-Expected: JSON array with PE, market cap, sector, earnings health, note per ticker.
-
-**5d — Sentiment analyst**
-
-```
-/agent run sentiment-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
-```
-
-Expected: JSON array with sentiment score, top theme, headline count per ticker.
-
-Output shapes for each specialist are documented in the corresponding `agent-system/skills/<skill>/SKILL.md`.
+Check outputs follow the SKILL.md contracts (JSON only, fields present).
 
 ---
 
-## Step 6 — Run the full pipeline on demand
+## Step G — Run the full orchestrator pipeline (one-shot)
 
-This triggers the exact same execution path the daily scheduler fires at 17:00 ET.
+openclaw task run nasdaq-daily-top5-buys
 
-```
-/task run nasdaq-daily-top5-buys
-```
+Watch the orchestrator logs in the UI or fetch the task run output. Confirm the run completes through all pipeline stages and returns the JSON summary including telegram_message_id (if published).
 
-Watch the orchestrator-native pipeline stages stream through the run:
-
-| Stage | What you see |
-|-------|-------------|
-| `[STAGE 1/6]` | Orchestrator spawns `data-fetcher`; gets back deterministic 10-ticker sample |
-| `[STAGE 2/6]` | Three specialist subagents dispatched **in parallel** |
-| `[STAGE 3/6]` | Orchestrator merges all three structured outputs by ticker |
-| `[STAGE 4/6]` | `decision_engine.py` returns `market_view` + `top5` + `excluded` |
-| `[STAGE 5/6]` | `telegram-publisher` formats and sends the Telegram alert |
-| `[STAGE 6/6]` | Final JSON run summary echoed (includes Telegram message id) |
-
-Total wall time should be well under 5 minutes.
+If you prefer a dry run without Telegram publish, edit the scheduled task or pass a flag to disable publish in the orchestrator input.
 
 ---
 
-## Step 7 — Verify the Telegram alert
+## Step H — Enable the schedule (optional)
 
-Open your Telegram channel. The message should look like:
+openclaw schedule enable nasdaq-daily-top5-buys
 
-```
-** Nasdaq 100 — Daily Top 5 Buys **
-Date: 22 Apr 2026  |  Close + 1h
-
-Market view:  [ BULLISH ]
-Breadth 8/10 up, RSI avg 62, sentiment +0.42
-
-Top 5 Buy Candidates
---------------------
-1. AVGO  +18.1%  RSI 66  PE 42
-   Tech: MACD>0, above SMA50. Fund: strong.
-2. AMD   +17.3%  RSI 63  PE 31
-   Tech: breakout. Fund: earnings beat.
-...
---
-OpenClaw  |  Daily 17:00 ET
-```
+This will run the pipeline at the configured cron (weekday 17:00 America/New_York).
 
 ---
 
-## Step 8 — Enable the recurring schedule
+## Teardown (unregister everything)
 
-```
-/schedule enable nasdaq-daily-top5-buys
-```
-
-From here on OpenClaw fires the pipeline every weekday at **17:00 America/New_York** (post-market close).
-
-Those scheduled runs are intended to reuse the same persistent `stockhive-orchestrator` session so the orchestrator behaves like an always-on coordinator.
-
-Pause any time with:
-
-```
-/schedule disable nasdaq-daily-top5-buys
-```
+openclaw schedule disable nasdaq-daily-top5-buys
+openclaw mcp disconnect --all-from ./stockHive/agent-system/mcps/mcp-config.json
+openclaw agents unregister ./stockHive/agent-system.json
 
 ---
 
-## Step 9 — Inspect runtime output (optional)
+## If something fails — tell me these outputs
 
-The cleaned OpenClaw-native version does not require a shell-runtime log file to function.
+- The exact UI response when you ran the slash command (/agents register …)
+- openclaw mcp list --json
+- openclaw agents list --json
+- /data/.openclaw/workspace/stockHive/agent-system/config/.env (confirm which keys are present; do NOT paste secrets here)
 
-Use OpenClaw task and agent output directly to inspect runs.
-
----
-
-## Teardown
-
-To fully unregister the agent system and stop all MCP servers:
-
-```
-/schedule disable nasdaq-daily-top5-buys
-/mcp disconnect --all-from ./agent-system/mcps/mcp-config.json
-/agents unregister ./agent-system.json
-```
+If you want, I can run the host CLI registration attempt for you now (programmatic registration usually fails due to Gateway handshake — UI route recommended). Ask me to proceed and indicate whether I should start MCPs and run the orchestrator automatically after registration.
 
 ---
 
-## Command reference
-
-| Command | What it does |
-|---------|-------------|
-| `/agents register <manifest>` | Load a composition manifest; register every agent, skill, task, and MCP it declares |
-| `/agents list` / `/skills list` / `/tasks list` | Inspect currently registered components |
-| `/mcp connect <config>` | Spawn MCP servers from a config file |
-| `/mcp list` | Show MCP server status |
-| `/mcp logs <server>` | Show logs for a specific MCP server |
-| `/agent run <name> --input <json>` | One-shot invoke of an ephemeral subagent |
-| `/task run <task_id>` | Fire a scheduled task manually, off-schedule |
-| `/schedule enable <task_id>` | Activate the cron for a task |
-| `/schedule disable <task_id>` | Pause the cron for a task |
-
----
-
-## Troubleshooting
-
-| Symptom | Likely cause | Fix |
-|---------|-------------|-----|
-| `agent: not found` | Manifest not registered in this session | Re-run step 2 |
-| `mcp: server not found` | MCP server didn't start | Re-run step 4; check `/mcp logs <server>` |
-| Orchestrator stalls at stage 1 | Missing market-data API key | Check `ALPHA_VANTAGE_API_KEY` / `NASDAQ_DATA_LINK_API_KEY` in `.env` |
-| No Telegram message | Bad chat id or bot not admin | `TELEGRAM_CHAT_ID` must be `-100…` and the bot must be a channel admin |
-| Top 5 looks thin or empty | Overbought/overvalued guardrails fired | Expected — tickers with RSI > 70 or PE > 80 are excluded by `decision_engine.py` |
-| `permission denied` on helper scripts | Script not executable | `/bash chmod +x agent-system/scripts/*.py` |
-| All candidates excluded | Broad market overbought | State this explicitly — it is the correct guardrail behaviour, not a bug |
+End of runbook.
