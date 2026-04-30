@@ -42,7 +42,7 @@ Expected key files:
 - `single-agent-system/scripts/extract_ticker.py`
 - `single-agent-system/install.sh`
 
-## 4. Load Env and Register orchestrator (same pattern)
+## 4. Load Env
 
 ```bash
 set -a
@@ -51,7 +51,9 @@ source single-agent-system/.env
 set +a
 ```
 
-From repo root:
+## 5. Register Components Individually (No `/agents register`)
+
+From repo root, add each required agent explicitly:
 
 ```bash
 openclaw agents add stockhive-telegram-trigger-orchestrator \
@@ -59,16 +61,41 @@ openclaw agents add stockhive-telegram-trigger-orchestrator \
   --non-interactive
 ```
 
-## 5. Register system manifest
+```bash
+openclaw agents add technical-analyst \
+  --workspace "$PWD" \
+  --non-interactive
+```
 
 ```bash
-/agents register ./single-agent-system/agent-system.json
+openclaw agents add fundamental-analyst \
+  --workspace "$PWD" \
+  --non-interactive
+```
+
+```bash
+openclaw agents add sentiment-analyst \
+  --workspace "$PWD" \
+  --non-interactive
+```
+
+```bash
+openclaw agents add telegram-publisher \
+  --workspace "$PWD" \
+  --non-interactive
+```
+
+Connect MCPs (uses existing repo MCP config):
+
+```bash
+/mcp connect ./agent-system/mcps/mcp-config.json
 ```
 
 Verify:
 
 ```bash
 /agents list
+/mcp list
 ```
 
 ## 6. Runtime behavior (always-on, no schedule)
@@ -103,3 +130,12 @@ Read and follow single-agent-system/agents/stockhive-telegram-trigger-orchestrat
 ```
 
 This is the same compatibility fallback used in `stockhive-openclaw-setup-fixed.md`.
+
+Do the same for specialists if needed:
+
+```text
+Read and follow agent-system/agents/technical-analyst.md.
+Read and follow agent-system/agents/fundamental-analyst.md.
+Read and follow agent-system/agents/sentiment-analyst.md.
+Read and follow agent-system/agents/telegram-publisher.md.
+```
