@@ -8,8 +8,25 @@ Make sure the base StockHive system is already present and configured:
 - `agent-system/` exists
 - MCP config exists at `agent-system/mcps/mcp-config.json`
 - env vars are configured (Alpha Vantage, Nasdaq Data Link, News API, Telegram)
+- OpenClaw daemon is running (persistent agent stays alive and waits for inbound events)
 
-## 2. Confirm files
+## 2. Install and Associate Telegram Credentials
+
+From repo root run:
+
+```bash
+bash single-agent-system/install.sh
+```
+
+This installer asks for:
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+
+and associates them by writing:
+- `single-agent-system/.env`
+- `agent-system/config/.env` (Telegram fields)
+
+## 3. Confirm files
 
 ```bash
 ls single-agent-system
@@ -23,8 +40,16 @@ Expected key files:
 - `single-agent-system/agents/stockhive-telegram-trigger-orchestrator.md`
 - `single-agent-system/runtime/telegram-single-run-input.json`
 - `single-agent-system/scripts/extract_ticker.py`
+- `single-agent-system/install.sh`
 
-## 3. Register orchestrator (same pattern)
+## 4. Load Env and Register orchestrator (same pattern)
+
+```bash
+set -a
+source agent-system/config/.env
+source single-agent-system/.env
+set +a
+```
 
 From repo root:
 
@@ -34,7 +59,7 @@ openclaw agents add stockhive-telegram-trigger-orchestrator \
   --non-interactive
 ```
 
-## 4. Register system manifest
+## 5. Register system manifest
 
 ```bash
 /agents register ./single-agent-system/agent-system.json
@@ -46,7 +71,7 @@ Verify:
 /agents list
 ```
 
-## 5. Wire inbound Telegram event trigger (no schedule)
+## 6. Runtime behavior (always-on, no schedule)
 
 When a Telegram message arrives, trigger `stockhive-telegram-trigger-orchestrator` immediately with event payload:
 - `chat_id`
@@ -56,7 +81,7 @@ When a Telegram message arrives, trigger `stockhive-telegram-trigger-orchestrato
 
 This flow is event-driven and replies to the same chat/person context. It does not use polling or cron.
 
-## 6. Manual test
+## 7. Manual test
 
 Send a message in Telegram like:
 - `Analyze NVDA`
@@ -69,7 +94,7 @@ Then trigger:
 /agent run stockhive-telegram-trigger-orchestrator --input '{"trigger":"telegram_webhook_event","event_payload":{"chat_id":"-1001234567890","message_id":"12345","from_user_id":"777777","message_text":"Analyze NVDA"}}'
 ```
 
-## 7. Runtime compatibility note
+## 8. Runtime compatibility note
 
 If your OpenClaw version does not fully apply markdown identity on `agents add`, prefix the run prompt with:
 
