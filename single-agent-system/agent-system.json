@@ -24,9 +24,6 @@
       "agent-system/skills/sentiment-analyzer",
       "agent-system/skills/telegram-formatter"
     ],
-    "scheduled_tasks": [
-      "single-agent-system/scheduled-tasks/telegram-single-ticker-poll.json"
-    ],
     "mcps": [
       "agent-system/mcps/mcp-config.json"
     ],

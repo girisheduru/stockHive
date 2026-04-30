@@ -15,7 +15,6 @@ Make sure the base StockHive system is already present and configured:
 ls single-agent-system
 ls single-agent-system/agents
 ls single-agent-system/runtime
-ls single-agent-system/scheduled-tasks
 ls single-agent-system/scripts
 ```
 
@@ -23,7 +22,6 @@ Expected key files:
 - `single-agent-system/agent-system.json`
 - `single-agent-system/agents/stockhive-telegram-trigger-orchestrator.md`
 - `single-agent-system/runtime/telegram-single-run-input.json`
-- `single-agent-system/scheduled-tasks/telegram-single-ticker-poll.json`
 - `single-agent-system/scripts/extract_ticker.py`
 
 ## 3. Register orchestrator (same pattern)
@@ -36,7 +34,7 @@ openclaw agents add stockhive-telegram-trigger-orchestrator \
   --non-interactive
 ```
 
-## 4. Register system manifest and task
+## 4. Register system manifest
 
 ```bash
 /agents register ./single-agent-system/agent-system.json
@@ -46,16 +44,17 @@ Verify:
 
 ```bash
 /agents list
-/tasks list
 ```
 
-## 5. Enable schedule alongside existing daily schedule
+## 5. Wire inbound Telegram event trigger (no schedule)
 
-```bash
-/schedule enable telegram-single-ticker-analysis
-```
+When a Telegram message arrives, trigger `stockhive-telegram-trigger-orchestrator` immediately with event payload:
+- `chat_id`
+- `message_id`
+- `from_user_id`
+- `message_text`
 
-This runs every 5 minutes on weekdays and does not disable `nasdaq-daily-top5-buys`.
+This flow is event-driven and replies to the same chat/person context. It does not use polling or cron.
 
 ## 6. Manual test
 
@@ -67,7 +66,7 @@ Send a message in Telegram like:
 Then trigger:
 
 ```bash
-/task run telegram-single-ticker-analysis
+/agent run stockhive-telegram-trigger-orchestrator --input '{"trigger":"telegram_webhook_event","event_payload":{"chat_id":"-1001234567890","message_id":"12345","from_user_id":"777777","message_text":"Analyze NVDA"}}'
 ```
 
 ## 7. Runtime compatibility note

@@ -1,7 +1,12 @@
 {
-  "trigger": "telegram_inbound",
-  "scan_window_minutes": 5,
+  "trigger": "telegram_webhook_event",
   "expect_single_ticker": true,
+  "event_payload": {
+    "chat_id": "",
+    "message_id": "",
+    "from_user_id": "",
+    "message_text": ""
+  },
   "ticker_source": {
     "type": "telegram_message_text",
     "extract_script": "single-agent-system/scripts/extract_ticker.py",
@@ -14,6 +19,8 @@
       "sentiment-analyst"
     ],
     "decision_engine": "agent-system/scripts/decision_engine.py",
-    "publisher": "telegram-publisher"
+    "publisher": "telegram-publisher",
+    "publish_target": "same_chat_or_sender",
+    "reply_to_message_id": true
   }
 }
