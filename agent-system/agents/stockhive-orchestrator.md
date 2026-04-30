@@ -106,6 +106,12 @@ This stage must remain deterministic and code-driven.
 ### Stage 5 — Publish
 Spawn `telegram-publisher` with the decision payload plus run date.
 
+**Mandatory configuration for group delivery (setup-time, not runtime prompting):**
+- MCP server `telegram-bot-mcp` must be configured with `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, and `TELEGRAM_MESSAGE_THREAD_ID`.
+- MCP servers `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp` must have their API keys configured.
+
+**Runtime rule:** never ask the Telegram group (or any user) for env vars/keys. If a tool call fails due to missing configuration, stop and report the failure + missing keys based on the tool error.
+
 Expected output:
 ```json
 {

@@ -2,10 +2,10 @@
   "trigger": "telegram_webhook_event",
   "expect_single_ticker": true,
   "event_payload": {
-    "chat_id": "",
-    "message_id": "",
-    "from_user_id": "",
-    "message_text": ""
+    "chat_id": "8759086158",
+    "message_id": "99999",
+    "from_user_id": "8759086158",
+    "message_text": "Analyze AAPL"
   },
   "ticker_source": {
     "type": "telegram_message_text",

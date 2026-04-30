@@ -89,7 +89,8 @@ If any of these are missing, stop and register them before continuing:
 - `fundamental-analyst`
 - `sentiment-analyst`
 - `telegram-publisher`
-- MCP servers: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`, `telegram-bot-mcp-single`
+- `telegram-publisher-single`
+- MCP servers: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`
 
 If these already exist, do not add them again:
 - `technical-analyst`
@@ -132,6 +133,12 @@ openclaw agents add telegram-publisher \
   --non-interactive
 ```
 
+```bash
+openclaw agents add telegram-publisher-single \
+  --workspace "$PWD" \
+  --non-interactive
+```
+
 Only if MCPs are not already connected, run:
 
 ```bash
@@ -145,7 +152,10 @@ print('MCP servers registered:', ', '.join(cfg['mcpServers'].keys()))
 PY
 ```
 
-Then configure a **separate** Telegram MCP for the single-agent flow (so it can use a different chat id / bot token):
+Optional: configure a **separate** Telegram MCP for the single-agent flow (recommended if you want a different bot token from the group/scheduled system).
+
+> **Note:** You do NOT need a separate `mcp-config.json` inside `single-agent-system/`.
+> MCP servers live in OpenClaw's global config and are registered by name (CLI). For the trigger flow we use: `telegram-bot-mcp-trigger`.
 
 ```bash
 python3 - <<'PY'
@@ -171,10 +181,10 @@ server={
     "TELEGRAM_CHAT_ID": e.get('SINGLE_TELEGRAM_CHAT_ID',''),
     **({"TELEGRAM_MESSAGE_THREAD_ID": e.get('SINGLE_TELEGRAM_MESSAGE_THREAD_ID','')} if e.get('SINGLE_TELEGRAM_MESSAGE_THREAD_ID') else {})
   },
-  "description":"Publishes markdown alerts to Telegram for the single-agent flow."
+  "description":"Publishes one-shot chat replies for stockhive-telegram-trigger-orchestrator (personal bot)."
 }
-subprocess.run(["openclaw","mcp","set","telegram-bot-mcp-single",json.dumps(server)], check=True)
-print('Saved telegram-bot-mcp-single')
+subprocess.run(["openclaw","mcp","set","telegram-bot-mcp-trigger",json.dumps(server)], check=True)
+print('Saved telegram-bot-mcp-trigger')
 PY
 ```
 
@@ -230,6 +240,7 @@ skills_by_agent = {
   'fundamental-analyst': ['fundamental-snapshot'],
   'sentiment-analyst': ['sentiment-analyzer'],
   'telegram-publisher': ['telegram-formatter'],
+  'telegram-publisher-single': ['telegram-formatter'],
   # helpful for visibility:
   'stockhive-telegram-trigger-orchestrator': [
     'technical-indicators',
@@ -283,4 +294,5 @@ Read and follow agent-system/agents/technical-analyst.md.
 Read and follow agent-system/agents/fundamental-analyst.md.
 Read and follow agent-system/agents/sentiment-analyst.md.
 Read and follow agent-system/agents/telegram-publisher.md.
+Read and follow agent-system/agents/telegram-publisher-single.md.
 ```

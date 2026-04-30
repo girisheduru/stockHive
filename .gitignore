@@ -2,9 +2,16 @@ agent-system/config/.env
 single-agent-system/.env
 agent-system/logs/
 agent-system/runtime/generated/
+agent-system/runtime/run_payload_*.json
 __pycache__/
 *.pyc
 .DS_Store
+
+# Local build artifacts
+node_modules/
+package-lock.json
+package.json
+run_artifacts/
 
 # Local-only setup notes (not tracked upstream)
 stockhive-openclaw-setup-fixed.md

@@ -11,7 +11,7 @@ tools:
   - mcp__alpha-vantage-mcp__*
   - mcp__nasdaq-data-link-mcp__*
   - mcp__news-api-mcp__*
-  - mcp__telegram-bot-mcp-single__*
+  - mcp__telegram-bot-mcp-trigger__*
 subagents:
   - technical-analyst
   - fundamental-analyst
@@ -89,7 +89,7 @@ Spawn `telegram-publisher-single` with decision payload plus:
 - `chat_id` from inbound event
 - `reply_to_message_id` = inbound `message_id`
 
-The publish target must be the same inbound chat/person context.
+The publish target must be the same inbound chat/person context (use `chat_id` override, do not rely on `TELEGRAM_CHAT_ID`).
 
 ## Output contract
 Return JSON only:

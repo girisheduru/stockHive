@@ -16,7 +16,8 @@
       { "name": "technical-analyst", "persistence": "ephemeral", "spec": "agent-system/agents/technical-analyst.md" },
       { "name": "fundamental-analyst", "persistence": "ephemeral", "spec": "agent-system/agents/fundamental-analyst.md" },
       { "name": "sentiment-analyst", "persistence": "ephemeral", "spec": "agent-system/agents/sentiment-analyst.md" },
-      { "name": "telegram-publisher", "persistence": "ephemeral", "spec": "agent-system/agents/telegram-publisher.md" }
+      { "name": "telegram-publisher", "persistence": "ephemeral", "spec": "agent-system/agents/telegram-publisher.md" },
+      { "name": "telegram-publisher-single", "persistence": "ephemeral", "spec": "agent-system/agents/telegram-publisher-single.md" }
     ],
     "skills": [
       "agent-system/skills/technical-indicators",

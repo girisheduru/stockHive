@@ -24,9 +24,15 @@ JSON object containing at least:
 - `rsi_avg`
 - `sent_avg`
 
+Optional (for replying to an inbound Telegram message instead of publishing to a fixed channel):
+- `chat_id` (string or integer)
+- `reply_to_message_id` (string or integer)
+
 ## Required behavior
 1. Render the canonical StockHive Telegram markdown message.
 2. Publish it to Telegram.
+   - If `chat_id` is provided, publish to that chat (ignore any default `TELEGRAM_CHAT_ID`).
+   - If `reply_to_message_id` is provided, send as a reply to that message.
 3. Return send metadata only.
 
 ## Output contract
