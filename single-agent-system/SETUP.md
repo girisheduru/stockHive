@@ -53,13 +53,31 @@ set +a
 
 ## 5. Register Components Individually (No `/agents register`)
 
-From repo root, add each required agent explicitly:
+This single-agent flow is designed to reuse existing components from the original `agent-system`.
+
+First check what already exists:
+
+```bash
+openclaw agents list
+/mcp list
+```
+
+If these already exist, do not add them again:
+- `technical-analyst`
+- `fundamental-analyst`
+- `sentiment-analyst`
+- `telegram-publisher`
+- MCP connections from `agent-system/mcps/mcp-config.json`
+
+Always add only the new orchestrator:
 
 ```bash
 openclaw agents add stockhive-telegram-trigger-orchestrator \
   --workspace "$PWD" \
   --non-interactive
 ```
+
+Only if missing, add the shared specialists:
 
 ```bash
 openclaw agents add technical-analyst \
@@ -85,7 +103,7 @@ openclaw agents add telegram-publisher \
   --non-interactive
 ```
 
-Connect MCPs (uses existing repo MCP config):
+Only if MCPs are not already connected, run:
 
 ```bash
 /mcp connect ./agent-system/mcps/mcp-config.json
