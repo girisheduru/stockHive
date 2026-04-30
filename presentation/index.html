@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>StockHive — Encode Club April Agentic Mini-Hack</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --honey:      #FFB300;
+    --honey-dark: #E65100;
+    --honey-glow: #FFD54F;
+    --bg-deep:    #000000;
+    --bg-mid:     #0a0a0a;
+    --bg-card:    #111111;
+    --bg-card-hi: #1a1a1a;
+    --line:       rgba(255, 179, 0, 0.20);
+    --line-strong:rgba(255, 179, 0, 0.50);
+    --cyan:   #00d9ff;
+    --green:  #4ade80;
+    --pink:   #f472b6;
+    --purple: #c084fc;
+    --text:   #f0f0f0;
+    --muted:  #888888;
+  }
+
+  html, body {
+    background: #000 !important;
+  }
+
+  .reveal {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    font-weight: 400;
+    background: #000;
+  }
+
+  .reveal .slides {
+    text-align: left;
+  }
+
+  /* ===== All slides default ===== */
+  .reveal .slides section {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Inner wrapper used by every non-title slide */
+  .slide-body {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 58px 60px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.4em 0;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .reveal h1 { font-size: 3rem; }
+  .reveal h2 { font-size: 1.9rem; }
+  .reveal h3 { font-size: 1rem; color: var(--honey); font-weight: 600; }
+  .reveal h4 {
+    font-size: 0.72rem;
+    color: var(--cyan);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 6px 0;
+  }
+  .reveal p { font-size: 0.9rem; line-height: 1.5; color: var(--text); margin: 0 0 6px 0; }
+  .reveal li { font-size: 0.88rem; line-height: 1.45; color: var(--text); margin-bottom: 3px; }
+  .reveal small { color: var(--muted); font-size: 0.72rem; }
+  .reveal a { color: var(--honey); }
+
+  .reveal pre, .reveal code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.73rem;
+  }
+  .reveal pre {
+    background: #0a0a0a;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .reveal pre code {
+    padding: 0;
+    background: transparent;
+    max-height: none;
+  }
+
+  /* ===== Background ===== */
+  .reveal .slide-background { background: #000 !important; }
+  .reveal .slide-background .slide-background-content { background: #000 !important; }
+
+  /* ===== Brand strip ===== */
+  .brand-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .brand-strip .logo {
+    color: var(--honey);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .brand-strip .section-label {
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ===== Eyebrow + title pattern ===== */
+  .slide-eyebrow {
+    color: var(--cyan);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    flex-shrink: 0;
+  }
+  .slide-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 0 0 14px 0;
+    color: var(--text);
+    flex-shrink: 0;
+    line-height: 1.15;
+  }
+  .slide-title .accent { color: var(--honey); }
+
+  /* ===== Title slide ===== */
+  .title-slide-wrap {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    box-sizing: border-box;
+    background: radial-gradient(ellipse at 50% 40%, rgba(255,179,0,0.07) 0%, transparent 65%);
+  }
+  .title-bee {
+    font-size: 3.5rem;
+    margin-bottom: 12px;
+    display: block;
+    filter: drop-shadow(0 0 24px rgba(255,179,0,0.5));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .title-slide-wrap h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin: 0 0 10px 0;
+    background: linear-gradient(120deg, var(--honey-glow) 0%, var(--honey) 50%, var(--honey-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .title-slide-wrap .tagline {
+    font-size: 1.1rem;
+    color: #c0c0c0;
+    max-width: 720px;
+    line-height: 1.5;
+    margin: 0 auto 24px auto;
+  }
+  .title-pill {
+    display: inline-block;
+    padding: 5px 14px;
+    border: 1px solid var(--honey);
+    border-radius: 999px;
+    color: var(--honey);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,179,0,0.06);
+    margin-bottom: 16px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .meta-item {
+    text-align: left;
+    border-left: 2px solid var(--honey);
+    padding-left: 12px;
+  }
+  .meta-item .label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+  .meta-item .value { font-size: 0.92rem; color: var(--text); font-weight: 600; margin-top: 2px; }
+
+  /* ===== Grids ===== */
+  .grid { display: grid; gap: 10px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid-4 { grid-template-columns: repeat(4,1fr); }
+  .grid-5 { grid-template-columns: repeat(5,1fr); }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-sizing: border-box;
+  }
+  .card .icon { font-size: 1.4rem; display: block; margin-bottom: 6px; }
+  .card h3 { font-size: 0.85rem; color: var(--honey); margin: 0 0 5px 0; }
+  .card p  { font-size: 0.8rem; color: #ccc; margin: 0; line-height: 1.4; }
+  .card small { font-size: 0.68rem; color: var(--muted); margin-top: 5px; display: block; }
+
+  /* ===== Stats ===== */
+  .stats { display: grid; gap: 10px; }
+  .stat {
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 8px;
+  }
+  .stat .num   { font-size: 1.8rem; color: var(--honey); font-weight: 700; line-height: 1; }
+  .stat .label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* ===== Pipeline strip ===== */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .pipe-step {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--honey);
+    border-radius: 6px;
+    padding: 10px 8px;
+  }
+  .pipe-step .num  { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em; font-weight: 600; text-transform: uppercase; }
+  .pipe-step h4    { font-size: 0.75rem; color: var(--honey); margin: 3px 0 5px 0; text-transform: none; letter-spacing: 0; }
+  .pipe-step p     { font-size: 0.68rem; color: var(--muted); margin: 0; line-height: 1.35; }
+
+  /* ===== Architecture boxes ===== */
+  .arch { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .arch-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .arch-box {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 14px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .arch-box.persistent {
+    border: 2px solid var(--honey);
+    background: rgba(255,179,0,0.07);
+  }
+  .arch-box.ephemeral { border-color: var(--cyan); }
+  .arch-box.script    { border-color: var(--green); }
+  .arch-box .role { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .arch-box .name { font-size: 0.82rem; color: var(--text); font-weight: 600; }
+  .arrow { color: var(--honey); font-size: 1rem; line-height: 1; }
+
+  /* ===== Table ===== */
+  .reveal table { border-collapse: collapse; width: 100%; }
+  .reveal table th {
+    background: rgba(255,179,0,0.07);
+    color: var(--honey);
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line-strong);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .reveal table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #ccc;
+    font-size: 0.78rem;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    border: 1px solid currentColor;
+    background: rgba(255,255,255,0.03);
+    white-space: nowrap;
+  }
+  .badge.honey  { color: var(--honey); }
+  .badge.cyan   { color: var(--cyan); }
+  .badge.green  { color: var(--green); }
+  .badge.pink   { color: var(--pink); }
+
+  ul.clean { padding-left: 18px; margin: 6px 0; }
+  ul.clean li { font-size: 0.82rem; margin-bottom: 3px; }
+  ol.clean { padding-left: 20px; margin: 6px 0; }
+  ol.clean li { font-size: 0.82rem; margin-bottom: 3px; }
+
+  .kbd {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(0,217,255,0.08);
+    border: 1px solid rgba(0,217,255,0.30);
+    color: var(--cyan);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+  }
+
+  .quote-box {
+    border-left: 3px solid var(--honey);
+    padding: 10px 14px;
+    background: rgba(255,179,0,0.04);
+    border-radius: 4px;
+    font-style: italic;
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+  .quote-box strong { color: var(--text); font-style: normal; }
+
+  /* ===== Ranking formula ===== */
+  .ranking-formula {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,179,0,0.07);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid var(--line);
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .ranking-formula .w   { color: var(--honey); font-weight: 700; }
+  .ranking-formula .var { color: var(--cyan); }
+
+  /* ===== Telegram preview ===== */
+  .telegram-preview {
+    background: #17212B;
+    border: 1px solid #2b5278;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #e1e1e1;
+    line-height: 1.45;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  }
+  .telegram-preview .tg-header { color: var(--cyan); font-weight: 700; margin-bottom: 4px; }
+  .telegram-preview .tg-bull   { color: var(--green); font-weight: 700; }
+  .telegram-preview .tg-bear   { color: var(--pink); font-weight: 700; }
+
+  /* ===== Closing slide ===== */
+  .closing-wrap {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    box-sizing: border-box;
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,179,0,0.06) 0%, transparent 65%);
+  }
+  .closing-inner { width: 100%; }
+  .closing-inner h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    background: linear-gradient(120deg, var(--honey) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== Progress / controls ===== */
+  .reveal .progress { color: var(--honey); }
+  .reveal .slide-number { background: transparent; color: var(--muted); }
+
+  /* ===== Misc helpers ===== */
+  .mt4  { margin-top: 4px; }
+  .mt8  { margin-top: 8px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+  .flex-1 { flex: 1; min-height: 0; overflow: hidden; }
+
+  /* ===== Print / PDF styles ===== */
+  @media print {
+    html, body, .reveal, .reveal .slides {
+      background: #000 !important;
+      color: #f0f0f0 !important;
+    }
+    .reveal .slides section { page-break-after: always; }
+    .title-bee { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ====================================================
+     1. TITLE
+     ==================================================== -->
+<section>
+  <div class="title-slide-wrap">
+    <div class="title-pill">Encode Club · April Agentic Mini-Hack · 2026</div>
+    <span class="title-bee">🐝🍯</span>
+    <h1>StockHive</h1>
+    <p class="tagline">
+      An <strong style="color:var(--honey)">OpenClaw-native</strong> agent system that picks the daily
+      <strong>Nasdaq 100 Top 5 Buy Candidates</strong> and posts them to Telegram —
+      every weekday at <strong>17:00 ET</strong>, on autopilot.
+    </p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Presenters</div>
+        <div class="value">Girish Eduru · Sandip S</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Platform</div>
+        <div class="value">Claude Cowork + OpenClaw</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Channel</div>
+        <div class="value">t.me/+keb_oQG0jM1kZDBk</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     2. THE PROBLEM
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">The Problem</span>
+    </div>
+    <div class="slide-eyebrow">Why we built it</div>
+    <h2 class="slide-title">Daily market signal — without the noise.</h2>
+
+    <div class="grid grid-3 mt8 flex-1">
+      <div class="card">
+        <span class="icon">📰</span>
+        <h3>Information overload</h3>
+        <p>100 Nasdaq tickers × dozens of headlines × moving indicators = analyst burnout.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🎯</span>
+        <h3>Single-prompt picks ≠ trustworthy</h3>
+        <p>One chatbot prompt with "find me 5 stocks" hallucinates prices and sentiment.</p>
+      </div>
+      <div class="card">
+        <span class="icon">⏰</span>
+        <h3>Post-close decision window</h3>
+        <p>Retail investors need a signal <em>after</em> the bell, ready before tomorrow's open.</p>
+      </div>
+    </div>
+
+    <div class="quote-box mt12">
+      We wanted to prove that an <strong>orchestrated team of small specialist agents</strong>,
+      backed by deterministic scoring, beats a single mega-prompt — and ship it on a real schedule
+      to a real channel.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     3. WHAT IT IS
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Overview</span>
+    </div>
+    <div class="slide-eyebrow">In one sentence</div>
+    <h2 class="slide-title">A persistent <span class="accent">orchestrator</span> spawns ephemeral specialist <span style="color:var(--cyan)">subagents</span> daily, scores them with deterministic Python, and ships the Top 5 to Telegram.</h2>
+
+    <div class="stats grid-4 mt8">
+      <div class="stat"><div class="num">1</div><div class="label">Persistent Orchestrator</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Ephemeral Subagents</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Reusable Skills</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">MCP Servers</div></div>
+    </div>
+    <div class="stats grid-4 mt8">
+      <div class="stat"><div class="num">10</div><div class="label">Tickers / Run</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Parallel Analysts</div></div>
+      <div class="stat"><div class="num">1</div><div class="label">Cron · Weekday 17:00 ET</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">LLM in Scoring Path</div></div>
+    </div>
+
+    <p class="mt12" style="color: var(--muted);">
+      Everything wired through <span class="kbd">agent-system.json</span> — one composition manifest, registered with one command:
+      <span class="kbd">/agents register</span>
+    </p>
+  </div>
+</section>
+
+<!-- ====================================================
+     4. ARCHITECTURE
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Architecture</span>
+    </div>
+    <div class="slide-eyebrow">System design</div>
+    <h2 class="slide-title">A hive of specialists, one persistent queen.</h2>
+
+    <div class="arch flex-1" style="justify-content: center;">
+      <div class="arch-row">
+        <div class="arch-box" style="border-color: var(--purple);">
+          <div class="role">Cron Trigger · Mon–Fri 17:00 ET</div>
+          <div class="name">nasdaq-daily-schedule</div>
+        </div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box persistent">
+          <div class="role">PERSISTENT · Always-on session</div>
+          <div class="name">stockhive-orchestrator</div>
+        </div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box ephemeral">
+          <div class="role">EPHEMERAL · Stage 1</div>
+          <div class="name">data-fetcher</div>
+        </div>
+      </div>
+      <div class="arrow">▼ &nbsp; parallel fan-out &nbsp; ▼</div>
+      <div class="arch-row">
+        <div class="arch-box ephemeral">
+          <div class="role">EPHEMERAL · Stage 2a</div>
+          <div class="name">technical-analyst</div>
+        </div>
+        <div class="arch-box ephemeral">
+          <div class="role">EPHEMERAL · Stage 2b</div>
+          <div class="name">fundamental-analyst</div>
+        </div>
+        <div class="arch-box ephemeral">
+          <div class="role">EPHEMERAL · Stage 2c</div>
+          <div class="name">sentiment-analyst</div>
+        </div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box script">
+          <div class="role">PYTHON · Deterministic · No LLM</div>
+          <div class="name">decision_engine.py</div>
+        </div>
+      </div>
+      <div class="arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box ephemeral">
+          <div class="role">EPHEMERAL · Stage 5</div>
+          <div class="name">telegram-publisher 📨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     5. PIPELINE STAGES
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Pipeline</span>
+    </div>
+    <div class="slide-eyebrow">The orchestrator's 6-stage contract</div>
+    <h2 class="slide-title">Strict order. Strict JSON. Zero hallucination.</h2>
+
+    <div class="pipeline mt8">
+      <div class="pipe-step">
+        <div class="num">Stage 1</div>
+        <h4>Universe Selection</h4>
+        <p><code>data-fetcher</code> + <code>pick_random10.py</code> → 10 usable Nasdaq-100 tickers with return_4w.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">Stage 2</div>
+        <h4>Specialist Fan-Out</h4>
+        <p>Technical, fundamental, and sentiment analysts dispatched in parallel from a single turn.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">Stage 3</div>
+        <h4>Aggregate</h4>
+        <p>Orchestrator merges all three reports into one payload keyed by ticker.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">Stage 4</div>
+        <h4>Decide</h4>
+        <p><code>decision_engine.py</code> → market_view, top5, excluded, breadth metrics.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">Stage 5</div>
+        <h4>Publish</h4>
+        <p><code>telegram-publisher</code> renders canonical markdown and posts to channel.</p>
+      </div>
+      <div class="pipe-step">
+        <div class="num">Stage 6</div>
+        <h4>Final Result</h4>
+        <p>Single JSON run summary returned to the orchestrator session for continuity.</p>
+      </div>
+    </div>
+
+    <h4 class="mt16">Output contract</h4>
+    <pre><code class="language-json">{
+  "run_date": "YYYY-MM-DD",   "market_view": "BULLISH | BEARISH",
+  "top5":     [ { "ticker":"AAPL", "rsi":62, "pe":31.5, "sentiment":0.42, "composite":0.61, "rationale":"..." } ],
+  "excluded": [ { "ticker":"TSLA", "reason":"RSI 74 overbought" } ],
+  "telegram_message_id": "123"
+}</code></pre>
+  </div>
+</section>
+
+<!-- ====================================================
+     6. COMMUNICATION
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Agent Communication</span>
+    </div>
+    <div class="slide-eyebrow">How agents talk</div>
+    <h2 class="slide-title">Persistent <span class="accent">orchestrator</span> ↔ Ephemeral <span style="color:var(--cyan)">subagents</span></h2>
+
+    <div class="grid grid-2 mt8">
+      <div class="card" style="border-color: var(--honey); border-width: 2px;">
+        <h3>🎯 stockhive-orchestrator</h3>
+        <p style="margin-bottom: 6px;"><span class="badge honey">PERSISTENT</span> &nbsp; Same session reused across every scheduled run.</p>
+        <ul class="clean">
+          <li>Holds run-date, retry counters, continuity notes.</li>
+          <li>Issues structured JSON inputs to each subagent via the OpenClaw <code>Task</code> tool.</li>
+          <li>Validates each subagent's strict-JSON output before passing it forward.</li>
+          <li>Owns the only LLM-driven orchestration — never the <em>scoring</em>.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color: var(--cyan);">
+        <h3 style="color: var(--cyan);">⚡ Specialist subagents (×5)</h3>
+        <p style="margin-bottom: 6px;"><span class="badge cyan">EPHEMERAL</span> &nbsp; Spawn → run → reply → tear down. No state bleed.</p>
+        <ul class="clean">
+          <li>One-shot isolated context window per call.</li>
+          <li>Each binds to exactly one skill + scoped MCP tools.</li>
+          <li>Returns JSON only — guardrails forbid prose outside the contract.</li>
+          <li>Failure: retry once → fail loud → orchestrator stops the run.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid grid-2 mt12">
+      <div>
+        <h4>Communication protocol</h4>
+        <pre class="mt4"><code class="language-text">orchestrator
+  └── Task(spawn: technical-analyst,
+            input: [{ticker:"AVGO"}, {ticker:"AMD"}])
+           ↓ strict-JSON reply
+  └── orchestrator merges by ticker
+  └── passes merged payload to decision_engine.py</code></pre>
+      </div>
+      <div>
+        <h4>Why ephemeral subagents?</h4>
+        <ul class="clean mt4">
+          <li><strong>Isolation</strong> — sentiment hallucination can't pollute the technical context.</li>
+          <li><strong>Horizontal scale</strong> — 3 fan-out analysts run in one orchestrator turn.</li>
+          <li><strong>Testable</strong> — each subagent runnable standalone with <span class="kbd">/agent run</span>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     7. SUBAGENTS DETAILED
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Subagents</span>
+    </div>
+    <div class="slide-eyebrow">5 specialists · one job each</div>
+    <h2 class="slide-title">Each subagent owns one stage of the run.</h2>
+
+    <table class="mt8">
+      <thead>
+        <tr>
+          <th>Subagent</th>
+          <th>Stage</th>
+          <th>Skill bound</th>
+          <th>Output fields (per ticker)</th>
+          <th>MCPs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>data-fetcher</strong></td>
+          <td>1</td>
+          <td><code>stock-data-fetcher</code></td>
+          <td>ticker, return_4w, last_close</td>
+          <td><span class="badge cyan">yfinance</span> <span class="badge cyan">nasdaq</span></td>
+        </tr>
+        <tr>
+          <td><strong>technical-analyst</strong></td>
+          <td>2a (parallel)</td>
+          <td><code>technical-indicators</code></td>
+          <td>rsi, macd_hist, sma20, sma50, close, signal, note</td>
+          <td><span class="badge cyan">alpha-vantage</span> <span class="badge cyan">yfinance</span></td>
+        </tr>
+        <tr>
+          <td><strong>fundamental-analyst</strong></td>
+          <td>2b (parallel)</td>
+          <td><code>fundamental-snapshot</code></td>
+          <td>pe, market_cap, sector, earnings_health, note</td>
+          <td><span class="badge cyan">yfinance</span></td>
+        </tr>
+        <tr>
+          <td><strong>sentiment-analyst</strong></td>
+          <td>2c (parallel)</td>
+          <td><code>sentiment-analyzer</code></td>
+          <td>score [−1,+1], top_theme, n_headlines</td>
+          <td><span class="badge cyan">news-api</span></td>
+        </tr>
+        <tr>
+          <td><strong>telegram-publisher</strong></td>
+          <td>5</td>
+          <td><code>telegram-formatter</code></td>
+          <td>telegram_message_id, chars_sent</td>
+          <td><span class="badge cyan">telegram-bot</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="mt12" style="color: var(--muted); font-size: 0.82rem;">
+      Each subagent is declared in <span class="kbd">agent-system/agents/&lt;name&gt;.md</span> with frontmatter that lists its
+      <code>persistence</code>, bound <code>skill</code>, and allow-listed <code>tools</code>. OpenClaw enforces those scopes at runtime.
+    </p>
+  </div>
+</section>
+
+<!-- ====================================================
+     8. SKILLS LAYER
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Skills</span>
+    </div>
+    <div class="slide-eyebrow">Composable, reusable units of work</div>
+    <h2 class="slide-title">Skills are how subagents <em>actually do</em> things.</h2>
+
+    <div class="grid grid-5 mt8">
+      <div class="card">
+        <span class="icon">📥</span>
+        <h3>stock-data-fetcher</h3>
+        <p>Daily OHLCV + 4-week return; deterministic daily random sample of 10 usable tickers.</p>
+        <small>uses pick_random10.py</small>
+      </div>
+      <div class="card">
+        <span class="icon">📊</span>
+        <h3>technical-indicators</h3>
+        <p>RSI(14), MACD(12,26,9), SMA20/50, BUY/HOLD/SELL signal per ticker.</p>
+        <small>rule-based signal logic</small>
+      </div>
+      <div class="card">
+        <span class="icon">💰</span>
+        <h3>fundamental-snapshot</h3>
+        <p>P/E, market cap, sector, earnings_health classified as strong/mixed/weak.</p>
+        <small>safe fallbacks if missing</small>
+      </div>
+      <div class="card">
+        <span class="icon">📰</span>
+        <h3>sentiment-analyzer</h3>
+        <p>Recent headlines → sentiment score in [−1, +1] + dominant theme.</p>
+        <small>neutral on thin coverage</small>
+      </div>
+      <div class="card">
+        <span class="icon">📤</span>
+        <h3>telegram-formatter</h3>
+        <p>Renders canonical StockHive markdown alert and publishes to Telegram.</p>
+        <small>final output gate</small>
+      </div>
+    </div>
+
+    <h4 class="mt16">A skill, in plain text — <code>technical-indicators/SKILL.md</code></h4>
+    <pre class="mt4"><code class="language-yaml">---
+name: technical-indicators
+description: Compute RSI(14), MACD(12,26,9), SMA20/50 and emit a BUY/HOLD/SELL signal.
+triggers:
+  - "technical analysis for ticker"
+  - "RSI MACD"
+  - "buy sell signal"
+mcps:
+  - alpha-vantage-mcp
+  - yfinance-mcp
+---</code></pre>
+  </div>
+</section>
+
+<!-- ====================================================
+     9. MCP SERVERS
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">MCP Servers</span>
+    </div>
+    <div class="slide-eyebrow">5 declarative external integrations</div>
+    <h2 class="slide-title">Every external API is an <span class="accent">MCP server</span>.</h2>
+
+    <p class="mt4" style="color: var(--muted); font-size: 0.82rem;">
+      Wired declaratively through <span class="kbd">agent-system/mcps/mcp-config.json</span>.
+      OpenClaw spawns all five on <span class="kbd">/mcp connect</span>.
+      Subagents call <code>mcp__&lt;server&gt;__&lt;tool&gt;</code> within their scoped allow-list.
+    </p>
+
+    <table class="mt8">
+      <thead>
+        <tr><th>MCP Server</th><th>Purpose</th><th>Used by</th><th>Auth</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>yfinance-mcp</strong></td>
+          <td>Yahoo Finance OHLCV + .info + .financials</td>
+          <td>data-fetcher · technical-analyst · fundamental-analyst</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>alpha-vantage-mcp</strong></td>
+          <td>RSI, MACD, SMA technical indicators</td>
+          <td>technical-analyst</td>
+          <td><code>ALPHA_VANTAGE_API_KEY</code></td>
+        </tr>
+        <tr>
+          <td><strong>nasdaq-data-link-mcp</strong></td>
+          <td>Nasdaq Data Link historical EOD prices</td>
+          <td>data-fetcher</td>
+          <td><code>NASDAQ_DATA_LINK_API_KEY</code></td>
+        </tr>
+        <tr>
+          <td><strong>news-api-mcp</strong></td>
+          <td>Recent ticker-tagged headlines for sentiment</td>
+          <td>sentiment-analyst</td>
+          <td><code>NEWS_API_KEY</code></td>
+        </tr>
+        <tr>
+          <td><strong>telegram-bot-mcp</strong></td>
+          <td>Publishes markdown alerts to a Telegram channel</td>
+          <td>telegram-publisher</td>
+          <td><code>TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote-box mt12">
+      <strong>Why five?</strong> Yahoo Finance + Nasdaq Data Link cross-check prices.
+      Alpha Vantage provides canonical indicator math. News API feeds an independent sentiment axis.
+      Each subagent only sees the MCPs it needs — narrow surface area = fewer failure modes.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     10. RANKING / DECISION ENGINE
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Ranking</span>
+    </div>
+    <div class="slide-eyebrow">From three signals to one ordered list</div>
+    <h2 class="slide-title">How the Top 5 are picked — <span class="accent">no LLM in the scoring path.</span></h2>
+
+    <div class="ranking-formula mt8">
+      <span class="var">composite</span> &nbsp;=&nbsp;
+      <span class="w">0.40</span>·<span class="var">technical_score</span> &nbsp;+&nbsp;
+      <span class="w">0.30</span>·<span class="var">fundamental_score</span> &nbsp;+&nbsp;
+      <span class="w">0.30</span>·<span class="var">sentiment_score</span>
+    </div>
+
+    <div class="grid grid-3 mt8">
+      <div class="card">
+        <h3>📊 technical_score</h3>
+        <ul class="clean">
+          <li>BUY → +1.0 · HOLD → 0 · SELL → −1.0</li>
+          <li>Penalty: −0.5 if RSI &gt; 70 (overbought)</li>
+          <li>Clamped to [−1, +1]</li>
+        </ul>
+        <small>Source: alpha-vantage + yfinance</small>
+      </div>
+      <div class="card">
+        <h3>💰 fundamental_score</h3>
+        <ul class="clean">
+          <li>strong → +1.0 · mixed → +0.2 · weak → −0.6</li>
+          <li>Penalty: −0.5 if P/E &gt; 80 (stretched valuation)</li>
+          <li>Clamped to [−1, +1]</li>
+        </ul>
+        <small>Source: yfinance</small>
+      </div>
+      <div class="card">
+        <h3>📰 sentiment_score</h3>
+        <ul class="clean">
+          <li>Direct news score in [−1, +1]</li>
+          <li>Neutral fallback on thin coverage</li>
+          <li>Theme attached as rationale text</li>
+        </ul>
+        <small>Source: news-api</small>
+      </div>
+    </div>
+
+    <div class="grid grid-2 mt12">
+      <div>
+        <h4>Hard exclusion guardrails</h4>
+        <ul class="clean mt4">
+          <li>RSI &gt; 70 → <span class="badge pink">EXCLUDED</span> "overbought"</li>
+          <li>P/E &gt; 80 → <span class="badge pink">EXCLUDED</span> "stretched"</li>
+          <li>Exclusions are reported in the final Telegram alert.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Market view rule</h4>
+        <pre class="mt4"><code class="language-python">bullish = (
+    breadth_buy_count >= 6  and
+    sent_avg          >= 0.10 and
+    rsi_avg           <  70
+)
+market_view = "BULLISH" if bullish else "BEARISH"</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     11. DETERMINISTIC LAYER
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Determinism</span>
+    </div>
+    <div class="slide-eyebrow">The auditable core</div>
+    <h2 class="slide-title">Two Python scripts. Zero LLM. Fully reproducible.</h2>
+
+    <div class="grid grid-2 mt8 flex-1">
+      <div class="card" style="border-color: var(--green); display: flex; flex-direction: column; gap: 6px;">
+        <h3 style="color: var(--green);">pick_random10.py</h3>
+        <p>Seeds <code>random.Random</code> with today's date string — the same trading day always shuffles to the same candidate order. Different day = different sample.</p>
+        <pre style="flex: 1;"><code class="language-python">run_seed = seed or datetime.now().strftime("%Y-%m-%d")
+rng = random.Random(run_seed)
+shuffled = cleaned[:]
+rng.shuffle(shuffled)
+return shuffled[:n]</code></pre>
+        <small>Same date → same 10 tickers across reruns, retries, and replays.</small>
+      </div>
+      <div class="card" style="border-color: var(--green); display: flex; flex-direction: column; gap: 6px;">
+        <h3 style="color: var(--green);">decision_engine.py</h3>
+        <p>Pure-Python aggregator. Reads merged JSON on stdin, writes the decision JSON on stdout. Unit-testable with no API keys required.</p>
+        <ul class="clean">
+          <li>Indexes 3 analyst reports by <code>ticker</code>.</li>
+          <li>Applies hard guardrail exclusions first.</li>
+          <li>Computes weighted composite for remaining tickers.</li>
+          <li>Sorts descending → emits Top 5 + market_view.</li>
+        </ul>
+        <small>The scoring path never calls a model. Auditable, reproducible.</small>
+      </div>
+    </div>
+
+    <div class="quote-box mt12">
+      <strong>Design principle:</strong> let LLMs do what they're good at — reading messy financial prose and
+      producing structured JSON — and let plain code do what <em>it</em> is good at: the math that must be right every time.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     12. CRON / SCHEDULED TASK
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Scheduling</span>
+    </div>
+    <div class="slide-eyebrow">The cron job</div>
+    <h2 class="slide-title">One scheduled task. <span class="accent">Weekday 17:00 ET</span>, post-close.</h2>
+
+    <div class="grid grid-2 mt8">
+      <div>
+        <h4>nasdaq-daily-schedule.json</h4>
+        <pre class="mt4"><code class="language-json">{
+  "task_id":        "nasdaq-daily-top5-buys",
+  "schedule":       "0 17 * * 1-5",
+  "timezone":       "America/New_York",
+  "agent":          "stockhive-orchestrator",
+  "agent_session":  "persistent",
+  "session_key":    "stockhive-orchestrator",
+  "subagent_mode":  "ephemeral",
+  "max_runtime_min": 20,
+  "retry":          { "attempts": 2, "backoff_sec": 120 },
+  "notify_on_failure": true
+}</code></pre>
+      </div>
+      <div>
+        <h4>Behaviour</h4>
+        <ul class="clean mt4">
+          <li>📅 Cron <code>0 17 * * 1-5</code> — Mon–Fri at 17:00 (post-close).</li>
+          <li>🔁 <strong>Binds back to the same persistent orchestrator session</strong> via <code>session_key</code> — not a fresh context per fire. The orchestrator preserves continuity.</li>
+          <li>⚡ Subagents remain ephemeral per run — each run is isolated.</li>
+          <li>🛡️ Retries twice with 120-second backoff before failure notification.</li>
+          <li>👋 Manually triggerable any time: <span class="kbd">/task run nasdaq-daily-top5-buys</span></li>
+          <li>⏸️ Pause/resume: <span class="kbd">/schedule disable</span> / <span class="kbd">enable</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-box mt12">
+      <strong>Persistent session reuse</strong> is what makes this OpenClaw-native rather than just "a cron job that calls an LLM."
+      The orchestrator keeps continuity — yesterday's notes inform today's run diagnostics.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     13. TELEGRAM INTEGRATION
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Output</span>
+    </div>
+    <div class="slide-eyebrow">Where the alert lands</div>
+    <h2 class="slide-title">The hive ships honey to <span class="accent">Telegram</span>.</h2>
+
+    <div class="grid grid-2 mt8">
+      <div>
+        <h4>Publishing pipeline</h4>
+        <ol class="clean mt4">
+          <li>Decision JSON arrives at <code>telegram-publisher</code> subagent.</li>
+          <li>Subagent invokes the <code>telegram-formatter</code> skill.</li>
+          <li>Skill renders canonical markdown — date, market view, Top 5 with rationale, exclusions.</li>
+          <li><code>mcp__telegram-bot-mcp__send_message</code> publishes to the channel.</li>
+          <li>Returns <code>{telegram_message_id, chars_sent}</code> as proof of delivery.</li>
+        </ol>
+
+        <h4 class="mt12">Setup in 3 steps</h4>
+        <ul class="clean mt4">
+          <li>Create bot via <code>@BotFather</code> → <code>/newbot</code></li>
+          <li>Add bot to channel as <strong>admin</strong>. Chat ID starts with <code>-100…</code></li>
+          <li>Drop <code>TELEGRAM_BOT_TOKEN</code> + <code>TELEGRAM_CHAT_ID</code> into <code>.env</code></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>What subscribers see</h4>
+        <div class="telegram-preview mt4">
+          <div class="tg-header">📈 Nasdaq 100 — Daily Top 5 Buys</div>
+          <div>Date: 2026-04-30</div>
+          <div>Market view: <span class="tg-bull">[BULLISH]</span></div>
+          <br/>
+          <div style="color: var(--honey);">Top 5 Buy Candidates</div>
+          <div>----------------------------</div>
+          <div>1. <strong>AVGO</strong> &nbsp; composite 0.61 &nbsp; sentiment 0.55</div>
+          <div>&nbsp;&nbsp;&nbsp;Tech: above SMA50, MACD positive</div>
+          <div>&nbsp;&nbsp;&nbsp;Fund: PE 42, earnings strong</div>
+          <div>&nbsp;&nbsp;&nbsp;News: AI demand in focus</div>
+          <div>2. <strong>AMD</strong> &nbsp;&nbsp; composite 0.48 &nbsp; sentiment 0.30</div>
+          <div>3. <strong>MSFT</strong> &nbsp; composite 0.44 &nbsp; sentiment 0.20</div>
+          <div>4. <strong>GOOG</strong> &nbsp; composite 0.39 &nbsp; sentiment 0.18</div>
+          <div>5. <strong>META</strong> &nbsp; composite 0.31 &nbsp; sentiment 0.10</div>
+          <br/>
+          <div>Excluded: TSLA (RSI 74 overbought)</div>
+          <div>--</div>
+          <div style="color: var(--muted);">OpenClaw · 17:00 ET · 🐝 BEEH</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     14. COMPOSITION MANIFEST
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Manifest</span>
+    </div>
+    <div class="slide-eyebrow">One file wires it all together</div>
+    <h2 class="slide-title"><code>agent-system.json</code> — the OpenClaw composition.</h2>
+
+    <pre class="mt8 flex-1"><code class="language-json">{
+  "id": "nasdaq-top-movers",
+  "name": "StockHive — Nasdaq 100 Top Movers Agent System",
+  "kind": "agent-system",
+  "platform": "OpenClaw / Claude Cowork",
+  "composition": {
+    "orchestrator": { "name": "stockhive-orchestrator", "persistence": "persistent",
+                      "spec": "agent-system/agents/stockhive-orchestrator.md" },
+    "subagents": [
+      { "name": "data-fetcher",         "persistence": "ephemeral" },
+      { "name": "technical-analyst",    "persistence": "ephemeral" },
+      { "name": "fundamental-analyst",  "persistence": "ephemeral" },
+      { "name": "sentiment-analyst",    "persistence": "ephemeral" },
+      { "name": "telegram-publisher",   "persistence": "ephemeral" }
+    ],
+    "skills":          [ "stock-data-fetcher", "technical-indicators",
+                         "fundamental-snapshot", "sentiment-analyzer", "telegram-formatter" ],
+    "scheduled_tasks": [ "agent-system/scheduled-tasks/nasdaq-daily-schedule.json" ],
+    "mcps":            [ "agent-system/mcps/mcp-config.json" ],
+    "scripts":         [ "pick_random10.py", "decision_engine.py" ]
+  },
+  "requires": {
+    "env": [ "ALPHA_VANTAGE_API_KEY", "NASDAQ_DATA_LINK_API_KEY",
+             "NEWS_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID" ]
+  }
+}</code></pre>
+
+    <p class="mt8">Register atomically: <span class="kbd">/agents register ./agent-system.json</span></p>
+  </div>
+</section>
+
+<!-- ====================================================
+     15. RUNNING IT
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Demo</span>
+    </div>
+    <div class="slide-eyebrow">From clone to live alert</div>
+    <h2 class="slide-title">7 OpenClaw Chat commands.</h2>
+
+    <pre class="mt8 flex-1"><code class="language-bash"># 1 — clone the repo
+/bash git clone https://github.com/girisheduru/stockHive && cd stockHive
+
+# 2 — register the entire agent system in one shot
+#     (orchestrator + 5 subagents + 5 skills + 1 scheduled task + MCP config)
+/agents register ./agent-system.json
+
+# 3 — copy and fill in the 5 API keys
+/bash cp agent-system/config/.env.example agent-system/config/.env
+
+# 4 — spawn all 5 MCP servers
+/mcp connect ./agent-system/mcps/mcp-config.json
+
+# 5 — smoke-test a single ephemeral subagent (spawns, runs, tears down)
+/agent run technical-analyst --input '[{"ticker":"AVGO"},{"ticker":"AMD"}]'
+
+# 6 — run the full pipeline on demand
+/task run nasdaq-daily-top5-buys
+
+# 7 — enable the daily recurring schedule
+/schedule enable nasdaq-daily-top5-buys</code></pre>
+
+    <div class="quote-box mt12">
+      <strong>One manifest. One register call. One scheduled task.</strong>
+      No shell launcher, no monolithic Python runtime — only deterministic helper scripts remain as code.
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     16. OPENCLAW CAPABILITY MAP
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">OpenClaw fit</span>
+    </div>
+    <div class="slide-eyebrow">What this demonstrates</div>
+    <h2 class="slide-title">Every OpenClaw capability, in one project.</h2>
+
+    <table class="mt8">
+      <thead>
+        <tr><th style="width:30%;">Capability</th><th>How StockHive uses it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Agent system registration</strong></td><td><code>agent-system.json</code> declares orchestrator + subagents + skills + schedule + MCPs in one manifest, registered atomically with <code>/agents register</code>.</td></tr>
+        <tr><td><strong>Persistent orchestrator</strong></td><td><code>stockhive-orchestrator</code> is always-on; scheduled runs reuse the same session via <code>session_key</code>, preserving continuity.</td></tr>
+        <tr><td><strong>Ephemeral subagents</strong></td><td>5 specialists spawn on demand, run isolated, tear down on reply — zero state bleed between runs.</td></tr>
+        <tr><td><strong>Parallel fan-out</strong></td><td>Technical, fundamental, and sentiment analysts dispatched in a single orchestrator turn.</td></tr>
+        <tr><td><strong>Skills</strong></td><td>5 reusable skills callable independently from any agent in the workspace.</td></tr>
+        <tr><td><strong>MCP connections</strong></td><td>5 external data sources (Yahoo Finance, Alpha Vantage, Nasdaq Data Link, NewsAPI, Telegram) wired declaratively.</td></tr>
+        <tr><td><strong>Scheduled task</strong></td><td>Weekday 17:00 ET cron, manually triggerable, reusing the same persistent orchestrator session.</td></tr>
+        <tr><td><strong>Deterministic core</strong></td><td><code>decision_engine.py</code> is plain Python — auditable, unit-testable, no model in the scoring path.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====================================================
+     17. DESIGN PRINCIPLES
+     ==================================================== -->
+<section>
+  <div class="slide-body">
+    <div class="brand-strip">
+      <span class="logo">🐝 STOCKHIVE</span>
+      <span class="section-label">Design Choices</span>
+    </div>
+    <div class="slide-eyebrow">The principles behind the architecture</div>
+    <h2 class="slide-title">Six decisions that shaped the hive.</h2>
+
+    <div class="grid grid-2 mt8 flex-1">
+      <div class="card">
+        <h3>1. Agent system, not a package</h3>
+        <p>StockHive is a runtime composition, not an installable library. One manifest, one runtime — exactly what OpenClaw is built for.</p>
+      </div>
+      <div class="card">
+        <h3>2. Ephemeral by default</h3>
+        <p>Each analyst spins up isolated, does its job, and is torn down on reply. No state bleed. Cheap to scale horizontally.</p>
+      </div>
+      <div class="card">
+        <h3>3. Parallel where possible</h3>
+        <p>The serial bottleneck is only stage 1. Stage 2's three analysts dispatch in a single orchestrator turn — no waiting between them.</p>
+      </div>
+      <div class="card">
+        <h3>4. Deterministic decision layer</h3>
+        <p>The BULLISH/BEARISH call and Top 5 ranking are reproducible, auditable, and unit-testable — independent of any model run.</p>
+      </div>
+      <div class="card">
+        <h3>5. Composable skills</h3>
+        <p>Every skill is independently triggerable. Other agent systems in the workspace can reuse <code>technical-indicators</code> tomorrow.</p>
+      </div>
+      <div class="card">
+        <h3>6. One-command lifecycle</h3>
+        <p><code>/agents register</code> → <code>/task run</code> → <code>/schedule enable</code>. Teardown is a mirror command. No bespoke launchers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     18. CLOSING
+     ==================================================== -->
+<section>
+  <div class="closing-wrap">
+    <div class="closing-inner">
+      <div style="font-size: 3rem; margin-bottom: 12px;">🐝🍯</div>
+      <h1>Thanks!</h1>
+      <p style="font-size: 1.1rem; color: #ccc; margin: 6px 0 4px 0;">
+        <strong>StockHive</strong> — built for the Encode Club April Agentic Mini-Hack
+      </p>
+      <p style="font-size: 0.9rem; color: var(--muted);">
+        Girish Eduru &nbsp;·&nbsp; Sandip S
+      </p>
+
+      <div class="grid grid-3 mt16" style="max-width: 780px; margin-left: auto; margin-right: auto;">
+        <div class="card" style="text-align: center;">
+          <span class="icon">📡</span>
+          <h3>Live Channel</h3>
+          <p style="font-size: 0.82rem; margin-top: 4px;">t.me/+keb_oQG0jM1kZDBk</p>
+          <small>Daily Top 5 · weekday 17:00 ET</small>
+        </div>
+        <div class="card" style="text-align: center;">
+          <span class="icon">🐙</span>
+          <h3>Repo</h3>
+          <p style="font-size: 0.82rem; margin-top: 4px;">github.com/girisheduru/stockHive</p>
+          <small>One manifest, one register call</small>
+        </div>
+        <div class="card" style="text-align: center;">
+          <span class="icon">🛠</span>
+          <h3>Stack</h3>
+          <p style="font-size: 0.82rem; margin-top: 4px;">Claude Cowork + OpenClaw</p>
+          <small>5 MCPs · 5 skills · 5 subagents</small>
+        </div>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 1.1rem; color: var(--honey); font-weight: 600;">
+        Questions?
+      </p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    width: 1280,
+    height: 800,
+    margin: 0.04,
+    minScale: 0.4,
+    maxScale: 2.0,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    controls: true,
+    controlsTutorial: false,
+    progress: true,
+    slideNumber: 'c/t',
+    backgroundTransition: 'none',
+    plugins: [ RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
