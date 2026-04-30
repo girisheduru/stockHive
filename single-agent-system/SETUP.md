@@ -12,6 +12,22 @@ Make sure the base StockHive system is already present and configured:
 
 ## 2. Install and Associate Telegram Credentials
 
+Collect these values from the user first:
+
+```text
+Please provide:
+1. TELEGRAM_BOT_TOKEN:
+2. TELEGRAM_CHAT_ID:
+3. TELEGRAM_MESSAGE_THREAD_ID (optional):
+4. MAX_SUBAGENT_RUNTIME_MIN (optional; default 5):
+```
+
+Create the single-agent env file:
+
+```bash
+cp single-agent-system/.env.example single-agent-system/.env
+```
+
 From repo root run:
 
 ```bash
@@ -41,6 +57,7 @@ Expected key files:
 - `single-agent-system/runtime/telegram-single-run-input.json`
 - `single-agent-system/scripts/extract_ticker.py`
 - `single-agent-system/install.sh`
+- `single-agent-system/.env.example`
 
 ## 4. Load Env
 
@@ -126,7 +143,24 @@ When a Telegram message arrives, trigger `stockhive-telegram-trigger-orchestrato
 
 This flow is event-driven and replies to the same chat/person context. It does not use polling or cron.
 
-## 7. Manual test
+## 7. Dashboard: Tag Skills on Agents
+
+In OpenClaw Dashboard, open each agent and confirm these skill tags are attached:
+
+- `stockhive-telegram-trigger-orchestrator`: no extra skill tag required (orchestrator delegates)
+- `technical-analyst`: `technical-indicators`
+- `fundamental-analyst`: `fundamental-snapshot`
+- `sentiment-analyst`: `sentiment-analyzer`
+- `telegram-publisher`: `telegram-formatter`
+
+Dashboard steps:
+1. Go to `Agents`.
+2. Select the agent.
+3. Open `Skills` or `Tags`.
+4. Attach the expected skill tag from list above.
+5. Save.
+
+## 8. Manual test
 
 Send a message in Telegram like:
 - `Analyze NVDA`
@@ -139,7 +173,7 @@ Then trigger:
 /agent run stockhive-telegram-trigger-orchestrator --input '{"trigger":"telegram_webhook_event","event_payload":{"chat_id":"-1001234567890","message_id":"12345","from_user_id":"777777","message_text":"Analyze NVDA"}}'
 ```
 
-## 8. Runtime compatibility note
+## 9. Runtime compatibility note
 
 If your OpenClaw version does not fully apply markdown identity on `agents add`, prefix the run prompt with:
 
