@@ -1,0 +1,19 @@
+{
+  "trigger": "telegram_inbound",
+  "scan_window_minutes": 5,
+  "expect_single_ticker": true,
+  "ticker_source": {
+    "type": "telegram_message_text",
+    "extract_script": "single-agent-system/scripts/extract_ticker.py",
+    "universe_file": "agent-system/config/nasdaq100-tickers.json"
+  },
+  "analysis_pipeline": {
+    "specialists": [
+      "technical-analyst",
+      "fundamental-analyst",
+      "sentiment-analyst"
+    ],
+    "decision_engine": "agent-system/scripts/decision_engine.py",
+    "publisher": "telegram-publisher"
+  }
+}
