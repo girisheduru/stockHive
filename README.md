@@ -1,4 +1,6 @@
-# StockHive
+# StockHive <a href="https://t.me/+keb_oQG0jM1kZDBk" target="_blank" rel="noopener noreferrer" class="join-btn">
+  <span class="ticker">BEEH 🍯</span> • 🐝 Join Now on Telegram
+</a>
 
 > **OpenClaw-native agent system — Nasdaq 100 Top 5 Buy Candidates, delivered daily to Telegram.**
 >
