@@ -140,13 +140,11 @@ Paste these commands in order inside **OpenClaw Chat**. See [RUNBOOK.md](./RUNBO
 /bash git clone https://github.com/girisheduru/stockHive && cd stockHive
 ```
 
-### Step 2 — Register the agent system
+### Step 2 — Register the agent system using the instructions at REGISTER.md
 
-```
-/agents register ./agent-system.json
-```
 
-Registers in one step: persistent orchestrator, 5 ephemeral subagents, 5 skills, 1 scheduled task, MCP config. Verify:
+
+persistent orchestrator, 5 ephemeral subagents, 5 skills, 1 scheduled task, MCP config. Verify:
 
 ```
 /agents list
