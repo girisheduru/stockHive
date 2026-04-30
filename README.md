@@ -29,7 +29,7 @@ Everything is wired through a single composition manifest ([`agent-system.json`]
 
 | OpenClaw capability | How StockHive uses it |
 |---|---|
-| **Agent system registration** | `agent-system.json` declares orchestrator, subagents, skills, schedule, and MCPs — registered atomically with `/agents register` |
+| **Agent system registration** |  declares orchestrator, subagents, skills, schedule, and MCPs — registered atomically with steps at REGISTER.md file|
 | **Persistent orchestrator** | `stockhive-orchestrator` is a long-lived always-on coordinator; scheduled runs reuse the same session and it holds continuity across all six stages |
 | **Ephemeral subagents** | 5 subagents spawn on demand, run isolated, tear down on reply — zero state bleed |
 | **Parallel fan-out** | Technical, fundamental, and sentiment analysts dispatched in a single orchestrator turn |
