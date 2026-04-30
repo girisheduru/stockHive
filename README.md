@@ -1,12 +1,14 @@
 # StockHive 
-<a href="https://t.me/+keb_oQG0jM1kZDBk" target="_blank" rel="noopener noreferrer" class="join-btn">
-  <span class="ticker">BEEH 🍯</span> • 🐝 Join Now on Telegram
-</a>
+
 
 > **OpenClaw-native agent system — Nasdaq 100 Top 5 Buy Candidates, delivered daily to Telegram.**
 >
 > Built for the **[Encode Club — April Agentic Mini-Hack](https://www.encodeclub.com/my-programmes/april-agentic-mini-hack)**.
 > Platform: **Claude Cowork + OpenClaw**.
+>
+> Join the Club using <a href="https://t.me/+keb_oQG0jM1kZDBk" target="_blank" rel="noopener noreferrer" class="join-btn">
+  <span class="ticker">BEEH 🍯</span> • 🐝 Join Now on Telegram
+</a>
 
 StockHive demonstrates what a production-grade agentic system looks like when built natively on OpenClaw: a persistent orchestrator that spawns, coordinates, and tears down ephemeral specialist subagents to produce a real financial output on a real schedule.
 
