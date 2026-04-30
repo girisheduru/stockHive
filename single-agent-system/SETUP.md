@@ -16,9 +16,9 @@ Collect these values from the user first:
 
 ```text
 Please provide:
-1. TELEGRAM_BOT_TOKEN:
-2. TELEGRAM_CHAT_ID:
-3. TELEGRAM_MESSAGE_THREAD_ID (optional):
+1. SINGLE_TELEGRAM_BOT_TOKEN:
+2. SINGLE_TELEGRAM_CHAT_ID:
+3. SINGLE_TELEGRAM_MESSAGE_THREAD_ID (optional):
 4. MAX_SUBAGENT_RUNTIME_MIN (optional; default 5):
 ```
 
@@ -35,12 +35,13 @@ bash single-agent-system/install.sh
 ```
 
 This installer asks for:
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+- `SINGLE_TELEGRAM_BOT_TOKEN`
+- `SINGLE_TELEGRAM_CHAT_ID`
 
-and associates them by writing:
+and writes:
 - `single-agent-system/.env`
-- `agent-system/config/.env` (Telegram fields)
+
+Note: the base system env file (`agent-system/config/.env`) is intentionally **not modified** so both systems can coexist.
 
 ## 3. Confirm files
 
@@ -68,6 +69,8 @@ source single-agent-system/.env
 set +a
 ```
 
+Because the single-agent env uses `SINGLE_*` variable names, sourcing both files will not overwrite the base Telegram settings.
+
 ## 5. Register Components Individually (No `/agents register`)
 
 This single-agent flow is designed to reuse existing components from the original `agent-system`.
@@ -86,7 +89,7 @@ If any of these are missing, stop and register them before continuing:
 - `fundamental-analyst`
 - `sentiment-analyst`
 - `telegram-publisher`
-- MCP servers: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`
+- MCP servers: `yfinance-mcp`, `alpha-vantage-mcp`, `nasdaq-data-link-mcp`, `news-api-mcp`, `telegram-bot-mcp`, `telegram-bot-mcp-single`
 
 If these already exist, do not add them again:
 - `technical-analyst`
@@ -139,6 +142,39 @@ cfg = json.load(open('agent-system/mcps/mcp-config.json'))
 for name, server in cfg['mcpServers'].items():
   subprocess.run(['openclaw', 'mcp', 'set', name, json.dumps(server)], check=True)
 print('MCP servers registered:', ', '.join(cfg['mcpServers'].keys()))
+PY
+```
+
+Then configure a **separate** Telegram MCP for the single-agent flow (so it can use a different chat id / bot token):
+
+```bash
+python3 - <<'PY'
+import os, json, subprocess
+from pathlib import Path
+
+def load_env(path):
+  out={}
+  for line in Path(path).read_text().splitlines():
+    line=line.strip()
+    if not line or line.startswith('#') or '=' not in line:
+      continue
+    k,v=line.split('=',1)
+    out[k.strip()]=v.strip().strip('"').strip("'")
+  return out
+
+e=load_env('single-agent-system/.env')
+server={
+  "command":"npx",
+  "args":["-y","@openclaw/telegram-bot-mcp"],
+  "env":{
+    "TELEGRAM_BOT_TOKEN": e.get('SINGLE_TELEGRAM_BOT_TOKEN',''),
+    "TELEGRAM_CHAT_ID": e.get('SINGLE_TELEGRAM_CHAT_ID',''),
+    **({"TELEGRAM_MESSAGE_THREAD_ID": e.get('SINGLE_TELEGRAM_MESSAGE_THREAD_ID','')} if e.get('SINGLE_TELEGRAM_MESSAGE_THREAD_ID') else {})
+  },
+  "description":"Publishes markdown alerts to Telegram for the single-agent flow."
+}
+subprocess.run(["openclaw","mcp","set","telegram-bot-mcp-single",json.dumps(server)], check=True)
+print('Saved telegram-bot-mcp-single')
 PY
 ```
 

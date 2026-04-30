@@ -16,35 +16,35 @@ fi
 printf "\nStockHive Single-Agent Telegram Installer\n"
 printf "This will associate one bot token + chat id for replies.\n\n"
 
-read -r -p "Telegram Bot Token: " TELEGRAM_BOT_TOKEN
-read -r -p "Telegram Chat ID (target chat/user/channel): " TELEGRAM_CHAT_ID
+# Non-interactive convenience:
+# - If single-agent-system/.env already exists, reuse it.
+# - Otherwise, prompt for values (token input is hidden).
+if [[ -f "$SINGLE_ENV" ]]; then
+  # shellcheck disable=SC1090
+  source "$SINGLE_ENV" || true
+fi
 
-if [[ -z "$TELEGRAM_BOT_TOKEN" || -z "$TELEGRAM_CHAT_ID" ]]; then
-  echo "Both TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are required."
+if [[ -z "${SINGLE_TELEGRAM_BOT_TOKEN:-}" ]]; then
+  read -r -s -p "Telegram Bot Token: " SINGLE_TELEGRAM_BOT_TOKEN
+  printf "\n"
+fi
+
+if [[ -z "${SINGLE_TELEGRAM_CHAT_ID:-}" ]]; then
+  read -r -p "Telegram Chat ID (target chat/user/channel): " SINGLE_TELEGRAM_CHAT_ID
+fi
+
+if [[ -z "$SINGLE_TELEGRAM_BOT_TOKEN" || -z "$SINGLE_TELEGRAM_CHAT_ID" ]]; then
+  echo "Both SINGLE_TELEGRAM_BOT_TOKEN and SINGLE_TELEGRAM_CHAT_ID are required."
   exit 1
 fi
 
 cat > "$SINGLE_ENV" <<ENV
-TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN"
-TELEGRAM_CHAT_ID="$TELEGRAM_CHAT_ID"
+SINGLE_TELEGRAM_BOT_TOKEN="$SINGLE_TELEGRAM_BOT_TOKEN"
+SINGLE_TELEGRAM_CHAT_ID="$SINGLE_TELEGRAM_CHAT_ID"
 ENV
 
-if [[ -f "$BASE_ENV" ]]; then
-  if grep -q '^TELEGRAM_BOT_TOKEN=' "$BASE_ENV"; then
-    sed -i.bak "s#^TELEGRAM_BOT_TOKEN=.*#TELEGRAM_BOT_TOKEN=\"$TELEGRAM_BOT_TOKEN\"#" "$BASE_ENV"
-  else
-    printf '\nTELEGRAM_BOT_TOKEN="%s"\n' "$TELEGRAM_BOT_TOKEN" >> "$BASE_ENV"
-  fi
-
-  if grep -q '^TELEGRAM_CHAT_ID=' "$BASE_ENV"; then
-    sed -i.bak "s#^TELEGRAM_CHAT_ID=.*#TELEGRAM_CHAT_ID=\"$TELEGRAM_CHAT_ID\"#" "$BASE_ENV"
-  else
-    printf 'TELEGRAM_CHAT_ID="%s"\n' "$TELEGRAM_CHAT_ID" >> "$BASE_ENV"
-  fi
-fi
-
 printf "\nWrote: %s\n" "$SINGLE_ENV"
-printf "Updated: %s (Telegram association)\n" "$BASE_ENV"
+printf "Base system env left unchanged: %s\n" "$BASE_ENV"
 printf "\nLoad env vars before connecting MCP:\n"
 printf "  set -a; source agent-system/config/.env; source single-agent-system/.env; set +a\n\n"
 printf "Persistent agent behavior: keep OpenClaw daemon running; this orchestrator stays idle and waits for inbound events.\n"

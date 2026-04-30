@@ -11,12 +11,12 @@ tools:
   - mcp__alpha-vantage-mcp__*
   - mcp__nasdaq-data-link-mcp__*
   - mcp__news-api-mcp__*
-  - mcp__telegram-bot-mcp__*
+  - mcp__telegram-bot-mcp-single__*
 subagents:
   - technical-analyst
   - fundamental-analyst
   - sentiment-analyst
-  - telegram-publisher
+  - telegram-publisher-single
 ---
 
 # StockHive Telegram Trigger Orchestrator
@@ -84,7 +84,7 @@ Run:
 - `agent-system/scripts/decision_engine.py`
 
 ## Stage 5 — Publish
-Spawn `telegram-publisher` with decision payload plus:
+Spawn `telegram-publisher-single` with decision payload plus:
 - `run_date`
 - `chat_id` from inbound event
 - `reply_to_message_id` = inbound `message_id`
